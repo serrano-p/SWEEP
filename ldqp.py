@@ -334,7 +334,7 @@ if args.doGN:
                     os.makedirs(rep)
                 old_rep = rep
                 old_ip = ip
-                file_lift = old_rep+'/'+old_ip+'-lift2.xml'
+                file_lift = old_rep+'/'+old_ip+'-ldqp.xml'
                 node_log = makeLog(ip)
                 dataQueue.put( (0,LIFT2_START_SESSION,() ) )
             print('Analyse de ',file)
@@ -379,7 +379,7 @@ else:
                 i += 1
                 addBGP(str(no)+str(i), res, node_log)
             res = resQueue.get()
-        file_lift = file[:-4]+'-lift.xml'
+        file_lift = file[:-4]+'-ldqp.xml'
         save(node_log, file_lift)
 
 
