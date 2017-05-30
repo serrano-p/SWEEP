@@ -284,7 +284,12 @@ class LDQP:
         self.dataQueue.put(v)
 
     def get(self):
-        return self.resQueue.get()
+        r = self.resQueue.get()
+        if r == LIFT2_START_SESSION:
+            return self.get()
+        if r == LIFT2_END_SESSION :
+            return None
+        else: return r
 
     def stop(self):
         self.dataQueue.put(None)

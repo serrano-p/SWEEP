@@ -69,10 +69,9 @@ for file in file_set:
                 ldqp.endSession()
                 i = 1
                 res = ldqp.get()
-                while res != LIFT2_END_SESSION:
-                    if res != LIFT2_START_SESSION : 
-                        i += 1
-                        addBGP(str(no)+str(i), res, node_log)
+                while res != None:
+                    i += 1
+                    addBGP(str(no)+str(i), res, node_log)
                     res = ldqp.get()
                 save(node_log, file_lift)
             if not (os.path.isdir(rep)):
@@ -93,10 +92,9 @@ if old_ip != '':
     ldqp.endSession()
     i = 1
     res = ldqp.get()
-    while res != LIFT2_END_SESSION:
-        if res != LIFT2_START_SESSION : 
-            i += 1
-            addBGP(str(no)+str(i), res, node_log)
+    while res != None:
+        i += 1
+        addBGP(str(no)+str(i), res, node_log)
         res = ldqp.get()
     save(node_log, file_lift)
 

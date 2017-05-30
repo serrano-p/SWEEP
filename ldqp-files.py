@@ -63,10 +63,9 @@ for (no,file) in enumerate(file_set):
     ldqp.endSession()
     i = 1
     res = resQueue.get()
-    while res != LIFT2_END_SESSION:
-        if res != LIFT2_START_SESSION : 
-            i += 1
-            addBGP(str(no)+str(i), res, node_log)
+    while res != None:
+        i += 1
+        addBGP(str(no)+str(i), res, node_log)
         res = ldqp.get()
     file_lift = file[:-4]+'-ldqp.xml'
     save(node_log, file_lift)
