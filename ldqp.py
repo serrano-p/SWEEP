@@ -37,8 +37,17 @@ class BGP:
     def __init__(self):
         self.tp_set = []
         self.input_set = set() # ens. des hash des entrées, pour ne pas mettre 2 fois la même
-        self.time = ''
+        self.time = now()
         self.client = ''
+
+    def age(self):
+        return now() - self.time
+
+    def print(self):
+        #print(serializeBGP2str([ x for (x,sm,pm,om,h) in self.tp_set]))
+        print('From:',self.client,' at ',self.time)
+        for ((s,p,o),sm,pm,om,h) in self.tp_set:
+            print('\t'+toStr(s,p,o) )
 
 #==================================================
 
@@ -53,6 +62,9 @@ LIFT2_IN_END = 3
 
 LIFT2_START_SESSION = -1
 LIFT2_END_SESSION = -2
+LIFT2_PURGE = -3
+
+LIFT2_WAIT = 2
 
 #==================================================
 
@@ -92,22 +104,25 @@ def processAgregator(in_queue,out_queue):
 def processBGPDiscover(in_queue, out_queue, gap):
     BGP_list = []
     entry = in_queue.get()
+    currentTime = now()
     while entry != None:
         (id, val) = entry
-        if val == LIFT2_START_SESSION:
+        if val==LIFT2_PURGE:
+            pass
+        elif val == LIFT2_START_SESSION:
             print('BGPDiscover - Start Session')
             BGP_list.clear()
             out_queue.put(LIFT2_START_SESSION)
         elif val == LIFT2_END_SESSION:
             print('BGPDiscover - End Session')
-            for (i,bgp) in enumerate(BGP_list):
+            for bgp in BGP_list:
                 out_queue.put(bgp)
             BGP_list.clear()
             out_queue.put(LIFT2_END_SESSION)
         else :
             (s,p,o,time,client,sm,pm,om) = val
             currentTime = fromISO(time)
-            #print('Etude de :',toStr(s,p,o))
+            # print('Etude de :',toStr(s,p,o))
             if not(isinstance(s,Variable) and isinstance(p,Variable) and isinstance(o,Variable) ):
                 h = hash(toStr(s,p,o))
                 #print(currentTime)
@@ -197,17 +212,22 @@ def processBGPDiscover(in_queue, out_queue, gap):
                     bgp.client = client
                     BGP_list.append(bgp)
 
-            # envoyer les trop vieux !
-            old = []
-            recent = []
-            for bgp in BGP_list:
-                if (currentTime - bgp.time > gap): old.append(bgp)
-                else: recent.append(bgp)
-            for bgp in old :  
-                out_queue.put(bgp)
-            BGP_list = recent
-
-        entry = in_queue.get()
+        # envoyer les trop vieux !
+        old = []
+        recent = []
+        for bgp in BGP_list:
+            # print(currentTime,bgp.time)
+            if (currentTime - bgp.time > gap): old.append(bgp)
+            else: recent.append(bgp)
+        for bgp in old :  
+            out_queue.put(bgp)
+        BGP_list = recent
+        try:
+            entry = in_queue.get(timeout=LIFT2_WAIT)
+        except Empty as e:
+            # print('purge')
+            currentTime = currentTime + dt.timedelta(seconds=LIFT2_WAIT)
+            entry = (0,LIFT2_PURGE)
     out_queue.put(None)
 
 #==================================================

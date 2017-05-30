@@ -62,7 +62,7 @@ for (no,file) in enumerate(file_set):
         ldqp.put(x)
     ldqp.endSession()
     i = 1
-    res = resQueue.get()
+    res = ldqp.get()
     while res != None:
         i += 1
         addBGP(str(no)+str(i), res, node_log)
