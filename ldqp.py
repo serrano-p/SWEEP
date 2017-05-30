@@ -9,20 +9,13 @@ Application to test request on SPARQL or TPF server
 #    All rights reserved.
 #    GPL v 2.0 license.
 
-import multiprocessing as mp
 from queue import Empty
-import os
+import multiprocessing as mp
 
-import datetime as dt
 import iso8601 # https://pypi.python.org/pypi/iso8601/     http://pyiso8601.readthedocs.io/en/latest/
-
-import re
-import argparse
+import datetime as dt
 
 from tools.tools import *
-
-from tools.ProcessSet import *
-from tools.Stat import *
 
 from lxml import etree  # http://lxml.de/index.html#documentation
 from lib.bgp import *
@@ -38,6 +31,8 @@ def fromISO(u):
         return iso8601.parse_date(date.today().isoformat()+'T'+u)
     #return time.strptime(u.attrib['t'], "%Y-%m-%dT%H:%M:%S")
 
+#==================================================
+
 class BGP:
     def __init__(self):
         self.tp_set = []
@@ -45,8 +40,12 @@ class BGP:
         self.time = ''
         self.client = ''
 
+#==================================================
+
 def toStr(s,p,o):
     return serialize2string(s)+' '+serialize2string(p)+' '+serialize2string(o)
+
+#==================================================
 
 LIFT2_IN_ENTRY = 1
 LIFT2_IN_DATA = 2
@@ -55,26 +54,9 @@ LIFT2_IN_END = 3
 LIFT2_START_SESSION = -1
 LIFT2_END_SESSION = -2
 
-def processXMLEntry(x):
-    id = x.attrib['id']
-    if x[0].attrib['type']=='var' : x[0].set('val','s')
-    if x[1].attrib['type']=='var' : x[1].set('val','p')
-    if x[2].attrib['type']=='var' : x[2].set('val','o')
-    s = unSerialize(x[0])
-    p = unSerialize(x[1])
-    o = unSerialize(x[2])
-    return (id, LIFT2_IN_ENTRY, (s,p,o,x.attrib['time'],x.attrib['client'],set(),set(),set()) )
+#==================================================
 
-def processXMLEndEntry(x):
-    id = x.attrib['id']
-    return (id, LIFT2_IN_END, () )
-
-def processXMLData(x):
-    id = x.attrib['id']
-    xs = unSerialize(x[0])
-    xp = unSerialize(x[1])
-    xo = unSerialize(x[2])
-    return (id, LIFT2_IN_DATA, (xs, xp, xo))
+#==================================================
 
 def processAgregator(in_queue,out_queue):
     elist = dict()
@@ -104,6 +86,8 @@ def processAgregator(in_queue,out_queue):
             pass
         inq = in_queue.get()
     out_queue.put(None)
+
+#==================================================
 
 def processBGPDiscover(in_queue, out_queue, gap):
     BGP_list = []
@@ -226,6 +210,8 @@ def processBGPDiscover(in_queue, out_queue, gap):
         entry = in_queue.get()
     out_queue.put(None)
 
+#==================================================
+
 def makeLog(ip):
     #print('Finding bgp')
     node_log = etree.Element('log')
@@ -274,124 +260,74 @@ def save(node_log, lift2):
 
 #==================================================
 
-parser = argparse.ArgumentParser(description='Etude des requêtes')
-parser.add_argument('files', metavar='file', nargs='+',
-                    help='files to analyse')
-parser.add_argument("-p", "--proc", type=int, default=mp.cpu_count(), dest="nb_processes",
-                    help="Number of processes used (%d by default)" % mp.cpu_count())
+class LDQP:
+    def __init__(self,gap):
+        #---
+        assert isinstance(gap,dt.timedelta)
+        #---
+        self.gap = gap
+        self.dataQueue = mp.Queue()
+        self.entryQueue = mp.Queue()
+        self.resQueue = mp.Queue()
+        self.dataProcess = mp.Process(target=processAgregator, args=(self.dataQueue, self.entryQueue))
+        self.entryProcess = mp.Process(target=processBGPDiscover, args=(self.entryQueue, self.resQueue, gap))
+        self.dataProcess.start()
+        self.entryProcess.start()
 
-parser.add_argument("-l", "--log", help="Do log from GN",action="store_true",dest="doGN")
+    def startSession(self):
+        self.dataQueue.put(  (0,LIFT2_START_SESSION,() ) )
 
-parser.add_argument("-g", "--gap", type=int, default=60, dest="gap", help="Gap in minutes (60 by default)")
+    def endSession(self):
+        self.dataQueue.put( (0,LIFT2_END_SESSION,()  ) )
 
-args = parser.parse_args()
-file_set = args.files
-current_dir = os.getcwd()
+    def put(self,v):
+        self.dataQueue.put(v)
 
-# nb_processes = args.nb_processes
-# print('Lancement des %d processus d\'analyse' % nb_processes)
-# ps = ProcessSet(nb_processes, analysis)
-# ps.start()
+    def get(self):
+        return self.resQueue.get()
 
-dataQueue = mp.Queue()
-entryQueue = mp.Queue()
-resQueue = mp.Queue()
-
-gap = dt.timedelta(minutes= args.gap)
-
-dataProcess = mp.Process(target=processAgregator, args=(dataQueue, entryQueue))
-entryProcess = mp.Process(target=processBGPDiscover, args=(entryQueue, resQueue, gap))
-dataProcess.start()
-entryProcess.start()
-parser = etree.XMLParser(recover=True, strip_cdata=True)
-
-if args.doGN:
-    old_rep = ''
-    old_ip = ''
-    no = 0
-    for file in file_set:
-        if existFile(file):
-            no += 1
-            t = file.split('/')
-            n = len(t)
-            m = re.search('\Atraces_(?P<ip>.*)-be4dbp-tested-TPF-ranking\Z',t[n-2])
-            ip = m.group('ip')
-            rep = '/'.join(t[:-2])
-            name = t[n-1]
-
-            if ip != old_ip:
-                if old_ip != '': 
-                    dataQueue.put( (0,LIFT2_END_SESSION,()  ) )
-                    i = 1
-                    res = resQueue.get()
-                    while res != LIFT2_END_SESSION:
-                        if res != LIFT2_START_SESSION : 
-                            i += 1
-                            addBGP(str(no)+str(i), res, node_log)
-                        res = resQueue.get()
-                    save(node_log, file_lift)
-                if not (os.path.isdir(rep)):
-                    os.makedirs(rep)
-                old_rep = rep
-                old_ip = ip
-                file_lift = old_rep+'/'+old_ip+'-ldqp.xml'
-                node_log = makeLog(ip)
-                dataQueue.put( (0,LIFT2_START_SESSION,() ) )
-            print('Analyse de ',file)
-            otree = etree.parse(file, parser)
-            for x in otree.getroot():
-                if x.tag == 'entry': 
-                    x.attrib['client'] = ip
-                    dataQueue.put( processXMLEntry(x) )
-                elif x.tag == 'data-triple-N3' : dataQueue.put( processXMLData(x) )
-                elif x.tag == 'end' : dataQueue.put( processXMLEndEntry(x) )
-                else: pass
-
-    if old_ip != '': 
-        dataQueue.put( (0,LIFT2_END_SESSION,()  ) )
-        i = 1
-        res = resQueue.get()
-        while res != LIFT2_END_SESSION:
-            if res != LIFT2_START_SESSION : 
-                i += 1
-                addBGP(str(no)+str(i), res, node_log)
-            res = resQueue.get()
-        save(node_log, file_lift)
-
-else:
-    for (no,file) in enumerate(file_set):
-        ip = '193.52.19.26'
-        node_log = makeLog('lift2@193.52.19.26')
-        dataQueue.put( (0,LIFT2_START_SESSION,() ) )
-        otree = etree.parse(file, parser)
-        for x in otree.getroot():
-            if x.tag == 'entry': 
-                x.attrib['client'] = ip
-                dataQueue.put( processXMLEntry(x) )
-            elif x.tag == 'data-triple-N3' : dataQueue.put( processXMLData(x) )
-            elif x.tag == 'end' : dataQueue.put( processXMLEndEntry(x) )
-            else: pass
-        dataQueue.put( (0,LIFT2_END_SESSION,()  ) )
-        i = 1
-        res = resQueue.get()
-        while res != LIFT2_END_SESSION:
-            if res != LIFT2_START_SESSION : 
-                i += 1
-                addBGP(str(no)+str(i), res, node_log)
-            res = resQueue.get()
-        file_lift = file[:-4]+'-ldqp.xml'
-        save(node_log, file_lift)
+    def stop(self):
+        self.dataQueue.put(None)
+        self.dataProcess.join()
+        self.entryProcess.join()
 
 
+class LDQP_XML(LDQP):
+    """docstring for LDQP_XML"""
+    def __init__(self, gap):
+        super(LDQP_XML, self).__init__(gap)
+
+    def processXMLEntry(self,x):
+        id = x.attrib['id']
+        if x[0].attrib['type']=='var' : x[0].set('val','s')
+        if x[1].attrib['type']=='var' : x[1].set('val','p')
+        if x[2].attrib['type']=='var' : x[2].set('val','o')
+        s = unSerialize(x[0])
+        p = unSerialize(x[1])
+        o = unSerialize(x[2])
+        return (id, LIFT2_IN_ENTRY, (s,p,o,x.attrib['time'],x.attrib['client'],set(),set(),set()) )
+
+    def processXMLEndEntry(self,x):
+        id = x.attrib['id']
+        return (id, LIFT2_IN_END, () )
+
+    def processXMLData(self, x):
+        id = x.attrib['id']
+        xs = unSerialize(x[0])
+        xp = unSerialize(x[1])
+        xo = unSerialize(x[2])
+        return (id, LIFT2_IN_DATA, (xs, xp, xo))  
+
+    def put(self,x):
+        if x.tag == 'entry': self.dataQueue.put( self.processXMLEntry(x) )
+        elif x.tag == 'data-triple-N3' : self.dataQueue.put( self.processXMLData(x) )
+        elif x.tag == 'end' : self.dataQueue.put( self.processXMLEndEntry(x) )
+        else: pass
+       
+#==================================================
+#==================================================
+#==================================================
+if __name__ == "__main__":
+    print("main ldqp")
 
 
-
-dataQueue.put(None)
-dataProcess.join()
-entryProcess.join()
-
-
-# print('Arrêt des processus d' 'analyse')
-# ps.stop()
-
-print('Fin')
