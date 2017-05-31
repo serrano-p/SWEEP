@@ -27,7 +27,7 @@ from tools.Stat import *
 from lxml import etree  # http://lxml.de/index.html#documentation
 from lib.bgp import *
 
-import ldqp
+from ldqp import *
 
 #==================================================
 
