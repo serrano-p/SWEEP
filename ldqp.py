@@ -86,11 +86,11 @@ def processAgregator(in_queue,out_queue):
         elif x == LIFT2_IN_END :
             out_queue.put((id, elist.pop(id)))
         elif x == LIFT2_START_SESSION :
-            print('Agregator - Start Session')
+            # print('Agregator - Start Session')
             elist.clear()
             out_queue.put( (id, LIFT2_START_SESSION) )
         elif x == LIFT2_END_SESSION :
-            print('Agregator - End Session')
+            # print('Agregator - End Session')
             for v in elist:
                 out_queue.put( (v, elist.pop(v)) )
             out_queue.put( (id, LIFT2_END_SESSION) )
@@ -146,11 +146,11 @@ def processBGPDiscover(in_queue, out_queue, gap):
         if val==LIFT2_PURGE:
             pass
         elif val == LIFT2_START_SESSION:
-            print('BGPDiscover - Start Session')
+            # print('BGPDiscover - Start Session')
             BGP_list.clear()
             out_queue.put(LIFT2_START_SESSION)
         elif val == LIFT2_END_SESSION:
-            print('BGPDiscover - End Session')
+            # print('BGPDiscover - End Session')
             for bgp in BGP_list:
                 out_queue.put(bgp)
             BGP_list.clear()
@@ -158,21 +158,21 @@ def processBGPDiscover(in_queue, out_queue, gap):
         else :
             (s,p,o,time,client,sm,pm,om) = val
             currentTime = fromISO(time)
-            print('Etude de :',toStr(s,p,o))
+            # print('Etude de :',toStr(s,p,o))
             if not(isinstance(s,Variable) and isinstance(p,Variable) and isinstance(o,Variable) ):
                 h = hash(toStr(s,p,o))
                 #print(currentTime)
                 trouve = False
                 for (i,bgp) in enumerate(BGP_list):
                     # Si c'est le même client, dans le gap et un TP identique n'a pas déjà été utilisé pour ce BGP
-                    print('\t Etude avec BGP ',i)
+                    # print('\t Etude avec BGP ',i)
                     if (client == bgp.client) and (currentTime - bgp.time <= gap) and (h not in bgp.input_set): 
                         ref_couv = 0
                         # on regarde si une constante du sujet et ou de l'objet est une injection
                         for tp in  bgp.tp_set:
                             ( (bs, bp, bo), bsm, bpm, bom, bh ) = tp
-                            print('\t\t Comparaison avec :',toStr(bs,bp,bo))
-                            print('\t\tbsm:',bsm) ; print('\t\tbpm:',bpm); print('\t\tbom:',bom)
+                            # print('\t\t Comparaison avec :',toStr(bs,bp,bo))
+                            # print('\t\tbsm:',bsm) ; print('\t\tbpm:',bpm); print('\t\tbom:',bom)
 
                             #On recherche les mappings possibles : s-s, s-p, s-o, etc.
                             d = None
@@ -193,7 +193,8 @@ def processBGPDiscover(in_queue, out_queue, gap):
                                     if (d[i] != i) and isinstance(j,Variable):
                                         nb_map +=1
                                     else:
-                                        if i == j:
+                                        if (i == j) or (isinstance(i,Variable) and isinstance(j,Variable)):
+                                            # le second opérande pose pb car interdit : ?s1 p ?o1 . ?s1 p ?o2 . :-(
                                             nb_eq +=1
                                         else:
                                             pass
@@ -205,10 +206,10 @@ def processBGPDiscover(in_queue, out_queue, gap):
                                 break
 
                         if trouve:
-                            print('\t\t ok avec :',toStr(bs,bp,bo) )
+                            # print('\t\t ok avec :',toStr(bs,bp,bo) )
                             (s2, p2, o2) = (ref_d[s],ref_d[p],ref_d[o])
                             h2 = hash(toStr(s2,p2,o2))
-                            print('\t\t |-> ',toStr(s2,p2,o2) )
+                            # print('\t\t |-> ',toStr(s2,p2,o2) )
                             inTP = False
                             # peut-être que un TP similaire a déjà été utilisé pour une autre valeur... alors pas la peine de le doubler
                             for  ( (b2s, b2p, b2o), b2sm, b2pm, b2om, b2h ) in  bgp.tp_set:
@@ -219,15 +220,15 @@ def processBGPDiscover(in_queue, out_queue, gap):
                                 if (p==ref_d[p]) and isinstance(p,Variable): p2 = Variable("p"+str(id).replace("-","_"))
                                 if (o==ref_d[o]) and isinstance(o,Variable): o2 = Variable("o"+str(id).replace("-","_"))
                                 bgp.tp_set.append( ((s2,p2,o2),sm,pm,om, h2) )
-                                print('\t\t Ajout de ',toStr(s2,p2,o2))
+                                # print('\t\t Ajout de ',toStr(s2,p2,o2))
                                 bgp.input_set.add(h)
                             else: 
-                                print('\t Déjà présent avec ',toStr(b2s, b2p, b2o))
+                                # print('\t Déjà présent avec ',toStr(b2s, b2p, b2o))
                                 pass
                             break
                     else: 
                         if (client == bgp.client) and (currentTime - bgp.time <= gap):
-                            print('\t\t Déjà ajouté')
+                            # print('\t\t Déjà ajouté')
                             pass
                             # trouve = True
 
@@ -240,7 +241,7 @@ def processBGPDiscover(in_queue, out_queue, gap):
                         p = Variable("p"+str(id).replace("-","_"))
                     if isinstance(o,Variable):
                         o = Variable("o"+str(id).replace("-","_"))
-                    print('\t Création de ',toStr(s,p,o),'-> BGP ',len(BGP_list))
+                    # print('\t Création de ',toStr(s,p,o),'-> BGP ',len(BGP_list))
                     bgp.tp_set.append(( (s,p,o), sm,pm,om, h2))
                     bgp.input_set.add(h)
                     bgp.time = currentTime
