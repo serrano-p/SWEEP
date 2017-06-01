@@ -174,6 +174,8 @@ def processBGPDiscover(in_queue, out_queue, gap):
                             print('\t\t Comparaison avec :',toStr(bs,bp,bo))
                             print('\t\tbsm:',bsm) ; print('\t\tbpm:',bpm); print('\t\tbom:',bom)
 
+                            #On recherche les mappings possibles : s-s, s-p, s-o, etc.
+                            d = None
                             res = list()
                             chercher('',(s,p,o), dict({bs:bsm,bp:bpm,bo:bom}), dict(),res)
                             # print('==='); pprint(res); print('===')
@@ -184,7 +186,19 @@ def processBGPDiscover(in_queue, out_queue, gap):
                                     couv = c
                                     d = x
 
-                            if (couv > ref_couv) : 
+                            nb_map = 0
+                            nb_eq = 0
+                            if d is not None:# on cherche à éviter d'avoir le même TP
+                                for (i,j) in ( (s,bs) , (p,bp) , (o,bo)) :
+                                    if (d[i] != i) and isinstance(j,Variable):
+                                        nb_map +=1
+                                    else:
+                                        if i == j:
+                                            nb_eq +=1
+                                        else:
+                                            pass
+
+                            if (couv > ref_couv) and (nb_map+nb_eq !=3) : 
                                 trouve = True
                                 ref_couv = couv
                                 ref_d = d
@@ -211,7 +225,7 @@ def processBGPDiscover(in_queue, out_queue, gap):
                                 print('\t Déjà présent avec ',toStr(b2s, b2p, b2o))
                                 pass
                             break
-                    else:
+                    else: 
                         if (client == bgp.client) and (currentTime - bgp.time <= gap):
                             print('\t\t Déjà ajouté')
                             pass
