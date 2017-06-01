@@ -1,0 +1,9 @@
+tools/*
+
+lib/*
+
+*.xml
+
+*.dtd
+
+__pycache__/ldqp.cpython-36.pyc
