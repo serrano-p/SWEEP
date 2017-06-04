@@ -10,7 +10,7 @@ Application ...
 #    GPL v 2.0 license.
 
 # import sys
-# import socket
+import socket
 # from threading import *
 
 # import multiprocessing as mp
@@ -30,6 +30,10 @@ from tools.Endpoint import *
 # from io import StringIO
 
 
+#==================================================
+#==================================================
+#==================================================
+
 q5 = """
 prefix : <http://www.example.org/lift2#> 
 select ?s ?o 
@@ -47,17 +51,25 @@ select ?s ?o where {
   ?s :p1 ?o .
 }
 """
-print('origin:',q5)
-# http://localhost:5000/lift : serveur TPF LIFT (exemple du papier)
-sp = TPFEP(service = 'http://localhost:5000/lift') #'http://localhost:5001/dbpedia_3_9')
-sp.setEngine('/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client')
 
 q = q6
 
-#sp.caching(True)
+print('origin:',q)
+# http://localhost:5000/lift : serveur TPF LIFT (exemple du papier)
+# http://localhost:5001/dbpedia_3_9 server dppedia si : ssh -L 5001:172.16.9.3:5001 desmontils@172.16.9.15
+
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect(("127.0.0.1", 5002))
+
+print("Envoie test:")
+mess = '<query time="'+date2str(now())+'"><![CDATA['+q+']]></query>'
+s.send(mess.encode('utf8'))
+
+sp = TPFEP(service = 'http://localhost:5000/lift') 
+sp.setEngine('/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client')
 try:
   print(sp.query(q))
-  #sp.saveCache()
 except Exception as e:
-  #print(e)
-	pass
+	print('Exception',e)
+

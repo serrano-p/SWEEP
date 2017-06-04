@@ -417,7 +417,8 @@ class LDQP_XML(LDQP):
         if x.tag == 'entry': self.dataQueue.put( self.processXMLEntry(x) )
         elif x.tag == 'data-triple-N3' : self.dataQueue.put( self.processXMLData(x) )
         elif x.tag == 'end' : self.dataQueue.put( self.processXMLEndEntry(x) )
-        else: pass
+        else: # query !
+            print(etree.tostring(x))
        
 #==================================================
 #==================================================
