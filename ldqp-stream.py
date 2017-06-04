@@ -42,14 +42,20 @@ def processResults(ldqp):
 
 #==================================================
 
-parser = argparse.ArgumentParser(description='Etude des requêtes')
+parser = argparse.ArgumentParser(description='Linked Data Query Profiler (for a modified TPF server)')
 parser.add_argument("-g", "--gap", type=float, default=60, dest="gap", help="Gap in minutes (60 by default)")
 parser.add_argument("--port", type=int, default=5002, dest="port", help="Port (5002 by default")
 parser.add_argument("--host", default='127.0.0.1', dest="host", help="Host ('127.0.0.1' by default)")
+parser.add_argument("-to", "--timeout", type=float, default=0, dest="timeout",
+                    help="TPF server Time Out in munites (%d by default). If '-to 0', the timeout is the gap." % 0)
+parser.add_argument("-o","--optimistic", help="BGP time is the last TP added (False by default)",
+                action="store_true",dest="doOptimistic")
 
 args = parser.parse_args()
 
 ldqp = LDQP_XML(dt.timedelta(minutes= args.gap))
+if args.timeout > 0 : ldqp.setTimeout(dt.timedelta(minutes= args.timeout))
+if args.doOptimistic: ldqp.swapOptimistic()
 parser = etree.XMLParser(recover=True, strip_cdata=True)
 
 resProcess = mp.Process(target=processResults, args=(ldqp,))
