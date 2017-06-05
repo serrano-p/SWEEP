@@ -25,20 +25,13 @@ from lib.bgp import *
 
 transform = etree.XSLT(etree.parse('toTrace.xsl'))
 
-def fromISO(u): 
-    try:
-        return iso8601.parse_date(u)
-    except iso8601.ParseError:
-        return iso8601.parse_date(date.today().isoformat()+'T'+u)
-    #return time.strptime(u.attrib['t'], "%Y-%m-%dT%H:%M:%S")
-
 #==================================================
 
 class BGP:
     def __init__(self, ref = False):
         self.tp_set = []
         self.input_set = set() # ens. des hash des entrées, pour ne pas mettre 2 fois la même
-        self.bithTime = now()
+        self.birthTime = now()
         self.time = now()
         self.client = ''
         self.isRef = ref
@@ -77,55 +70,59 @@ LIFT2_WAIT = 2
 def processAgregator(in_queue,out_queue, val_queue, ctx):
     timeout = ctx.timeout
     currentTime = now()
-    elist = dict()
-    inq = in_queue.get()
-    while inq is not None:
-        (id, x, val) = inq
-        if x == LIFT2_IN_ENTRY:
-            (s,p,o,t,cl) = val
-            # time = fromISO(t) # prend pas en compte le 't' de l'entrée pour pouvoir gérer les serveurs TPF concurrents
-            time = now()
-            currentTime = time #max(currentTime,time)
-            elist[id] = (s,p,o,time,cl,set(),set(),set())
-        elif x == LIFT2_IN_DATA :
-            if id in elist: # peut être absent car purgé
-                (s,p,o,t,c,sm,pm,om) = elist[id]
-                (xs,xp,xo) = val
-                currentTime = max(currentTime,t) + dt.timedelta(microseconds=1)
-                if isinstance(s,Variable): sm.add(xs)
-                if isinstance(p,Variable): pm.add(xp)
-                if isinstance(o,Variable): om.add(xo)
-        elif x == LIFT2_IN_END :
-            mss = elist.pop(id,None)
-            if mss is not None: # peut être absent car purgé
-                out_queue.put( (id, mss) )
-        elif x == LIFT2_START_SESSION :
-            # print('Agregator - Start Session')
-            elist.clear()
-            out_queue.put( (id, LIFT2_START_SESSION) )
-        elif x == LIFT2_END_SESSION :
-            # print('Agregator - End Session')
-            for v in elist:
-                out_queue.put( (v, elist.pop(v)) )
-            out_queue.put( (id, LIFT2_END_SESSION) )
-        elif x == LIFT2_IN_QUERY :
-            val_queue.put( (id,val) )
-        else: # Impossible...
-            pass
-
-        #purge les entrées trop vieilles !
-        old = []
-        for id in elist:
-            (s,p,o,t,c,sm,pm,om) = elist[id]
-            if (currentTime - t) > timeout:
-                old.append(id)
-        for id in old:
-            v = elist.pop(id)
-            out_queue.put( (id, v) )
-
+    elist = dict()   
+    try:
         inq = in_queue.get()
+        while inq is not None:
+            (id, x, val) = inq
+            if x == LIFT2_IN_ENTRY:
+                (s,p,o,t,cl) = val
+                # time = fromISO(t) # prend pas en compte le 't' de l'entrée pour pouvoir gérer les serveurs TPF concurrents
+                time = now()
+                currentTime = time #max(currentTime,time)
+                elist[id] = (s,p,o,time,cl,set(),set(),set())
+            elif x == LIFT2_IN_DATA :
+                if id in elist: # peut être absent car purgé
+                    (s,p,o,t,c,sm,pm,om) = elist[id]
+                    (xs,xp,xo) = val
+                    currentTime = max(currentTime,t) + dt.timedelta(microseconds=1)
+                    if isinstance(s,Variable): sm.add(xs)
+                    if isinstance(p,Variable): pm.add(xp)
+                    if isinstance(o,Variable): om.add(xo)
+            elif x == LIFT2_IN_END :
+                mss = elist.pop(id,None)
+                if mss is not None: # peut être absent car purgé
+                    out_queue.put( (id, mss) )
+            elif x == LIFT2_START_SESSION :
+                # print('Agregator - Start Session')
+                elist.clear()
+                out_queue.put( (id, LIFT2_START_SESSION) )
+            elif x == LIFT2_END_SESSION :
+                # print('Agregator - End Session')
+                for v in elist:
+                    out_queue.put( (v, elist.pop(v)) )
+                out_queue.put( (id, LIFT2_END_SESSION) )
+            elif x == LIFT2_IN_QUERY :
+                val_queue.put( (id,val) )
+            else: # Impossible...
+                pass
+
+            #purge les entrées trop vieilles !
+            old = []
+            for id in elist:
+                (s,p,o,t,c,sm,pm,om) = elist[id]
+                if (currentTime - t) > timeout:
+                    old.append(id)
+            for id in old:
+                v = elist.pop(id)
+                out_queue.put( (id, v) )
+            inq = in_queue.get()
+    except KeyboardInterrupt:
+        # penser à purger les dernières entrées -> comme une fin de session
+        pass        
     out_queue.put(None)
     val_queue.put(None)
+
 
 #==================================================
 #appel chercher( (s,p,o),{bs:bsm,bp:bpm,bo:bom}, dict, set )
@@ -168,151 +165,207 @@ def chercher(tab,ref,tp,d,res):
 def processBGPDiscover(in_queue, out_queue, val_queue, ctx):
     gap = ctx.gap
     BGP_list = []
-    entry = in_queue.get()
     currentTime = now()
-    while entry != None:
-        (id, val) = entry
-        if val==LIFT2_PURGE:
-            pass
-        elif val == LIFT2_START_SESSION:
-            # print('BGPDiscover - Start Session')
-            BGP_list.clear()
-            out_queue.put(LIFT2_START_SESSION)
-        elif val == LIFT2_END_SESSION:
-            # print('BGPDiscover - End Session')
+    try:
+        entry = in_queue.get()
+        while entry != None:
+            (id, val) = entry
+            if val==LIFT2_PURGE:
+                pass
+            elif val == LIFT2_START_SESSION:
+                # print('BGPDiscover - Start Session')
+                BGP_list.clear()
+                out_queue.put(LIFT2_START_SESSION)
+            elif val == LIFT2_END_SESSION:
+                # print('BGPDiscover - End Session')
+                for bgp in BGP_list:
+                    out_queue.put(bgp)
+                    val_queue.put((0,bgp))
+                BGP_list.clear()
+                out_queue.put(LIFT2_END_SESSION)
+            else :
+                (s,p,o,time,client,sm,pm,om) = val
+                currentTime = time
+                print('Etude de :',toStr(s,p,o))
+                if not(isinstance(s,Variable) and isinstance(p,Variable) and isinstance(o,Variable) ):
+                    h = hash(toStr(s,p,o))
+                    #print(currentTime)
+                    trouve = False
+                    for (i,bgp) in enumerate(BGP_list):
+                        # Si c'est le même client, dans le gap et un TP identique n'a pas déjà été utilisé pour ce BGP
+                        print('\t Etude avec BGP ',i)
+                        if (client == bgp.client) and (currentTime - bgp.time <= gap) and (h not in bgp.input_set): 
+                            ref_couv = 0
+                            # on regarde si une constante du sujet et ou de l'objet est une injection
+                            for tp in  bgp.tp_set:
+                                ( (bs, bp, bo), bsm, bpm, bom) = tp
+                                print('\t\t Comparaison avec :',toStr(bs,bp,bo))
+                                print('\t\tbsm:',bsm) ; print('\t\tbpm:',bpm); print('\t\tbom:',bom)
+
+                                #On recherche les mappings possibles : s-s, s-p, s-o, etc.
+                                d = None
+                                res = list()
+                                chercher('',(s,p,o), dict({bs:bsm,bp:bpm,bo:bom}), dict(),res)
+                                # print('==='); pprint(res); print('===')
+                                couv = 0
+                                for x in res:
+                                    c = x['nb']
+                                    if c > couv:
+                                        couv = c
+                                        d = x
+
+                                nb_map = 0
+                                nb_eq = 0
+                                if d is not None:# on cherche à éviter d'avoir le même TP
+                                    for (i,j) in ( (s,bs) , (p,bp) , (o,bo)) :
+                                        if (d[i] != i) and isinstance(j,Variable):
+                                            nb_map +=1
+                                        else:
+                                            if (i == j) or (isinstance(i,Variable) and isinstance(j,Variable)):
+                                                # le second opérande pose pb car interdit : ?s1 p ?o1 . ?s1 p ?o2 . :-(
+                                                nb_eq +=1
+                                            else:
+                                                pass
+
+                                if (couv > ref_couv) and (nb_map+nb_eq !=3) : 
+                                    trouve = True
+                                    ref_couv = couv
+                                    ref_d = d
+                                    break
+
+                            if trouve:
+                                print('\t\t ok avec :',toStr(bs,bp,bo) )
+                                (s2, p2, o2) = (ref_d[s],ref_d[p],ref_d[o])
+                                print('\t\t |-> ',toStr(s2,p2,o2) )
+                                inTP = False
+                                # peut-être que un TP similaire a déjà été utilisé pour une autre valeur... alors pas la peine de le doubler
+                                for  ( (b2s, b2p, b2o), b2sm, b2pm, b2om) in  bgp.tp_set:
+                                    (inTP,m) = egal((s2, p2, o2) ,(b2s, b2p, b2o)) 
+                                    if inTP: break
+                                if not(inTP):
+                                    if (s==ref_d[s]) and isinstance(s,Variable): s2 = Variable("s"+str(id).replace("-","_"))
+                                    if (p==ref_d[p]) and isinstance(p,Variable): p2 = Variable("p"+str(id).replace("-","_"))
+                                    if (o==ref_d[o]) and isinstance(o,Variable): o2 = Variable("o"+str(id).replace("-","_"))
+                                    bgp.tp_set.append( ((s2,p2,o2),sm,pm,om) )
+                                    print('\t\t Ajout de ',toStr(s2,p2,o2))
+                                    bgp.input_set.add(h)
+                                else: 
+                                    print('\t Déjà présent avec ',toStr(b2s, b2p, b2o))
+                                    pass
+                                if ctx.optimistic: bgp.time = currentTime
+                                break
+                        else: 
+                            if (client == bgp.client) and (currentTime - bgp.time <= gap):
+                                print('\t\t Déjà ajouté')
+                                pass
+
+                    # pas trouvé => nouveau BGP ?
+                    if not(trouve):
+                        bgp = BGP()     
+                        if isinstance(s,Variable):
+                            s = Variable("s"+str(id).replace("-","_"))
+                        if isinstance(p,Variable):
+                            p = Variable("p"+str(id).replace("-","_"))
+                        if isinstance(o,Variable):
+                            o = Variable("o"+str(id).replace("-","_"))
+                        print('\t Création de ',toStr(s,p,o),'-> BGP ',len(BGP_list))
+                        bgp.tp_set.append( ((s,p,o), sm,pm,om) )
+                        bgp.input_set.add(h)
+                        bgp.time = currentTime
+                        bgp.birthTime = currentTime
+                        bgp.client = client
+                        BGP_list.append(bgp)
+
+            # envoyer les trop vieux !
+            old = []
+            recent = []
             for bgp in BGP_list:
+                # print(currentTime,bgp.time)
+                if (currentTime - bgp.time > gap): old.append(bgp)
+                else: recent.append(bgp)
+            for bgp in old :  
                 out_queue.put(bgp)
                 val_queue.put((0,bgp))
-            BGP_list.clear()
-            out_queue.put(LIFT2_END_SESSION)
-        else :
-            (s,p,o,time,client,sm,pm,om) = val
-            currentTime = time
-            print('Etude de :',toStr(s,p,o))
-            if not(isinstance(s,Variable) and isinstance(p,Variable) and isinstance(o,Variable) ):
-                h = hash(toStr(s,p,o))
-                #print(currentTime)
-                trouve = False
-                for (i,bgp) in enumerate(BGP_list):
-                    # Si c'est le même client, dans le gap et un TP identique n'a pas déjà été utilisé pour ce BGP
-                    print('\t Etude avec BGP ',i)
-                    if (client == bgp.client) and (currentTime - bgp.time <= gap) and (h not in bgp.input_set): 
-                        ref_couv = 0
-                        # on regarde si une constante du sujet et ou de l'objet est une injection
-                        for tp in  bgp.tp_set:
-                            ( (bs, bp, bo), bsm, bpm, bom) = tp
-                            print('\t\t Comparaison avec :',toStr(bs,bp,bo))
-                            print('\t\tbsm:',bsm) ; print('\t\tbpm:',bpm); print('\t\tbom:',bom)
+            BGP_list = recent
 
-                            #On recherche les mappings possibles : s-s, s-p, s-o, etc.
-                            d = None
-                            res = list()
-                            chercher('',(s,p,o), dict({bs:bsm,bp:bpm,bo:bom}), dict(),res)
-                            # print('==='); pprint(res); print('===')
-                            couv = 0
-                            for x in res:
-                                c = x['nb']
-                                if c > couv:
-                                    couv = c
-                                    d = x
-
-                            nb_map = 0
-                            nb_eq = 0
-                            if d is not None:# on cherche à éviter d'avoir le même TP
-                                for (i,j) in ( (s,bs) , (p,bp) , (o,bo)) :
-                                    if (d[i] != i) and isinstance(j,Variable):
-                                        nb_map +=1
-                                    else:
-                                        if (i == j) or (isinstance(i,Variable) and isinstance(j,Variable)):
-                                            # le second opérande pose pb car interdit : ?s1 p ?o1 . ?s1 p ?o2 . :-(
-                                            nb_eq +=1
-                                        else:
-                                            pass
-
-                            if (couv > ref_couv) and (nb_map+nb_eq !=3) : 
-                                trouve = True
-                                ref_couv = couv
-                                ref_d = d
-                                break
-
-                        if trouve:
-                            print('\t\t ok avec :',toStr(bs,bp,bo) )
-                            (s2, p2, o2) = (ref_d[s],ref_d[p],ref_d[o])
-                            print('\t\t |-> ',toStr(s2,p2,o2) )
-                            inTP = False
-                            # peut-être que un TP similaire a déjà été utilisé pour une autre valeur... alors pas la peine de le doubler
-                            for  ( (b2s, b2p, b2o), b2sm, b2pm, b2om) in  bgp.tp_set:
-                                (inTP,m) = egal((s2, p2, o2) ,(b2s, b2p, b2o)) 
-                                if inTP: break
-                            if not(inTP):
-                                if (s==ref_d[s]) and isinstance(s,Variable): s2 = Variable("s"+str(id).replace("-","_"))
-                                if (p==ref_d[p]) and isinstance(p,Variable): p2 = Variable("p"+str(id).replace("-","_"))
-                                if (o==ref_d[o]) and isinstance(o,Variable): o2 = Variable("o"+str(id).replace("-","_"))
-                                bgp.tp_set.append( ((s2,p2,o2),sm,pm,om) )
-                                print('\t\t Ajout de ',toStr(s2,p2,o2))
-                                bgp.input_set.add(h)
-                            else: 
-                                print('\t Déjà présent avec ',toStr(b2s, b2p, b2o))
-                                pass
-                            if ctx.optimistic: bgp.time = currentTime
-                            break
-                    else: 
-                        if (client == bgp.client) and (currentTime - bgp.time <= gap):
-                            print('\t\t Déjà ajouté')
-                            pass
-
-                # pas trouvé => nouveau BGP ?
-                if not(trouve):
-                    bgp = BGP()     
-                    if isinstance(s,Variable):
-                        s = Variable("s"+str(id).replace("-","_"))
-                    if isinstance(p,Variable):
-                        p = Variable("p"+str(id).replace("-","_"))
-                    if isinstance(o,Variable):
-                        o = Variable("o"+str(id).replace("-","_"))
-                    print('\t Création de ',toStr(s,p,o),'-> BGP ',len(BGP_list))
-                    bgp.tp_set.append( ((s,p,o), sm,pm,om) )
-                    bgp.input_set.add(h)
-                    bgp.time = currentTime
-                    bgp.bithTime = currentTime
-                    bgp.client = client
-                    BGP_list.append(bgp)
-
-        # envoyer les trop vieux !
-        old = []
-        recent = []
-        for bgp in BGP_list:
-            # print(currentTime,bgp.time)
-            if (currentTime - bgp.time > gap): old.append(bgp)
-            else: recent.append(bgp)
-        for bgp in old :  
-            out_queue.put(bgp)
-            val_queue.put((0,bgp))
-        BGP_list = recent
-
-        try:
-            entry = in_queue.get(timeout=LIFT2_WAIT)
-        except Empty as e:
-            # print('purge')
-            currentTime = currentTime + dt.timedelta(seconds=LIFT2_WAIT)
-            entry = (0,LIFT2_PURGE)
+            try:
+                entry = in_queue.get(timeout=LIFT2_WAIT)
+            except Empty as e:
+                # print('purge')
+                currentTime = currentTime + dt.timedelta(seconds=LIFT2_WAIT)
+                entry = (0,LIFT2_PURGE)
+    except KeyboardInterrupt:
+        # penser à purger les derniers BGP ou uniquement autoutr du get pour gérer fin de session
+        pass
     out_queue.put(None)
 
 #==================================================
 
+def testPrecisionRecallBGP(queryList, bgp):
+    best = 0
+    test = [ tp for (tp, sm,pm,om) in bgp.tp_set ]
+    # print(test)
+    for i in queryList:
+        ( (time,query,qbgp),old_bgp,precision,recall) = queryList[i]
+        # print(qbgp)
+
+        (precision2, recall2, inter, mapping) = calcPrecisionRecall(qbgp,test)
+        if  precision2*recall2 > precision*recall:
+            best = i
+            best_precision = precision2
+            best_recall = recall2
+    if best > 0:
+        ( (time,query,qbgp),old_bgp,precision,recall) = queryList[best]
+        queryList[best] = ( (time,query,qbgp),bgp,best_precision,best_recall)
+        # essayer de replacer le vieux...
+        if old_bgp is not None: testPrecisionRecallBGP(queryList,old_bgp)
+
 def processValidation(in_queue, ctx):
     timeout = ctx.timeout
-    gap = ctx.gap + timeout
+    gap = ctx.gap
     currentTime = now()
-    queryList = []
-    inq = in_queue.get()
-    while inq is not None:
-        (id, val) = inq 
-        if id > 0:
-            print('New query', val)
-        else:
-            print('A BGP')
+    queryList = OrderedDict()
+    try:
         inq = in_queue.get()
+        while inq is not None:
+            (id, val) = inq
+
+            if id > 0:
+                (time,query,qbgp) = val
+                currentTime = time
+                # print('New query', val)
+                (precision, recall, bgp) = (0,0, None)
+                queryList[id] = ( (time,query,qbgp),bgp,precision,recall)
+            elif id == 0:
+                # print('A BGP')
+                bgp = val
+                currentTime = bgp.birthTime # or bgp.time ?
+                testPrecisionRecallBGP(queryList,bgp)
+            else:
+                pass
+
+            # Suppress older queries
+            old = []
+            for id in queryList:
+                ( (time,query,qbgp),bgp,precision,recall) = queryList[id]
+                # print(currentTime,' vs. ',time)
+                if currentTime - time > timeout:
+                    old.append(id)
+            for id in old:
+                ( (time,query,qbgp),bgp,precision,recall) = queryList.pop(id)
+                print('---',precision,'/',recall,'---')
+                print(query)
+                print('---')
+
+            try:
+                inq = in_queue.get(timeout=LIFT2_WAIT)
+            except Empty as e:
+                # print('purge')
+                inq = (-1, None)
+                currentTime = currentTime + dt.timedelta(seconds=LIFT2_WAIT)
+    except KeyboardInterrupt:
+        # penser à afficher les dernières queries ou uniquement autour du get pour fin de session
+        pass
 
 #==================================================
 
@@ -370,7 +423,7 @@ class LDQP:
         assert isinstance(gap,dt.timedelta)
         #---
         self.gap = gap
-        self.timeout = gap
+        self.timeout = gap + dt.timedelta(seconds=LIFT2_WAIT)
         self.optimistic = False # màj de la date du BGP avec le dernier TP reçu ?
 
         self.dataQueue = mp.Queue()
@@ -400,12 +453,15 @@ class LDQP:
         self.dataQueue.put(v)
 
     def get(self):
-        r = self.resQueue.get()
-        if r == LIFT2_START_SESSION:
-            return self.get()
-        if r == LIFT2_END_SESSION :
+        try:
+            r = self.resQueue.get()
+            if r == LIFT2_START_SESSION:
+                return self.get()
+            if r == LIFT2_END_SESSION :
+                return None
+            else: return r
+        except KeyboardInterrupt:
             return None
-        else: return r
 
     def stop(self):
         self.dataQueue.put(None)
@@ -417,7 +473,7 @@ class LDQP_XML(LDQP):
     """docstring for LDQP_XML"""
     def __init__(self, gap):
         super(LDQP_XML, self).__init__(gap)
-        self.qm = QueryManager()
+        self.qm = QueryManager(modeStat = False)
         self.qId = 0
 
     def processXMLEntry(self,x):
@@ -444,10 +500,10 @@ class LDQP_XML(LDQP):
     def processXMLQuery(self,x):
         # print(etree.tostring(x))
         query = x.text
-        time = fromISO(x.attrib['time'])
-        bgp = self.qm.extractBGP(query)
+        time = now()# fromISO(x.attrib['time']) 
+        (bgp,nquery) = self.qm.extractBGP(query)
         self.qId +=1
-        return (self.qId, LIFT2_IN_QUERY, (time,query,bgp) )
+        return (self.qId, LIFT2_IN_QUERY, (time,nquery,bgp) )
 
 
     def put(self,x):

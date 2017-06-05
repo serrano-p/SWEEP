@@ -33,12 +33,15 @@ from ldqp import *
 #==================================================
 
 def processResults(ldqp):
-    res = ldqp.get()
     i = 0
-    while res != None:
-        i += 1
-        res.print()
+    try:
         res = ldqp.get()
+        while res != None:
+            i += 1
+            res.print()
+            res = ldqp.get()
+    except KeyboardInterrupt:
+        pass
 
 #==================================================
 
