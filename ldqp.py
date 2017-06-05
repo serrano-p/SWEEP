@@ -16,6 +16,7 @@ import iso8601 # https://pypi.python.org/pypi/iso8601/     http://pyiso8601.read
 import datetime as dt
 
 from tools.tools import *
+from lib.QueryManager import *
 
 from lxml import etree  # http://lxml.de/index.html#documentation
 from lib.bgp import *
@@ -37,6 +38,7 @@ class BGP:
     def __init__(self, ref = False):
         self.tp_set = []
         self.input_set = set() # ens. des hash des entrées, pour ne pas mettre 2 fois la même
+        self.bithTime = now()
         self.time = now()
         self.client = ''
         self.isRef = ref
@@ -47,7 +49,7 @@ class BGP:
     def print(self):
         #print(serializeBGP2str([ x for (x,sm,pm,om,h) in self.tp_set]))
         print('From:',self.client,' at ',self.time)
-        for ((s,p,o),sm,pm,om,h) in self.tp_set:
+        for ((s,p,o),sm,pm,om) in self.tp_set:
             print('\t'+toStr(s,p,o) )
 
 #==================================================
@@ -60,6 +62,7 @@ def toStr(s,p,o):
 LIFT2_IN_ENTRY = 1
 LIFT2_IN_DATA = 2
 LIFT2_IN_END = 3
+LIFT2_IN_QUERY = 4
 
 LIFT2_START_SESSION = -1
 LIFT2_END_SESSION = -2
@@ -71,7 +74,7 @@ LIFT2_WAIT = 2
 
 #==================================================
 
-def processAgregator(in_queue,out_queue,ctx):
+def processAgregator(in_queue,out_queue, val_queue, ctx):
     timeout = ctx.timeout
     currentTime = now()
     elist = dict()
@@ -105,6 +108,8 @@ def processAgregator(in_queue,out_queue,ctx):
             for v in elist:
                 out_queue.put( (v, elist.pop(v)) )
             out_queue.put( (id, LIFT2_END_SESSION) )
+        elif x == LIFT2_IN_QUERY :
+            val_queue.put( (id,val) )
         else: # Impossible...
             pass
 
@@ -120,6 +125,7 @@ def processAgregator(in_queue,out_queue,ctx):
 
         inq = in_queue.get()
     out_queue.put(None)
+    val_queue.put(None)
 
 #==================================================
 #appel chercher( (s,p,o),{bs:bsm,bp:bpm,bo:bom}, dict, set )
@@ -159,7 +165,7 @@ def chercher(tab,ref,tp,d,res):
             chercher(tab+'\t',reste, tp, d, res) 
             d.pop(i)               
 
-def processBGPDiscover(in_queue, out_queue, ctx):
+def processBGPDiscover(in_queue, out_queue, val_queue, ctx):
     gap = ctx.gap
     BGP_list = []
     entry = in_queue.get()
@@ -176,6 +182,7 @@ def processBGPDiscover(in_queue, out_queue, ctx):
             # print('BGPDiscover - End Session')
             for bgp in BGP_list:
                 out_queue.put(bgp)
+                val_queue.put((0,bgp))
             BGP_list.clear()
             out_queue.put(LIFT2_END_SESSION)
         else :
@@ -193,7 +200,7 @@ def processBGPDiscover(in_queue, out_queue, ctx):
                         ref_couv = 0
                         # on regarde si une constante du sujet et ou de l'objet est une injection
                         for tp in  bgp.tp_set:
-                            ( (bs, bp, bo), bsm, bpm, bom, bh ) = tp
+                            ( (bs, bp, bo), bsm, bpm, bom) = tp
                             print('\t\t Comparaison avec :',toStr(bs,bp,bo))
                             print('\t\tbsm:',bsm) ; print('\t\tbpm:',bpm); print('\t\tbom:',bom)
 
@@ -231,18 +238,17 @@ def processBGPDiscover(in_queue, out_queue, ctx):
                         if trouve:
                             print('\t\t ok avec :',toStr(bs,bp,bo) )
                             (s2, p2, o2) = (ref_d[s],ref_d[p],ref_d[o])
-                            h2 = hash(toStr(s2,p2,o2))
                             print('\t\t |-> ',toStr(s2,p2,o2) )
                             inTP = False
                             # peut-être que un TP similaire a déjà été utilisé pour une autre valeur... alors pas la peine de le doubler
-                            for  ( (b2s, b2p, b2o), b2sm, b2pm, b2om, b2h ) in  bgp.tp_set:
-                                inTP = h2 == b2h
+                            for  ( (b2s, b2p, b2o), b2sm, b2pm, b2om) in  bgp.tp_set:
+                                (inTP,m) = egal((s2, p2, o2) ,(b2s, b2p, b2o)) 
                                 if inTP: break
                             if not(inTP):
                                 if (s==ref_d[s]) and isinstance(s,Variable): s2 = Variable("s"+str(id).replace("-","_"))
                                 if (p==ref_d[p]) and isinstance(p,Variable): p2 = Variable("p"+str(id).replace("-","_"))
                                 if (o==ref_d[o]) and isinstance(o,Variable): o2 = Variable("o"+str(id).replace("-","_"))
-                                bgp.tp_set.append( ((s2,p2,o2),sm,pm,om, h2) )
+                                bgp.tp_set.append( ((s2,p2,o2),sm,pm,om) )
                                 print('\t\t Ajout de ',toStr(s2,p2,o2))
                                 bgp.input_set.add(h)
                             else: 
@@ -258,7 +264,6 @@ def processBGPDiscover(in_queue, out_queue, ctx):
                 # pas trouvé => nouveau BGP ?
                 if not(trouve):
                     bgp = BGP()     
-                    h2 = hash(toStr(s,p,o))
                     if isinstance(s,Variable):
                         s = Variable("s"+str(id).replace("-","_"))
                     if isinstance(p,Variable):
@@ -266,9 +271,10 @@ def processBGPDiscover(in_queue, out_queue, ctx):
                     if isinstance(o,Variable):
                         o = Variable("o"+str(id).replace("-","_"))
                     print('\t Création de ',toStr(s,p,o),'-> BGP ',len(BGP_list))
-                    bgp.tp_set.append(( (s,p,o), sm,pm,om, h2))
+                    bgp.tp_set.append( ((s,p,o), sm,pm,om) )
                     bgp.input_set.add(h)
                     bgp.time = currentTime
+                    bgp.bithTime = currentTime
                     bgp.client = client
                     BGP_list.append(bgp)
 
@@ -281,6 +287,7 @@ def processBGPDiscover(in_queue, out_queue, ctx):
             else: recent.append(bgp)
         for bgp in old :  
             out_queue.put(bgp)
+            val_queue.put((0,bgp))
         BGP_list = recent
 
         try:
@@ -290,6 +297,22 @@ def processBGPDiscover(in_queue, out_queue, ctx):
             currentTime = currentTime + dt.timedelta(seconds=LIFT2_WAIT)
             entry = (0,LIFT2_PURGE)
     out_queue.put(None)
+
+#==================================================
+
+def processValidation(in_queue, ctx):
+    timeout = ctx.timeout
+    gap = ctx.gap + timeout
+    currentTime = now()
+    queryList = []
+    inq = in_queue.get()
+    while inq is not None:
+        (id, val) = inq 
+        if id > 0:
+            print('New query', val)
+        else:
+            print('A BGP')
+        inq = in_queue.get()
 
 #==================================================
 
@@ -352,11 +375,14 @@ class LDQP:
 
         self.dataQueue = mp.Queue()
         self.entryQueue = mp.Queue()
+        self.validationQueue = mp.Queue()
         self.resQueue = mp.Queue()
-        self.dataProcess = mp.Process(target=processAgregator, args=(self.dataQueue, self.entryQueue,self))
-        self.entryProcess = mp.Process(target=processBGPDiscover, args=(self.entryQueue, self.resQueue, self))
+        self.dataProcess = mp.Process(target=processAgregator, args=(self.dataQueue, self.entryQueue, self.validationQueue,self))
+        self.entryProcess = mp.Process(target=processBGPDiscover, args=(self.entryQueue, self.resQueue, self.validationQueue, self))
+        self.validationProcess = mp.Process(target=processValidation, args=(self.validationQueue, self))
         self.dataProcess.start()
         self.entryProcess.start()
+        self.validationProcess.start()
 
     def setTimeout(self,to):
         self.timeout = to
@@ -385,12 +411,14 @@ class LDQP:
         self.dataQueue.put(None)
         self.dataProcess.join()
         self.entryProcess.join()
-
+        self.validationProcess.join()
 
 class LDQP_XML(LDQP):
     """docstring for LDQP_XML"""
     def __init__(self, gap):
         super(LDQP_XML, self).__init__(gap)
+        self.qm = QueryManager()
+        self.qId = 0
 
     def processXMLEntry(self,x):
         id = x.attrib['id']
@@ -413,12 +441,22 @@ class LDQP_XML(LDQP):
         xo = unSerialize(x[2])
         return (id, LIFT2_IN_DATA, (xs, xp, xo))  
 
+    def processXMLQuery(self,x):
+        # print(etree.tostring(x))
+        query = x.text
+        time = fromISO(x.attrib['time'])
+        bgp = self.qm.extractBGP(query)
+        self.qId +=1
+        return (self.qId, LIFT2_IN_QUERY, (time,query,bgp) )
+
+
     def put(self,x):
         if x.tag == 'entry': self.dataQueue.put( self.processXMLEntry(x) )
         elif x.tag == 'data-triple-N3' : self.dataQueue.put( self.processXMLData(x) )
         elif x.tag == 'end' : self.dataQueue.put( self.processXMLEndEntry(x) )
-        else: # query !
-            print(etree.tostring(x))
+        elif x.tag == 'query': self.dataQueue.put( self.processXMLQuery(x) )
+        else:
+            pass
        
 #==================================================
 #==================================================

@@ -54,7 +54,7 @@ select ?s ?o where {
 
 q = q6
 
-print('origin:',q)
+print('Query:',q)
 # http://localhost:5000/lift : serveur TPF LIFT (exemple du papier)
 # http://localhost:5001/dbpedia_3_9 server dppedia si : ssh -L 5001:172.16.9.3:5001 desmontils@172.16.9.15
 
