@@ -42,16 +42,17 @@ class Query(object):
 
 #==================================================	
 
-def queryThread(conn,sp, query,ref):
+def queryThread(conn,sp, doPR, query,ref):
 	duration = query.time - ref
 	print(duration.total_seconds())
 	time.sleep(duration.total_seconds())
 	print('Query:',query.q)
-	print("Envoie test:")
-	mess = '<query time="'+date2str(query.time)+'"><![CDATA['+query.q+']]></query>'
-	conn.send(mess.encode('utf8'))
 	try:
-	  print(sp.query(query.q))
+		if doPR:
+			print("Envoie test:")
+			mess = '<query time="'+date2str(query.time)+'"><![CDATA['+query.q+']]></query>'
+			conn.send(mess.encode('utf8'))
+		print(sp.query(query.q))
 	except Exception as e:
 		print('Exception',e)
 
@@ -84,11 +85,12 @@ select ?s ?o where {
 parser = argparse.ArgumentParser(description='Linked Data Query simulator (for a modified TPF server)')
 parser.add_argument("--port", type=int, default=5002, dest="port", help="Port (5002 by default)")
 parser.add_argument("--host", default='127.0.0.1', dest="host", help="Host ('127.0.0.1' by default)")
-parser.add_argument("--server", default='http://localhost:5000/lift', dest="tpfServer", help="TPF Server ('http://localhost:5000/lift' by default)")
-parser.add_argument("--client", default='/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client', dest="tpfClient", help="TPF Client ('...' by default)")
-
-parser.add_argument("-to", "--timeout", type=float, default=0, dest="timeout",
-                    help="TPF server Time Out in minutes (%d by default). If '-to 0', the timeout is the gap." % 0)
+parser.add_argument("-s","--server", default='http://localhost:5000/lift', dest="tpfServer", help="TPF Server ('http://localhost:5000/lift' by default)")
+parser.add_argument("-c", "--client", default='/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client', dest="tpfClient", help="TPF Client ('...' by default)")
+parser.add_argument("-t", "--time", default='', dest="now", help="Time reference (now by default)")
+parser.add_argument("-v", "--valid", default='', dest="valid", action="store_true", help="Do precision/recall")
+# parser.add_argument("-to", "--timeout", type=float, default=0, dest="timeout",
+#                     help="TPF server Time Out in minutes (%d by default). If '-to 0', the timeout is the gap." % 0)
 
 args = parser.parse_args()
 
@@ -99,8 +101,11 @@ s.connect((args.host, args.port))
 sp = TPFEP(service = args.tpfServer ) #'http://localhost:5000/lift') 
 sp.setEngine(args.tpfClient) #'/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client')
 
-now = now()
-t = Thread(target=queryThread ,args=(s,sp,Query(q6,now+dt.timedelta(seconds=2)),now))
+if args.now =='':
+	now = now()
+else: now = dt.datetime(args.now)
+
+t = Thread(target=queryThread ,args=(s,sp,args.valid,Query(q6,now+dt.timedelta(seconds=2)),now))
 t.start()
-t = Thread(target=queryThread ,args=(s,sp,Query(q5,now+dt.timedelta(seconds=1)),now))
+t = Thread(target=queryThread ,args=(s,sp,args.valid,Query(q5,now+dt.timedelta(seconds=1)),now))
 t.start()

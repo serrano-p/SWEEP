@@ -1,9 +1,12 @@
-tools/*
-
-lib/*
 
 *.xml
 
 *.dtd
 
 __pycache__/ldqp.cpython-36.pyc
+
+lib/__init__.py
+
+lib/__pycache__/*
+
+tools/__pycache__/*

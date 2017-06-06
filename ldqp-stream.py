@@ -83,6 +83,7 @@ def clientthread(conn, ldqp):
 #==================================================
 
 parser = argparse.ArgumentParser(description='Linked Data Query Profiler (for a modified TPF server)')
+# parser.add_argument('files', metavar='file', nargs='+',help='files to analyse')
 parser.add_argument("-g", "--gap", type=float, default=60, dest="gap", help="Gap in minutes (60 by default)")
 parser.add_argument("--port", type=int, default=5002, dest="port", help="Port (5002 by default)")
 parser.add_argument("--host", default='127.0.0.1', dest="host", help="Host ('127.0.0.1' by default)")
@@ -137,3 +138,41 @@ except KeyboardInterrupt:
     ldqp.stop()
     resProcess.join()
 print('Fin')
+
+
+
+# from flask import Flask, render_template, request, jsonify
+# # Initialize the Flask application
+# app = Flask(__name__)
+ 
+# # This route will show a form to perform an AJAX request
+# # jQuery is loaded to execute the request and update the
+# # value of the operation
+# @app.route('/')
+# def index():
+#     return render_template('index.html')
+ 
+# # Route that will process the AJAX request, sum up two
+# # integer numbers (defaulted to zero) and return the
+# # result as a proper JSON response (Content-Type, etc.)
+# @app.route('/_add_numbers')
+# def add_numbers():
+#     a = request.args.get('a', 0, type=int)
+#     b = request.args.get('b', 0, type=int)
+#     return jsonify(result=a + b)
+ 
+# # sur requete AJAX _get_message on renvoie le texte   
+# # je suis la réponse ajax du serveur à + le paramètre transmis  
+# @app.route('/_get_message')
+# def get_message():
+#     param = request.args.get('param', 'pas de param', type=str)
+#     return jsonify(result='je suis la réponse ajax du serveur à ' + param)
+ 
+# if __name__ == '__main__':
+#     app.run(
+#         host="0.0.0.0",
+#         port=int("8090"),
+#         debug=True
+#     )
+
+
