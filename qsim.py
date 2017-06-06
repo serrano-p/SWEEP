@@ -47,10 +47,11 @@ def queryThread(conn,sp, doPR, query,ref):
 	print(duration.total_seconds())
 	time.sleep(duration.total_seconds())
 	print('Query:',query.q)
+	(ip,port) = conn.getsockname()
 	try:
 		if doPR:
 			print("Envoie test:")
-			mess = '<query time="'+date2str(query.time)+'"><![CDATA['+query.q+']]></query>'
+			mess = '<query time="'+date2str(query.time)+'" client="'+str(ip)+'"><![CDATA['+query.q+']]></query>'
 			conn.send(mess.encode('utf8'))
 		print(sp.query(query.q))
 	except Exception as e:
@@ -63,7 +64,7 @@ def play(file):
     parser = etree.XMLParser(recover=True, strip_cdata=True)
     tree = etree.parse(file, parser)
     #---
-    dtd = etree.DTD('http://documents.ls2n.fr/be4dbp/log.dtd')#'./resources/log.dtd')
+    dtd = etree.DTD('http://documents.ls2n.fr/be4dbp/log.dtd')
     assert dtd.validate(tree), '%s non valide au chargement : %s' % (
         file, dtd.error_log.filter_from_errors()[0])
     #---
@@ -73,47 +74,25 @@ def play(file):
     ip = 'ip-'+tree.getroot().get('ip').split('-')[0]
     #print('ranking building')
     for entry in tree.getroot():
-        if entryOk(entry,mode):
-            nbe += 1
-            #print('(%d) new entry to add' % nbe)
-            if nbe == 1:
-                date = entry.get('datetime')
-            ide = entry.get('logline')
-            valid = entry.get("valid")
-            if valid is not None :
-            	if valid == 'TPF' :
-            		query = entry.find('request').text
-        else:
-            pass #print('Bad entry')
-
-#==================================================
-#==================================================
-#==================================================
-
-q5 = """
-prefix : <http://www.example.org/lift2#> 
-select ?s ?o 
-where {
-	?s :p3 "titi" . 
-	?s :p1 ?o . 
-	?s :p4 "tata"
-}
-"""
-
-q6 = """
-prefix : <http://www.example.org/lift2#>  
-select ?s ?o where {
-  ?s :p2 "toto" . 
-  ?s :p1 ?o .
-}
-"""
+        nbe += 1
+        #print('(%d) new entry to add' % nbe)
+        if nbe == 1:
+        	date_ref = fromISO(entry.get('datetime'))
+        date = fromISO(entry.get('datetime'))
+        ide = entry.get('logline')
+        valid = entry.get("valid")
+        if valid is not None :
+        	if valid == 'TPF' :
+        		query = entry.find('request').text
+        		t = Thread(target=queryThread ,args=(s,sp,args.valid,Query(query,date),date_ref))
+        		t.start()
 
 #==================================================
 #==================================================
 #==================================================
 
 parser = argparse.ArgumentParser(description='Linked Data Query simulator (for a modified TPF server)')
-# parser.add_argument('files', metavar='file', nargs='+', help='files to analyse')
+parser.add_argument('files', metavar='file', nargs='+', help='files to analyse')
 parser.add_argument("--port", type=int, default=5002, dest="port", help="Port (5002 by default)")
 parser.add_argument("--host", default='127.0.0.1', dest="host", help="Host ('127.0.0.1' by default)")
 parser.add_argument("-s","--server", default='http://localhost:5000/lift', dest="tpfServer", help="TPF Server ('http://localhost:5000/lift' by default)")
@@ -136,11 +115,7 @@ if args.now =='':
 	now = now()
 else: now = dt.datetime(args.now)
 
-# file_set = args.files
-# for file in file_set:
-#     if existFile(file):
-
-t = Thread(target=queryThread ,args=(s,sp,args.valid,Query(q6,now+dt.timedelta(seconds=2)),now))
-t.start()
-t = Thread(target=queryThread ,args=(s,sp,args.valid,Query(q5,now+dt.timedelta(seconds=1)),now))
-t.start()
+file_set = args.files
+for file in file_set:
+    if existFile(file):
+    	play(file)

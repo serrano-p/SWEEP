@@ -14,8 +14,10 @@ import multiprocessing as mp
 
 import iso8601 # https://pypi.python.org/pypi/iso8601/     http://pyiso8601.readthedocs.io/en/latest/
 import datetime as dt
-
+import csv
 from tools.tools import *
+from tools.Stat import *
+
 from lib.QueryManager import *
 
 from lxml import etree  # http://lxml.de/index.html#documentation
@@ -306,17 +308,17 @@ def testPrecisionRecallBGP(queryList, bgp):
     test = [ tp for (tp, sm,pm,om) in bgp.tp_set ]
     # print(test)
     for i in queryList:
-        ( (time,query,qbgp),old_bgp,precision,recall) = queryList[i]
+        ( (time,ip,query,qbgp),old_bgp,precision,recall) = queryList[i]
         # print(qbgp)
-
-        (precision2, recall2, inter, mapping) = calcPrecisionRecall(qbgp,test)
-        if  precision2*recall2 > precision*recall:
-            best = i
-            best_precision = precision2
-            best_recall = recall2
+        if ip == bgp.client:
+            (precision2, recall2, inter, mapping) = calcPrecisionRecall(qbgp,test)
+            if  precision2*recall2 > precision*recall:
+                best = i
+                best_precision = precision2
+                best_recall = recall2
     if best > 0:
-        ( (time,query,qbgp),old_bgp,precision,recall) = queryList[best]
-        queryList[best] = ( (time,query,qbgp),bgp,best_precision,best_recall)
+        ( (time,ip,query,qbgp),old_bgp,precision,recall) = queryList[best]
+        queryList[best] = ( (time,ip,query,qbgp),bgp,best_precision,best_recall)
         # essayer de replacer le vieux...
         if old_bgp is not None: testPrecisionRecallBGP(queryList,old_bgp)
 
@@ -331,11 +333,11 @@ def processValidation(in_queue, ctx):
             (id, val) = inq
 
             if id > 0:
-                (time,query,qbgp) = val
+                (time,ip,query,qbgp) = val
                 currentTime = time
                 # print('New query', val)
                 (precision, recall, bgp) = (0,0, None)
-                queryList[id] = ( (time,query,qbgp),bgp,precision,recall)
+                queryList[id] = ( (time,ip,query,qbgp),bgp,precision,recall)
             elif id == 0:
                 # print('A BGP')
                 bgp = val
@@ -347,15 +349,21 @@ def processValidation(in_queue, ctx):
             # Suppress older queries
             old = []
             for id in queryList:
-                ( (time,query,qbgp),bgp,precision,recall) = queryList[id]
+                ( (time,ip,query,qbgp),bgp,precision,recall) = queryList[id]
                 # print(currentTime,' vs. ',time)
                 if currentTime - time > timeout:
                     old.append(id)
             for id in old:
-                ( (time,query,qbgp),bgp,precision,recall) = queryList.pop(id)
+                ( (time,ip,query,qbgp),bgp,precision,recall) = queryList.pop(id)
                 print('---',precision,'/',recall,'---')
                 print(query)
                 print('---')
+                print(".\n".join([ toStr(s,p,o) for ((s,p,o), sm,pm,om ) in bgp.tp_set ]))
+                ctx.memory.append( (id, time, ip, query, bgp, precision, recall) )
+                #---
+                assert ip == bgp.client, 'Client Query différent de client BGP'
+                #---
+                print('--- @'+ip+' ---')
 
             try:
                 inq = in_queue.get(timeout=LIFT2_WAIT)
@@ -363,6 +371,7 @@ def processValidation(in_queue, ctx):
                 # print('purge')
                 inq = (-1, None)
                 currentTime = currentTime + dt.timedelta(seconds=LIFT2_WAIT)
+                ctx.saveMemory()
     except KeyboardInterrupt:
         # penser à afficher les dernières queries ou uniquement autour du get pour fin de session
         pass
@@ -426,10 +435,14 @@ class LDQP:
         self.timeout = gap + dt.timedelta(seconds=LIFT2_WAIT)
         self.optimistic = False # màj de la date du BGP avec le dernier TP reçu ?
 
+        manager = mp.Manager()
+        self.memory = manager.list()
+
         self.dataQueue = mp.Queue()
         self.entryQueue = mp.Queue()
         self.validationQueue = mp.Queue()
         self.resQueue = mp.Queue()
+
         self.dataProcess = mp.Process(target=processAgregator, args=(self.dataQueue, self.entryQueue, self.validationQueue,self))
         self.entryProcess = mp.Process(target=processBGPDiscover, args=(self.entryQueue, self.resQueue, self.validationQueue, self))
         self.validationProcess = mp.Process(target=processValidation, args=(self.validationQueue, self))
@@ -468,6 +481,19 @@ class LDQP:
         self.dataProcess.join()
         self.entryProcess.join()
         self.validationProcess.join()
+        # self.saveMemory()
+
+    def saveMemory(self):
+        file = 'ldqp.csv' # (id, time, ip, query, bgp, precision, recall) 
+        sep='\t'
+        with open(file,"w", encoding='utf-8') as f:
+            fn=['id','time', 'ip', 'query', 'bgp', 'precision', 'recall']
+            writer = csv.DictWriter(f,fieldnames=fn,delimiter=sep)
+            writer.writeheader()
+            for (id, time, ip, query, bgp, precision, recall) in self.memory:
+                bgp_txt = ".\n".join([ toStr(s,p,o) for ((s,p,o), sm,pm,om ) in bgp.tp_set ])
+                s = { 'id':id, 'time':time, 'ip':ip, 'query':query, 'bgp':bgp_txt, 'precision':precision, 'recall':recall }
+                writer.writerow(s)
 
 class LDQP_XML(LDQP):
     """docstring for LDQP_XML"""
@@ -502,8 +528,9 @@ class LDQP_XML(LDQP):
         query = x.text
         time = now()# fromISO(x.attrib['time']) 
         (bgp,nquery) = self.qm.extractBGP(query)
+        ip = x.attrib['client']
         self.qId +=1
-        return (self.qId, LIFT2_IN_QUERY, (time,nquery,bgp) )
+        return (self.qId, LIFT2_IN_QUERY, (time,ip,nquery,bgp) )
 
 
     def put(self,x):

@@ -49,7 +49,8 @@ def processResults(ldqp):
 def clientthread(conn, ldqp):
     #Sending message to connected client
     #conn.send('Welcome to the server. Type something and hit enter\n') #send only takes string
-     
+    (ip,port) = conn.getpeername() 
+    # print('Revieve from peer :',ip,port)
     #infinite loop so that function do not terminate and thread do not end.
     while True:
          
@@ -57,7 +58,7 @@ def clientthread(conn, ldqp):
         try:
             mess = conn.recv(2048)
             data = mess.decode("utf-8")
-            # print('received:',data)
+            # print('received data')
 
             if not data: 
                 break
@@ -66,7 +67,9 @@ def clientthread(conn, ldqp):
                     tree = etree.parse(StringIO('<msg>'+data+'</msg>'), parser)
                     root = tree.getroot()
                     for x in root: 
-                        # print('xml:',x.tag ) 
+                        client = x.get('client')
+                        if client is not None:
+                            x.set('client',str(ip) )
                         ldqp.put(x)               
                 except Exception as e:
                     print('Exception',e)
