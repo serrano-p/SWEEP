@@ -11,12 +11,13 @@ Application ...
 
 # import sys
 import socket
-# from threading import *
+from threading import *
 
 # import multiprocessing as mp
 
-# import datetime as dt
-# import iso8601 # https://pypi.python.org/pypi/iso8601/     http://pyiso8601.readthedocs.io/en/latest/
+import datetime as dt
+import iso8601 # https://pypi.python.org/pypi/iso8601/     http://pyiso8601.readthedocs.io/en/latest/
+import time
 
 # import re
 import argparse
@@ -29,6 +30,30 @@ from tools.Endpoint import *
 
 # from io import StringIO
 
+
+#==================================================
+
+class Query(object):
+	"""docstring for Query"""
+	def __init__(self, q, time):
+		super(Query, self).__init__()
+		self.q = q
+		self.time = time
+
+#==================================================	
+
+def queryThread(conn,sp, query,ref):
+	duration = query.time - ref
+	print(duration.total_seconds())
+	time.sleep(duration.total_seconds())
+	print('Query:',query.q)
+	print("Envoie test:")
+	mess = '<query time="'+date2str(query.time)+'"><![CDATA['+query.q+']]></query>'
+	conn.send(mess.encode('utf8'))
+	try:
+	  print(sp.query(query.q))
+	except Exception as e:
+		print('Exception',e)
 
 #==================================================
 #==================================================
@@ -52,24 +77,30 @@ select ?s ?o where {
 }
 """
 
-q = q6
+#==================================================
+#==================================================
+#==================================================
 
-print('Query:',q)
+parser = argparse.ArgumentParser(description='Linked Data Query simulator (for a modified TPF server)')
+parser.add_argument("--port", type=int, default=5002, dest="port", help="Port (5002 by default)")
+parser.add_argument("--host", default='127.0.0.1', dest="host", help="Host ('127.0.0.1' by default)")
+parser.add_argument("--server", default='http://localhost:5000/lift', dest="tpfServer", help="TPF Server ('http://localhost:5000/lift' by default)")
+parser.add_argument("--client", default='/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client', dest="tpfClient", help="TPF Client ('...' by default)")
+
+parser.add_argument("-to", "--timeout", type=float, default=0, dest="timeout",
+                    help="TPF server Time Out in minutes (%d by default). If '-to 0', the timeout is the gap." % 0)
+
+args = parser.parse_args()
+
 # http://localhost:5000/lift : serveur TPF LIFT (exemple du papier)
 # http://localhost:5001/dbpedia_3_9 server dppedia si : ssh -L 5001:172.16.9.3:5001 desmontils@172.16.9.15
-
-
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect(("127.0.0.1", 5002))
+s.connect((args.host, args.port))
+sp = TPFEP(service = args.tpfServer ) #'http://localhost:5000/lift') 
+sp.setEngine(args.tpfClient) #'/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client')
 
-print("Envoie test:")
-mess = '<query time="'+date2str(now())+'"><![CDATA['+q+']]></query>'
-s.send(mess.encode('utf8'))
-
-sp = TPFEP(service = 'http://localhost:5000/lift') 
-sp.setEngine('/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client')
-try:
-  print(sp.query(q))
-except Exception as e:
-	print('Exception',e)
-
+now = now()
+t = Thread(target=queryThread ,args=(s,sp,Query(q6,now+dt.timedelta(seconds=2)),now))
+t.start()
+t = Thread(target=queryThread ,args=(s,sp,Query(q5,now+dt.timedelta(seconds=1)),now))
+t.start()
