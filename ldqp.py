@@ -440,9 +440,7 @@ def processStat(ctx, duration) :
                 avgPrecision = ctx.stat['sumPrecision']/ctx.stat['nbQueries']
                 avgRecall = ctx.stat['sumRecall']/ctx.stat['nbQueries']
                 avgQual = ctx.stat['sumQuality']/ctx.stat['nbQueries']
-                print('Avg Recall:%.3f' % avgRecall)
-                print('Avg Precision:%.3f' % avgPrecision)
-                print('Avg Quality:%.3f' % avgQual)
+                print('Avg Recall:%.3f ; Avg Precision:%.3f ; Avg Quality:%.3f' % (avgRecall, avgPrecision,avgQual))
             print('Nb queries:',ctx.stat['nbQueries'])
             print('Nb unused BGP:',max(0,ctx.stat['nbBGP'] - ctx.stat['nbQueries']))
     except KeyboardInterrupt:
