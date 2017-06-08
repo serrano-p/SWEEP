@@ -63,7 +63,7 @@ LIFT2_START_SESSION = -1
 LIFT2_END_SESSION = -2
 LIFT2_PURGE = -3
 
-LIFT2_WAIT = 2
+LIFT2_WAIT = 2 # in seconds
 
 #==================================================
 
@@ -333,6 +333,7 @@ def processValidation(in_queue, ctx):
             (id, val) = inq
 
             if id > 0:
+                ctx.stat['nbQueries'] +=1 
                 (time,ip,query,qbgp) = val
                 currentTime = time
                 # print('New query', val)
@@ -340,6 +341,7 @@ def processValidation(in_queue, ctx):
                 queryList[id] = ( (time,ip,query,qbgp),bgp,precision,recall)
             elif id == 0:
                 # print('A BGP')
+                ctx.stat['nbBGP'] +=1
                 bgp = val
                 currentTime = bgp.birthTime # or bgp.time ?
                 testPrecisionRecallBGP(queryList,bgp)
@@ -360,6 +362,9 @@ def processValidation(in_queue, ctx):
                 print('---')
                 print(".\n".join([ toStr(s,p,o) for ((s,p,o), sm,pm,om ) in bgp.tp_set ]))
                 ctx.memory.append( (id, time, ip, query, bgp, precision, recall) )
+                ctx.stat['sumRecall'] += recall
+                ctx.stat['sumPrecision'] += precision
+                ctx.stat['sumQuality'] += (recall+precision)/2
                 #---
                 assert ip == bgp.client, 'Client Query différent de client BGP'
                 #---
@@ -371,7 +376,6 @@ def processValidation(in_queue, ctx):
                 # print('purge')
                 inq = (-1, None)
                 currentTime = currentTime + dt.timedelta(seconds=LIFT2_WAIT)
-                ctx.saveMemory()
     except KeyboardInterrupt:
         # penser à afficher les dernières queries ou uniquement autour du get pour fin de session
         pass
@@ -426,6 +430,25 @@ def save(node_log, lift2):
 
 #==================================================
 
+def processStat(ctx, duration) :
+    try:
+        while True:
+            time.sleep(duration)
+            print('Saving memory')
+            ctx.saveMemory()
+            if ctx.stat['nbQueries']>0:
+                avgPrecision = ctx.stat['sumPrecision']/ctx.stat['nbQueries']
+                avgRecall = ctx.stat['sumRecall']/ctx.stat['nbQueries']
+                avgQual = ctx.stat['sumQuality']/ctx.stat['nbQueries']
+                print('Avg Recall:%.3f' % avgRecall)
+                print('Avg Precision:%.3f' % avgPrecision)
+                print('Avg Quality:%.3f' % avgQual)
+            print('Nb queries:',ctx.stat['nbQueries'])
+            print('Nb unused BGP:',max(0,ctx.stat['nbBGP'] - ctx.stat['nbQueries']))
+    except KeyboardInterrupt:
+        pass
+
+#==================================================
 class LDQP:
     def __init__(self,gap):
         #---
@@ -437,6 +460,7 @@ class LDQP:
 
         manager = mp.Manager()
         self.memory = manager.list()
+        self.stat = manager.dict({'sumRecall':0, 'sumPrecision':0, 'sumQuality':0, 'nbQueries':0, 'nbBGP':0})
 
         self.dataQueue = mp.Queue()
         self.entryQueue = mp.Queue()
@@ -446,9 +470,12 @@ class LDQP:
         self.dataProcess = mp.Process(target=processAgregator, args=(self.dataQueue, self.entryQueue, self.validationQueue,self))
         self.entryProcess = mp.Process(target=processBGPDiscover, args=(self.entryQueue, self.resQueue, self.validationQueue, self))
         self.validationProcess = mp.Process(target=processValidation, args=(self.validationQueue, self))
+        self.statProcess = mp.Process(target=processStat, args=(self, LIFT2_WAIT*3))
+
         self.dataProcess.start()
         self.entryProcess.start()
         self.validationProcess.start()
+        self.statProcess.start()
 
     def setTimeout(self,to):
         self.timeout = to
@@ -481,6 +508,7 @@ class LDQP:
         self.dataProcess.join()
         self.entryProcess.join()
         self.validationProcess.join()
+        self.statProcess.join()
         # self.saveMemory()
 
     def saveMemory(self):

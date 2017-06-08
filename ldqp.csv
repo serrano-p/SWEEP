@@ -1,7 +1,40 @@
 id	time	ip	query	bgp	precision	recall
-1	2017-06-06 23:07:49.835937	127.0.0.1	"prefix : <http://www.example.org/lift2#> select ?s ?o where { ?s :p3 ""titi"" . ?s :p1 ?o . ?s :p4 ""tata"" }"	"?se21106_99 <http://www.example.org/lift2#p3> ""titi"".
-?se21106_99 <http://www.example.org/lift2#p4> ""tata"".
-?se21106_99 <http://www.example.org/lift2#p1> ?oe21107_80"	1.0	1.0
-2	2017-06-06 23:07:51.064896	127.0.0.1	"prefix : <http://www.example.org/lift2#> select ?s ?o where { ?s :p2 ""toto"" . ?s :p1 ?o }"	"?se21106_102 <http://www.example.org/lift2#p2> ""toto"".
-?se21106_102 <http://www.example.org/lift2#p1> ?oe21106_103"	1.0	1.0
-3	2017-06-06 23:07:51.067781	127.0.0.1	"prefix : <http://www.example.org/lift2#> select ?s where { ?s :p2 ""tutu"" }"	"?se21105_84 <http://www.example.org/lift2#p2> ""tutu"""	1.0	1.0
+1	2017-06-08 17:36:56.732089	127.0.0.1	"prefix : <http://www.example.org/lift2#> select ?s where { ?s :p2 ""tutu"" }"	"?se21106_427 <http://www.example.org/lift2#p2> ""tutu"""	1.0	1.0
+2	2017-06-08 17:36:56.759182	127.0.0.1	"prefix : <http://www.example.org/lift2#> select ?s ?o where { ?s :p2 ""toto"" . ?s :p1 ?o }"	"?se21105_432 <http://www.example.org/lift2#p2> ""toto"".
+?se21105_432 <http://www.example.org/lift2#p1> ?oe21105_433"	1.0	1.0
+3	2017-06-08 17:36:55.707044	127.0.0.1	"prefix : <http://www.example.org/lift2#> select ?s ?o where { ?s :p3 ""titi"" . ?s :p1 ?o . ?s :p4 ""tata"" }"	"?se23291_247 <http://www.example.org/lift2#p1> ?oe23291_247.
+?se23291_247 <http://www.example.org/lift2#p4> ""tata"""	1.0	0.6666666666666666
+4	2017-06-08 17:37:27.942806	127.0.0.1	"prefix : <http://www.example.org/lift2#> select ?s ?o where { ?s :p3 ""titi"" . ?s :p1 ?o . ?s :p4 ""tata"" }"	"?se23292_244 <http://www.example.org/lift2#p3> ""titi"".
+?se23292_244 <http://www.example.org/lift2#p4> ""tata"".
+?se23292_244 <http://www.example.org/lift2#p1> ?oe21106_431"	1.0	1.0
+5	2017-06-08 17:37:28.951979	127.0.0.1	"prefix : <http://www.example.org/lift2#> select ?s where { ?s :p2 ""tutu"" }"	"?se21105_438 <http://www.example.org/lift2#p2> ""tutu"""	1.0	1.0
+6	2017-06-08 17:37:28.948239	127.0.0.1	"prefix : <http://www.example.org/lift2#> select ?s ?o where { ?s :p2 ""toto"" . ?s :p1 ?o }"	"?se23292_247 <http://www.example.org/lift2#p2> ""toto"".
+?se23292_247 <http://www.example.org/lift2#p1> ?oe23292_248"	1.0	1.0
+7	2017-06-08 17:37:57.704049	127.0.0.1	"prefix : <http://www.example.org/lift2#> select ?s ?o where { ?s :p3 ""titi"" . ?s :p1 ?o . ?s :p4 ""tata"" }"	"?se21106_433 <http://www.example.org/lift2#p3> ""titi"".
+?se21106_433 <http://www.example.org/lift2#p4> ""tata"".
+?se21106_433 <http://www.example.org/lift2#p1> ?oe21105_440"	1.0	1.0
+8	2017-06-08 17:37:58.709529	127.0.0.1	"prefix : <http://www.example.org/lift2#> select ?s ?o where { ?s :p2 ""toto"" . ?s :p1 ?o }"	"?se21106_437 <http://www.example.org/lift2#p2> ""toto"".
+?se21106_437 <http://www.example.org/lift2#p1> ?oe21106_438"	1.0	1.0
+9	2017-06-08 17:37:58.714920	127.0.0.1	"prefix : <http://www.example.org/lift2#> select ?s where { ?s :p2 ""tutu"" }"	"?se23291_255 <http://www.example.org/lift2#p2> ""tutu"""	1.0	1.0
+10	2017-06-08 17:38:54.250844	127.0.0.1	"prefix : <http://www.example.org/lift2#> select ?s ?o where { ?s :p3 ""titi"" . ?s :p1 ?o . ?s :p4 ""tata"" }"	"?se23291_256 <http://www.example.org/lift2#p1> ?oe23291_256.
+?se23291_256 <http://www.example.org/lift2#p4> ""tata"""	1.0	0.6666666666666666
+11	2017-06-08 17:38:55.256469	127.0.0.1	"prefix : <http://www.example.org/lift2#> select ?s ?o where { ?s :p2 ""toto"" . ?s :p1 ?o }"	"?se21106_446 <http://www.example.org/lift2#p2> ""toto"".
+?se21106_446 <http://www.example.org/lift2#p1> ?oe21106_447"	1.0	1.0
+12	2017-06-08 17:38:55.261521	127.0.0.1	"prefix : <http://www.example.org/lift2#> select ?s where { ?s :p2 ""tutu"" }"	"?se23291_261 <http://www.example.org/lift2#p2> ""tutu"""	1.0	1.0
+13	2017-06-08 17:38:55.702524	127.0.0.1	"prefix : <http://www.example.org/lift2#> select ?s ?o where { ?s :p3 ""titi"" . ?s :p1 ?o . ?s :p4 ""tata"" }"	"?se23292_252 <http://www.example.org/lift2#p3> ""titi"".
+?se23292_252 <http://www.example.org/lift2#p4> ""tata"".
+?se23292_252 <http://www.example.org/lift2#p1> ?oe23292_253"	1.0	1.0
+14	2017-06-08 17:38:56.703556	127.0.0.1	"prefix : <http://www.example.org/lift2#> select ?s ?o where { ?s :p2 ""toto"" . ?s :p1 ?o }"	"?se23292_255 <http://www.example.org/lift2#p2> ""toto"".
+?se23292_255 <http://www.example.org/lift2#p1> ?oe23292_256"	1.0	1.0
+15	2017-06-08 17:38:56.708326	127.0.0.1	"prefix : <http://www.example.org/lift2#> select ?s where { ?s :p2 ""tutu"" }"	"?se21105_444 <http://www.example.org/lift2#p2> ""tutu"""	1.0	1.0
+16	2017-06-08 17:39:53.583805	127.0.0.1	"prefix : <http://www.example.org/lift2#> select ?s ?o where { ?s :p3 ""titi"" . ?s :p1 ?o . ?s :p4 ""tata"" }"	"?se21106_448 <http://www.example.org/lift2#p4> ""tata"".
+?se21106_448 <http://www.example.org/lift2#p1> ?oe21105_453"	1.0	0.6666666666666666
+17	2017-06-08 17:39:54.587906	127.0.0.1	"prefix : <http://www.example.org/lift2#> select ?s where { ?s :p2 ""tutu"" }"	"?se23291_267 <http://www.example.org/lift2#p2> ""tutu"""	1.0	1.0
+18	2017-06-08 17:39:54.590446	127.0.0.1	"prefix : <http://www.example.org/lift2#> select ?s ?o where { ?s :p2 ""toto"" . ?s :p1 ?o }"	"?se21106_455 <http://www.example.org/lift2#p2> ""toto"".
+?se21106_455 <http://www.example.org/lift2#p1> ?oe21105_455"	1.0	1.0
+19	2017-06-08 17:39:54.979817	127.0.0.1	"prefix : <http://www.example.org/lift2#> select ?s ?o where { ?s :p3 ""titi"" . ?s :p1 ?o . ?s :p4 ""tata"" }"	"?se23292_261 <http://www.example.org/lift2#p3> ""titi"".
+?se23292_261 <http://www.example.org/lift2#p4> ""tata"".
+?se23292_261 <http://www.example.org/lift2#p1> ?oe21106_450"	1.0	1.0
+20	2017-06-08 17:39:55.985413	127.0.0.1	"prefix : <http://www.example.org/lift2#> select ?s ?o where { ?s :p2 ""toto"" . ?s :p1 ?o }"	"?se23292_264 <http://www.example.org/lift2#p2> ""toto"".
+?se23292_264 <http://www.example.org/lift2#p1> ?oe23292_265"	1.0	1.0
+21	2017-06-08 17:39:55.989726	127.0.0.1	"prefix : <http://www.example.org/lift2#> select ?s where { ?s :p2 ""tutu"" }"	"?se21105_450 <http://www.example.org/lift2#p2> ""tutu"""	1.0	1.0

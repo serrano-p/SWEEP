@@ -9,8 +9,9 @@ Application ...
 #    All rights reserved.
 #    GPL v 2.0 license.
 
-import sys
+# import sys
 import socket
+# from tools.Socket import *
 from threading import *
 
 import multiprocessing as mp
@@ -46,20 +47,16 @@ def processResults(ldqp):
 #==================================================
 
 #Function for handling connections. This will be used to create threads
-def clientthread(conn, ldqp):
+def clientthread(conn, ldqp, parser):
     #Sending message to connected client
     #conn.send('Welcome to the server. Type something and hit enter\n') #send only takes string
     (ip,port) = conn.getpeername() 
-    # print('Revieve from peer :',ip,port)
-    #infinite loop so that function do not terminate and thread do not end.
-    while True:
-         
+    while True:   
         #Receiving from client
         try:
             mess = conn.recv(2048)
             data = mess.decode("utf-8")
-            # print('received data')
-
+            # print('received data:',data)
             if not data: 
                 break
             else:
@@ -74,12 +71,40 @@ def clientthread(conn, ldqp):
                 except Exception as e:
                     print('Exception',e)
                     print('About:',data)
-            #conn.sendall(reply)
+                    conn.send(b'0')
+                    break
+            conn.send(b'1')
         except KeyboardInterrupt:
             break
     #came out of loop
     conn.close()
     # print('end thread')
+
+#==================================================
+
+
+def processIn(ldqp, host,port):
+    parser = etree.XMLParser(recover=True, strip_cdata=True)
+    ldqp.startSession()
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        s.bind((host,port))
+    except socket.error as msg:
+        print ('Bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1])
+        sys.exit()   
+    print ('Socket bind complete')
+    s.listen(10)
+    print ('Socket now listening')
+
+    try:
+        while 1:
+            (conn, addr) = s.accept()
+            t = Thread(target=clientthread ,args=(conn,ldqp, parser))
+            t.start()
+    except KeyboardInterrupt:
+        s.close()
+        ldqp.endSession() 
 
 #==================================================
 #==================================================
@@ -98,46 +123,20 @@ parser.add_argument("-o","--optimistic", help="BGP time is the last TP added (Fa
 args = parser.parse_args()
 
 ldqp = LDQP_XML(dt.timedelta(minutes= args.gap))
+
 if args.timeout > 0 : ldqp.setTimeout(dt.timedelta(minutes= args.timeout))
 if args.doOptimistic: ldqp.swapOptimistic()
-parser = etree.XMLParser(recover=True, strip_cdata=True)
 
-resProcess = mp.Process(target=processResults, args=(ldqp,))
-resProcess.start()
+try:
+    resProcess = mp.Process(target=processResults, args=(ldqp,))
+    resProcess.start()
 
-# Socket server in python using select function
- 
-HOST = args.host   # Symbolic name meaning all available interfaces
-PORT = args.port # Arbitrary non-privileged port
- 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-print ('Socket created')
- 
-#Bind socket to local host and port
-try:
-    s.bind((HOST, PORT))
-except socket.error as msg:
-    print ('Bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1])
-    sys.exit()
-     
-print ('Socket bind complete')
- 
-#Start listening on socket
-s.listen(10)
-print ('Socket now listening')
- 
-ldqp.startSession()
-#now keep talking with the client
-try:
+    inProcess = mp.Process(target=processIn, args=(ldqp,args.host,args.port) )
+    inProcess.start()
     while 1:
-        #wait to accept a connection - blocking call
-        conn, addr = s.accept()
-        # print ('Connected with ' + addr[0] + ':' + str(addr[1]))
-        t = Thread(target=clientthread ,args=(conn,ldqp))
-        t.start()
+        time.sleep(60)
 except KeyboardInterrupt:    
-    ldqp.endSession() 
-    s.close()
     ldqp.stop()
     resProcess.join()
+    inProcess.join()
 print('Fin')

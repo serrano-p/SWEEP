@@ -10,7 +10,7 @@ Application ...
 #    GPL v 2.0 license.
 
 # import sys
-import socket
+from tools.Socket import *
 from threading import *
 
 # import multiprocessing as mp
@@ -42,24 +42,29 @@ class Query(object):
 
 #==================================================	
 
-def queryThread(conn,sp, doPR, query,ref):
+def queryThread(sInfo, sp, doPR, query,ref):
 	duration = query.time - ref
-	print(duration.total_seconds())
+	print('Sleep:',duration.total_seconds(),' second(s)')
 	time.sleep(duration.total_seconds())
 	print('Query:',query.q)
-	(ip,port) = conn.getsockname()
+	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	s.connect(sInfo)
+	(ip,port) = s.getsockname()
 	try:
 		if doPR:
-			print("Envoie test:")
 			mess = '<query time="'+date2str(query.time)+'" client="'+str(ip)+'"><![CDATA['+query.q+']]></query>'
-			conn.send(mess.encode('utf8'))
+			print("Send query:",mess)
+			s.send(mess.encode('utf8'))
+			rep = s.recv(2048)
+			print('ok:',rep)
 		print(sp.query(query.q))
 	except Exception as e:
 		print('Exception',e)
 
 #==================================================
 
-def play(file):
+def play(file,sp,doValid, sInfo):
+
     print('Traitement de %s' % file)
     parser = etree.XMLParser(recover=True, strip_cdata=True)
     tree = etree.parse(file, parser)
@@ -69,6 +74,7 @@ def play(file):
         file, dtd.error_log.filter_from_errors()[0])
     #---
     #print('DTD valide !')
+
     nbe = 0
     date = 'no-date'
     ip = 'ip-'+tree.getroot().get('ip').split('-')[0]
@@ -84,7 +90,7 @@ def play(file):
         if valid is not None :
         	if valid == 'TPF' :
         		query = entry.find('request').text
-        		t = Thread(target=queryThread ,args=(s,sp,args.valid,Query(query,date),date_ref))
+        		t = Thread(target=queryThread ,args=(sInfo,sp,doValid,Query(query,date),date_ref))
         		t.start()
 
 #==================================================
@@ -106,8 +112,7 @@ args = parser.parse_args()
 
 # http://localhost:5000/lift : serveur TPF LIFT (exemple du papier)
 # http://localhost:5001/dbpedia_3_9 server dppedia si : ssh -L 5001:172.16.9.3:5001 desmontils@172.16.9.15
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect((args.host, args.port))
+
 sp = TPFEP(service = args.tpfServer ) #'http://localhost:5000/lift') 
 sp.setEngine(args.tpfClient) #'/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client')
 
@@ -115,7 +120,10 @@ if args.now =='':
 	now = now()
 else: now = dt.datetime(args.now)
 
+# s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# s.connect((args.host,args.port))
+
 file_set = args.files
 for file in file_set:
     if existFile(file):
-    	play(file)
+    	play(file,sp,args.valid, (args.host,args.port)  )
