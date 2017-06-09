@@ -365,6 +365,8 @@ def processValidation(in_queue, ctx):
                 ctx.stat['sumRecall'] += recall
                 ctx.stat['sumPrecision'] += precision
                 ctx.stat['sumQuality'] += (recall+precision)/2
+                if bgp is not None: ctx.stat['sumSelectedBGP'] += 1
+
                 #---
                 assert ip == bgp.client, 'Client Query différent de client BGP'
                 #---
@@ -441,8 +443,11 @@ def processStat(ctx, duration) :
                 avgRecall = ctx.stat['sumRecall']/ctx.stat['nbQueries']
                 avgQual = ctx.stat['sumQuality']/ctx.stat['nbQueries']
                 print('Avg Recall:%.3f ; Avg Precision:%.3f ; Avg Quality:%.3f' % (avgRecall, avgPrecision,avgQual))
-            print('Nb queries:',ctx.stat['nbQueries'])
-            print('Nb unused BGP:',max(0,ctx.stat['nbBGP'] - ctx.stat['nbQueries']))
+            if ctx.stat['nbBGP']>0 :                
+                Acuteness = ctx.stat['sumSelectedBGP'] / ctx.stat['nbBGP']
+            else:
+                Acuteness = 0
+            print('Nb queries:%d ; Nb unused BGP:%d ; Acuteness:%2.3f' % (ctx.stat['nbQueries'], max(0,ctx.stat['nbBGP'] - ctx.stat['nbQueries']),Acuteness  ))
     except KeyboardInterrupt:
         pass
 
@@ -458,7 +463,7 @@ class LDQP:
 
         manager = mp.Manager()
         self.memory = manager.list()
-        self.stat = manager.dict({'sumRecall':0, 'sumPrecision':0, 'sumQuality':0, 'nbQueries':0, 'nbBGP':0})
+        self.stat = manager.dict({'sumRecall':0, 'sumPrecision':0, 'sumQuality':0, 'nbQueries':0, 'nbBGP':0, 'sumSelectedBGP':0})
 
         self.dataQueue = mp.Queue()
         self.entryQueue = mp.Queue()

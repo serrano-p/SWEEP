@@ -109,34 +109,33 @@ def processIn(ldqp, host,port):
 #==================================================
 #==================================================
 #==================================================
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Linked Data Query Profiler (for a modified TPF server)')
+    # parser.add_argument('files', metavar='file', nargs='+',help='files to analyse')
+    parser.add_argument("-g", "--gap", type=float, default=60, dest="gap", help="Gap in minutes (60 by default)")
+    parser.add_argument("--port", type=int, default=5002, dest="port", help="Port (5002 by default)")
+    parser.add_argument("--host", default='127.0.0.1', dest="host", help="Host ('127.0.0.1' by default)")
+    parser.add_argument("-to", "--timeout", type=float, default=0, dest="timeout",
+                        help="TPF server Time Out in minutes (%d by default). If '-to 0', the timeout is the gap." % 0)
+    parser.add_argument("-o","--optimistic", help="BGP time is the last TP added (False by default)",
+                    action="store_true",dest="doOptimistic")
 
-parser = argparse.ArgumentParser(description='Linked Data Query Profiler (for a modified TPF server)')
-# parser.add_argument('files', metavar='file', nargs='+',help='files to analyse')
-parser.add_argument("-g", "--gap", type=float, default=60, dest="gap", help="Gap in minutes (60 by default)")
-parser.add_argument("--port", type=int, default=5002, dest="port", help="Port (5002 by default)")
-parser.add_argument("--host", default='127.0.0.1', dest="host", help="Host ('127.0.0.1' by default)")
-parser.add_argument("-to", "--timeout", type=float, default=0, dest="timeout",
-                    help="TPF server Time Out in minutes (%d by default). If '-to 0', the timeout is the gap." % 0)
-parser.add_argument("-o","--optimistic", help="BGP time is the last TP added (False by default)",
-                action="store_true",dest="doOptimistic")
+    args = parser.parse_args()
 
-args = parser.parse_args()
-
-ldqp = LDQP_XML(dt.timedelta(minutes= args.gap))
-
-if args.timeout > 0 : ldqp.setTimeout(dt.timedelta(minutes= args.timeout))
-if args.doOptimistic: ldqp.swapOptimistic()
-
-try:
+    ldqp = LDQP_XML(dt.timedelta(minutes= args.gap))
     resProcess = mp.Process(target=processResults, args=(ldqp,))
-    resProcess.start()
-
     inProcess = mp.Process(target=processIn, args=(ldqp,args.host,args.port) )
-    inProcess.start()
-    while 1:
-        time.sleep(60)
-except KeyboardInterrupt:    
-    ldqp.stop()
-    resProcess.join()
-    inProcess.join()
-print('Fin')
+
+    if args.timeout > 0 : ldqp.setTimeout(dt.timedelta(minutes= args.timeout))
+    if args.doOptimistic: ldqp.swapOptimistic()
+
+    try:
+        inProcess.start()
+        resProcess.start()
+        while 1:
+            time.sleep(60)
+    except KeyboardInterrupt:    
+        ldqp.stop()
+        resProcess.join()
+        inProcess.join()
+    print('Fin')

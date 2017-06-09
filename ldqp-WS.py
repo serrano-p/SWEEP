@@ -9,76 +9,32 @@ Application ...
 #    All rights reserved.
 #    GPL v 2.0 license.
 
-import sys
-from threading import *
-
-import multiprocessing as mp
-
 import datetime as dt
-import iso8601 # https://pypi.python.org/pypi/iso8601/     http://pyiso8601.readthedocs.io/en/latest/
-
-import re
 import argparse
-
-from tools.tools import *
-
-from lxml import etree  # http://lxml.de/index.html#documentation
-from lib.bgp import *
-
-from io import StringIO
-
-from ldqp import *
+from tools.Endpoint import *
+from tools.tools import  *
 
 from flask import Flask, render_template, request, jsonify
 # http://flask.pocoo.org/docs/0.12/
 
-#==================================================
 
-def processResults(ldqp):
-    i = 0
-    try:
-        res = ldqp.get()
-        while res != None:
-            i += 1
-            res.print()
-            res = ldqp.get()
-    except KeyboardInterrupt:
-        pass
+class Context(object):
+    """docstring for Context"""
+    def __init__(self):
+        super(Context, self).__init__()
+        self.host = '127.0.0.1'
+        self.port = 5002
+        self.tpfc = TPFEP(service = 'http://localhost:5000/lift') 
+        self.tpfc.setEngine('/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client')
 
-#==================================================
+    def setLDQPServer(self, host, port):
+        self.host = host
+        self.port = port
 
-#Function for handling connections. This will be used to create threads
-def clientthread(conn, ldqp):
-    #Sending message to connected client
-    #conn.send('Welcome to the server. Type something and hit enter\n') #send only takes string
-     
-    #infinite loop so that function do not terminate and thread do not end.
-    while True:
-         
-        #Receiving from client
-        try:
-            mess = conn.recv(2048)
-            data = mess.decode("utf-8")
-            # print('received:',data)
-
-            if not data: 
-                break
-            else:
-                try:
-                    tree = etree.parse(StringIO('<msg>'+data+'</msg>'), parser)
-                    root = tree.getroot()
-                    for x in root: 
-                        # print('xml:',x.tag ) 
-                        ldqp.put(x)               
-                except Exception as e:
-                    print('Exception',e)
-                    print('About:',data)
-            #conn.sendall(reply)
-        except KeyboardInterrupt:
-            break
-    #came out of loop
-    conn.close()
-    # print('end thread')
+    def setTPFClient(self,tpfc):
+        self.tpfc = tpfc
+        
+ctx = Context()
 
 #==================================================
 
@@ -112,7 +68,19 @@ def get_message():
 def add_query():
     param = request.form['query']
     print(param)
-    return jsonify(result='La requête : ' + param)
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect( (ctx.host,ctx.port) )
+    (ip,port) = s.getsockname()
+    try:
+        mess = '<query time="'+date2str(now())+'" client="'+str(ip)+'"><![CDATA['+param+']]></query>'
+        print("Send query:",mess)
+        s.send(mess.encode('utf8'))
+        rep = s.recv(2048)
+        print('ok:',rep)
+        res=ctx.tpfc.query(param)
+    except Exception as e:
+        print('Exception',e)
+    return jsonify(result=res)
 
 #==================================================
 #==================================================
@@ -124,25 +92,22 @@ def add_query():
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Linked Data Query Profiler (for a modified TPF server)')
     # parser.add_argument('files', metavar='file', nargs='+',help='files to analyse')
-    parser.add_argument("-g", "--gap", type=float, default=60, dest="gap", help="Gap in minutes (60 by default)")
+
     parser.add_argument("--port", type=int, default=5002, dest="port", help="Port (5002 by default)")
     parser.add_argument("--host", default='127.0.0.1', dest="host", help="Host ('127.0.0.1' by default)")
-    parser.add_argument("-to", "--timeout", type=float, default=0, dest="timeout",
-                        help="TPF server Time Out in minutes (%d by default). If '-to 0', the timeout is the gap." % 0)
-    parser.add_argument("-o","--optimistic", help="BGP time is the last TP added (False by default)",
-                    action="store_true",dest="doOptimistic")
+    parser.add_argument("-s","--server", default='http://localhost:5000/lift', dest="tpfServer", help="TPF Server ('http://localhost:5000/lift' by default)")
+    parser.add_argument("-c", "--client", default='/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client', dest="tpfClient", help="TPF Client ('...' by default)")
+    parser.add_argument("-t", "--time", default='', dest="now", help="Time reference (now by default)")
+    parser.add_argument("-v", "--valid", default='', dest="valid", action="store_true", help="Do precision/recall")
 
     args = parser.parse_args()
-
-    ldqp = LDQP_XML(dt.timedelta(minutes= args.gap))
-    if args.timeout > 0 : ldqp.setTimeout(dt.timedelta(minutes= args.timeout))
-    if args.doOptimistic: ldqp.swapOptimistic()
-    parser = etree.XMLParser(recover=True, strip_cdata=True)
-
-    resProcess = mp.Process(target=processResults, args=(ldqp,))
-    resProcess.start() 
-
-    ldqp.startSession()
+    ctx.setLDQPServer(args.host,args.port)
+    # http://localhost:5000/lift : serveur TPF LIFT (exemple du papier)
+    # http://localhost:5001/dbpedia_3_9 server dppedia si : ssh -L 5001:172.16.9.3:5001 desmontils@172.16.9.15
+    
+    sp = TPFEP(service = args.tpfServer ) #'http://localhost:5000/lift') 
+    sp.setEngine(args.tpfClient) #'/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client')
+    ctx.setTPFClient(sp)
 
     try:
         app.run(
@@ -153,8 +118,6 @@ if __name__ == '__main__':
     except KeyboardInterrupt: 
         pass
     finally:   
-        ldqp.endSession() 
-        ldqp.stop()
-        resProcess.join()
+        pass # sp.close()
     print('Fin')
 
