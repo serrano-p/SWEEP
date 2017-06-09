@@ -57,16 +57,9 @@ def add_numbers():
     b = request.args.get('b', 0, type=int)
     return jsonify(result=a + b)
  
-# sur requete AJAX _get_message on renvoie le texte   
-# je suis la réponse ajax du serveur à + le paramètre transmis  
-@app.route('/_get_message')
-def get_message():
-    param = request.args.get('param', 'pas de param', type=str)
-    return jsonify(result='je suis la réponse ajax du serveur à ' + param)
-
-@app.route('/_add_query', methods=['post'])
+@app.route('/_add_query', methods=['get','post'])
 def add_query():
-    param = request.form['query']
+    param = request.args.get('query', '', type=str) # request.form['query'] # pour POST
     print(param)
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect( (ctx.host,ctx.port) )
@@ -80,7 +73,9 @@ def add_query():
         res=ctx.tpfc.query(param)
     except Exception as e:
         print('Exception',e)
-    return jsonify(result=res)
+        res='Error'
+    finally:
+        return jsonify(result=res)
 
 #==================================================
 #==================================================

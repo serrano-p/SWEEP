@@ -1,2 +1,13 @@
 id	time	ip	query	bgp	precision	recall
-1	2017-06-09 17:26:46.601936	127.0.0.1	"prefix : <http://www.example.org/lift2#> select ?s where { ?s :p2 ""tutu"" }"	"?se21105_603 <http://www.example.org/lift2#p2> ""tutu"""	1.0	1.0
+1	2017-06-09 18:45:37.911779	127.0.0.1	"prefix : <http://www.example.org/lift2#> 
+select ?s 
+where { ?s :p2 ""toto"" }"	"?se21105_611 <http://www.example.org/lift2#p2> ""toto"""	1.0	1.0
+2	2017-06-09 18:46:24.393648	127.0.0.1	"prefix : <http://www.example.org/lift2#> 
+select ?s 
+where { ?s :p2 ""toto"" }"	"?se23291_419 <http://www.example.org/lift2#p2> ""toto"""	1.0	1.0
+3	2017-06-09 18:48:18.552104	127.0.0.1	"prefix : <http://www.example.org/lift2#> 
+select ?s 
+where { ?s :p2 ""toto"" }"	"?se21106_610 <http://www.example.org/lift2#p2> ""toto"""	1.0	1.0
+4	2017-06-09 18:49:21.700287	127.0.0.1	"prefix : <http://www.example.org/lift2#> 
+select ?s 
+where { ?s :p2 ""toto"" }"	"?se23292_420 <http://www.example.org/lift2#p2> ""toto"""	1.0	1.0
