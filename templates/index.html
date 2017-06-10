@@ -8,10 +8,14 @@
         $(function() {
           $("#UID_boutonTest").click(function()
           {
-           $.getJSON('/_add_query', {
+           $.getJSON('/_get_query', {
            query: $("#UID_query").val()
         }, function(data) {
-          $("#UID_afficheTest").text(data.result);
+          s = '';
+          for(var i = 0; i < data.result.length;i++) {
+            s = s+ data.result[i]+'<br/>';
+          }
+          $("#UID_afficheTest").html(s);
         });
         return false;
           });

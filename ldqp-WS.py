@@ -56,26 +56,35 @@ def add_numbers():
     a = request.args.get('a', 0, type=int)
     b = request.args.get('b', 0, type=int)
     return jsonify(result=a + b)
- 
-@app.route('/_add_query', methods=['get','post'])
-def add_query():
-    param = request.args.get('query', '', type=str) # request.form['query'] # pour POST
+
+@app.route('/_post_query', methods=['post'])
+def post_query():
+    param = request.form['query'] # pour POST
     print(param)
+    return jsonify(result=treat(param))
+
+@app.route('/_get_query', methods=['get'])
+def get_query():
+    param = request.args.get('query', '', type=str)
+    print(param)
+    return jsonify(result=treat(param))
+
+def treat(query):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect( (ctx.host,ctx.port) )
     (ip,port) = s.getsockname()
     try:
-        mess = '<query time="'+date2str(now())+'" client="'+str(ip)+'"><![CDATA['+param+']]></query>'
+        mess = '<query time="'+date2str(now())+'" client="'+str(ip)+'"><![CDATA['+query+']]></query>'
         print("Send query:",mess)
         s.send(mess.encode('utf8'))
         rep = s.recv(2048)
         print('ok:',rep)
-        res=ctx.tpfc.query(param)
+        res=ctx.tpfc.query(query)
     except Exception as e:
         print('Exception',e)
         res='Error'
     finally:
-        return jsonify(result=res)
+        return res
 
 #==================================================
 #==================================================
