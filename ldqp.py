@@ -41,6 +41,9 @@ class BGP:
     def age(self):
         return now() - self.time
 
+    def toString(self):
+        pass
+
     def print(self):
         #print(serializeBGP2str([ x for (x,sm,pm,om,h) in self.tp_set]))
         print('From:',self.client,' at ',self.time)
