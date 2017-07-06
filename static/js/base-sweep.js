@@ -42,7 +42,7 @@ function end() {
 }
 
 function news() {
-    new Ajax.PeriodicalUpdater('posts','/lift', {
+    new Ajax.PeriodicalUpdater('posts','/sweep', {
       method: 'get',
       frequency: 4,
       decay: 1

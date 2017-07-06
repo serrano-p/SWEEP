@@ -326,6 +326,7 @@ def testPrecisionRecallBGP(queryList, bgp):
         # essayer de replacer le vieux...
         if old_bgp is not None: 
             return testPrecisionRecallBGP(queryList,old_bgp)
+        else: return None
     else:
         return bgp
 
@@ -351,7 +352,9 @@ def processValidation(in_queue, ctx):
                 ctx.stat['nbBGP'] +=1
                 bgp = val
                 currentTime = bgp.birthTime # or bgp.time ?
-                testPrecisionRecallBGP(queryList,bgp)
+                bgp = testPrecisionRecallBGP(queryList,bgp)
+                if bgp is not None:
+                    ctx.memory.append( (0, bgp.birthTime, bgp.client, None, bgp, 0, 0) )
             else:
                 pass
 

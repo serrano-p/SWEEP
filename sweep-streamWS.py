@@ -58,14 +58,19 @@ app.secret_key = '\x0ctD\xe3g\xe1XNJ\x86\x02\x03`O\x98\x84\xfd,e/5\x8b\xd1\x11'
 def index():
     return render_template('index-sweep.html',nom_appli="SWEEP Monitor", version="0.1")
 
-@app.route('/lift')
-def lift():
+@app.route('/sweep')
+def sweep():
     ctx.cpt += 1
     rep = ''
     rep += '<table border="1"><thead><td>Precision</td><td>Recall</td><td>Quality</td><td>Acureness</td></thead><tr><td>%2.3f</td><td>%2.3f</td><td>%2.3f</td><td>%2.3f</td></tr></table>\n'%(ctx.ldqp.avgPrecision.value,ctx.ldqp.avgRecall.value,ctx.ldqp.avgQual.value,ctx.ldqp.Acuteness.value)
     rep += '<table cellspacing="5" border="1" cellpadding="2">\n'
     rep += '<thead><td>ip</td><td>time</td><td>bgp</td></thead>\n'
-    for bgp in ctx.list:
+    # for bgp in ctx.list:
+    #     rep +='<tr><td>'+bgp.client+'</td><td>'+str(bgp.time)+'</td><td>'
+    #     for ((s,p,o),sm,pm,om) in bgp.tp_set:
+    #         rep += html.escape(toStr(s,p,o))+'<br/>'
+    #     rep += '</td></tr>'
+    for (i,t,ip,query,bgp,precision,recall) in ctx.ldqp.memory:
         rep +='<tr><td>'+bgp.client+'</td><td>'+str(bgp.time)+'</td><td>'
         for ((s,p,o),sm,pm,om) in bgp.tp_set:
             rep += html.escape(toStr(s,p,o))+'<br/>'
