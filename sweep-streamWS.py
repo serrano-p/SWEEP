@@ -30,7 +30,7 @@ from lib.bgp import *
 
 from io import StringIO
 
-from ldqp import *
+from sweep import *
 
 from flask import Flask, render_template, request, jsonify, session,url_for
 # http://flask.pocoo.org/docs/0.12/
@@ -56,12 +56,14 @@ app.secret_key = '\x0ctD\xe3g\xe1XNJ\x86\x02\x03`O\x98\x84\xfd,e/5\x8b\xd1\x11'
 @app.route('/')
 # @login_required
 def index():
-    return render_template('index-ldqp.html',nom_appli="LDQP Monitor", version="0.1")
+    return render_template('index-sweep.html',nom_appli="SWEEP Monitor", version="0.1")
 
 @app.route('/lift')
 def lift():
     ctx.cpt += 1
-    rep = '<table cellspacing="5" border="1" cellpadding="2">\n'
+    rep = ''
+    rep += '<table border="1"><thead><td>Precision</td><td>Recall</td><td>Quality</td><td>Acureness</td></thead><tr><td>%2.3f</td><td>%2.3f</td><td>%2.3f</td><td>%2.3f</td></tr></table>\n'%(ctx.ldqp.avgPrecision.value,ctx.ldqp.avgRecall.value,ctx.ldqp.avgQual.value,ctx.ldqp.Acuteness.value)
+    rep += '<table cellspacing="5" border="1" cellpadding="2">\n'
     rep += '<thead><td>ip</td><td>time</td><td>bgp</td></thead>\n'
     for bgp in ctx.list:
         rep +='<tr><td>'+bgp.client+'</td><td>'+str(bgp.time)+'</td><td>'
@@ -83,6 +85,10 @@ def processQuery():
             client = query.get('client')
             if client is None:
                 query.set('client',str(ip) )
+            elif client in ["undefined","", "undefine"]:
+                query.set('client',str(ip) )
+            elif "::ffff:" in client:
+                query.set('client', client[7:])
             ctx.ldqp.put(query)   
             return jsonify(result=True)            
         except Exception as e:
@@ -165,7 +171,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    ctx.ldqp = LDQP_XML(dt.timedelta(minutes= args.gap))
+    ctx.ldqp = SWEEP_XML(dt.timedelta(minutes= args.gap))
     resProcess = mp.Process(target=processResults, args=(ctx.ldqp,ctx.list))
 
     if args.timeout > 0 : ctx.ldqp.setTimeout(dt.timedelta(minutes= args.timeout))

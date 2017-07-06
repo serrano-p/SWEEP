@@ -136,8 +136,8 @@ def help():
 def envoyer():
     query = request.form['requete']
     datasource = request.form['base']
-    print(query)
-    print(datasource)
+    # print(query)
+    # print(datasource)
     ip = request.remote_addr
     s=treat(query,ip,datasource)
     tab = doTab(s)
@@ -147,7 +147,7 @@ def envoyer():
 @app.route('/liste/bd/<datasource>')
 def liste(datasource):
     ip = request.remote_addr
-    print(datasource, )
+    # print(datasource, )
     s=treat("select * where{?s ?p ?o} limit 100",ip,datasource)
     tab = doTab(s)
     d = dict({'ok':s != 'Error','val':tab})
@@ -175,13 +175,13 @@ def treat(query,ip,datasource):
     try:
         mess = '<query time="'+date2str(now())+'" client="'+str(ip)+'"><![CDATA['+query+']]></query>'
         url = 'http://'+ctx.host+':'+str(ctx.port)+'/query'
-        print('Send to ',url)
-        print('query',mess)
+        # print('Send to ',url)
+        # print('query',mess)
         s = http.post(url,data={'data':mess})
-        print('res:',s.text)
+        # print('res:',s.text)
         res=  ctx.listeSP[datasource].query(query) # ctx.tpfc.query(query)
-        pprint(res)
-        print(type(res))
+        # pprint(res)
+        # print(type(res))
     except Exception as e:
         print('Exception',e)
         res='Error'

@@ -11,6 +11,7 @@ Application ...
 
 from queue import Empty
 import multiprocessing as mp
+from ctypes import c_double
 
 import iso8601 # https://pypi.python.org/pypi/iso8601/     http://pyiso8601.readthedocs.io/en/latest/
 import datetime as dt
@@ -323,7 +324,10 @@ def testPrecisionRecallBGP(queryList, bgp):
         ( (time,ip,query,qbgp),old_bgp,precision,recall) = queryList[best]
         queryList[best] = ( (time,ip,query,qbgp),bgp,best_precision,best_recall)
         # essayer de replacer le vieux...
-        if old_bgp is not None: testPrecisionRecallBGP(queryList,old_bgp)
+        if old_bgp is not None: 
+            return testPrecisionRecallBGP(queryList,old_bgp)
+    else:
+        return bgp
 
 def processValidation(in_queue, ctx):
     timeout = ctx.timeout
@@ -442,20 +446,20 @@ def processStat(ctx, duration) :
             print('Saving memory')
             ctx.saveMemory()
             if ctx.stat['nbQueries']>0:
-                avgPrecision = ctx.stat['sumPrecision']/ctx.stat['nbQueries']
-                avgRecall = ctx.stat['sumRecall']/ctx.stat['nbQueries']
-                avgQual = ctx.stat['sumQuality']/ctx.stat['nbQueries']
-                print('Avg Recall:%.3f ; Avg Precision:%.3f ; Avg Quality:%.3f' % (avgRecall, avgPrecision,avgQual))
+                ctx.avgPrecision.value = ctx.stat['sumPrecision']/ctx.stat['nbQueries']
+                ctx.avgRecall.value = ctx.stat['sumRecall']/ctx.stat['nbQueries']
+                ctx.avgQual.value = ctx.stat['sumQuality']/ctx.stat['nbQueries']
+                print('Avg Recall:%.3f ; Avg Precision:%.3f ; Avg Quality:%.3f' % (ctx.avgRecall.value, ctx.avgPrecision.value,ctx.avgQual.value))
             if ctx.stat['nbBGP']>0 :                
-                Acuteness = ctx.stat['sumSelectedBGP'] / ctx.stat['nbBGP']
+                ctx.Acuteness.value = ctx.stat['sumSelectedBGP'] / ctx.stat['nbBGP']
             else:
-                Acuteness = 0
-            print('Nb queries:%d ; Nb unused BGP:%d ; Acuteness:%2.3f' % (ctx.stat['nbQueries'], max(0,ctx.stat['nbBGP'] - ctx.stat['nbQueries']),Acuteness  ))
+                ctx.Acuteness.value = 0
+            print('Nb queries:%d ; Nb unused BGP:%d ; Acuteness:%2.3f' % (ctx.stat['nbQueries'], max(0,ctx.stat['nbBGP'] - ctx.stat['nbQueries']),ctx.Acuteness.value  ))
     except KeyboardInterrupt:
         pass
 
 #==================================================
-class LDQP:
+class SWEEP:
     def __init__(self,gap):
         #---
         assert isinstance(gap,dt.timedelta)
@@ -466,6 +470,10 @@ class LDQP:
 
         manager = mp.Manager()
         self.memory = manager.list()
+        self.avgPrecision = manager.Value('f',0.0)
+        self.avgRecall = manager.Value('f',0.0)
+        self.avgQual = manager.Value('f',0.0)
+        self.Acuteness = manager.Value('f',0.0)
         self.stat = manager.dict({'sumRecall':0, 'sumPrecision':0, 'sumQuality':0, 'nbQueries':0, 'nbBGP':0, 'sumSelectedBGP':0})
 
         self.dataQueue = mp.Queue()
@@ -518,7 +526,7 @@ class LDQP:
         # self.saveMemory()
 
     def saveMemory(self):
-        file = 'ldqp.csv' # (id, time, ip, query, bgp, precision, recall) 
+        file = 'sweep.csv' # (id, time, ip, query, bgp, precision, recall) 
         sep='\t'
         with open(file,"w", encoding='utf-8') as f:
             fn=['id','time', 'ip', 'query', 'bgp', 'precision', 'recall']
@@ -529,10 +537,10 @@ class LDQP:
                 s = { 'id':id, 'time':time, 'ip':ip, 'query':query, 'bgp':bgp_txt, 'precision':precision, 'recall':recall }
                 writer.writerow(s)
 
-class LDQP_XML(LDQP):
-    """docstring for LDQP_XML"""
+class SWEEP_XML(SWEEP):
+    """docstring for SWEEP_XML"""
     def __init__(self, gap):
-        super(LDQP_XML, self).__init__(gap)
+        super(SWEEP_XML, self).__init__(gap)
         self.qm = QueryManager(modeStat = False)
         self.qId = 0
 
@@ -579,6 +587,6 @@ class LDQP_XML(LDQP):
 #==================================================
 #==================================================
 if __name__ == "__main__":
-    print("main ldqp")
+    print("main sweep")
 
 

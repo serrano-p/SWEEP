@@ -1,0 +1,7 @@
+id	time	ip	query	bgp	precision	recall
+1	2017-07-06 10:00:47.407005	127.0.0.1	"prefix : <http://www.example.org/lift2#> 
+
+#Q2
+select ?s ?o where {?s :p2 ""toto"" . ?s :p1 ?o}
+"	"?se961_6 <http://www.example.org/lift2#p2> ""toto"".
+?se961_6 <http://www.example.org/lift2#p1> ?oe961_7"	1.0	1.0
