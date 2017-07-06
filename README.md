@@ -1,1 +1,1 @@
-# Linked-Data-Query-Profiler
+# Semantic WEb QuEry Profiler (SWEEP) Project
