@@ -62,19 +62,39 @@ def index():
 def sweep():
     ctx.cpt += 1
     rep = ''
-    rep += '<table border="1"><thead><td>Precision</td><td>Recall</td><td>Quality</td><td>Acureness</td></thead><tr><td>%2.3f</td><td>%2.3f</td><td>%2.3f</td><td>%2.3f</td></tr></table>\n'%(ctx.ldqp.avgPrecision.value,ctx.ldqp.avgRecall.value,ctx.ldqp.avgQual.value,ctx.ldqp.Acuteness.value)
+    nb = ctx.ldqp.stat['nbQueries']
+    nbbgp = ctx.ldqp.stat['nbBGP']
+    if nb>0:
+        avgPrecision = ctx.ldqp.stat['sumPrecision']/nb
+        avgRecall = ctx.ldqp.stat['sumRecall']/nb
+        avgQual = ctx.ldqp.stat['sumQuality']/nb
+    else:
+        avgPrecision = 0
+        avgRecall = 0
+        avgQual = 0
+    if nbbgp>0 :                
+        Acuteness = ctx.ldqp.stat['sumSelectedBGP'] / nbbgp
+    else:
+        Acuteness = 0
+    rep += '<table border="1"><thead><td>Nb Queries</td><td>Nb BGP</td><td>Avg Precision</td><td>Avg Recall</td><td>Avg Quality</td><td>Acureness</td></thead><tr><td>%d</td><td>%d</td><td>%2.3f</td><td>%2.3f</td><td>%2.3f</td><td>%2.3f</td></tr></table>\n'%(nb,nbbgp,avgPrecision,avgRecall,avgQual,Acuteness)
     rep += '<table cellspacing="5" border="1" cellpadding="2">\n'
-    rep += '<thead><td>ip</td><td>time</td><td>bgp</td></thead>\n'
+    rep += '<thead><td>ip</td><td>time</td><td>bgp</td><td>Original query</td><td>Precision</td><td>Recall</td><td>Quality</td></thead>\n'
     # for bgp in ctx.list:
     #     rep +='<tr><td>'+bgp.client+'</td><td>'+str(bgp.time)+'</td><td>'
     #     for ((s,p,o),sm,pm,om) in bgp.tp_set:
     #         rep += html.escape(toStr(s,p,o))+'<br/>'
     #     rep += '</td></tr>'
     for (i,t,ip,query,bgp,precision,recall) in ctx.ldqp.memory:
-        rep +='<tr><td>'+bgp.client+'</td><td>'+str(bgp.time)+'</td><td>'
-        for ((s,p,o),sm,pm,om) in bgp.tp_set:
-            rep += html.escape(toStr(s,p,o))+'<br/>'
-        rep += '</td></tr>'
+        if i==0:
+            rep +='<tr><td>'+bgp.client+'</td><td>'+str(bgp.time)+'</td><td>'
+            for ((s,p,o),sm,pm,om) in bgp.tp_set:
+                rep += html.escape(".\n".join([toStr(s,p,o)]))+'<br/>'
+            rep += '</td><td></td><td></td><td></td><td></td></tr>'
+        else:
+            rep +='<tr><td>'+ip+'</td><td>'+str(t)+'</td><td>'
+            for ((s,p,o),sm,pm,om) in bgp.tp_set:
+                rep += html.escape(toStr(s,p,o))+'<br/>'
+            rep += '</td><td>'+html.escape(query)+'</td><td>%2.3f</td><td>%2.3f</td><td>%2.3f</td></tr>'%(precision,recall,(precision+recall)/2)
     rep += '</table>'
     return rep
 

@@ -58,16 +58,16 @@ def toStr(s,p,o):
 
 #==================================================
 
-LIFT2_IN_ENTRY = 1
-LIFT2_IN_DATA = 2
-LIFT2_IN_END = 3
-LIFT2_IN_QUERY = 4
+SWEEP_IN_ENTRY = 1
+SWEEP_IN_DATA = 2
+SWEEP_IN_END = 3
+SWEEP_IN_QUERY = 4
 
-LIFT2_START_SESSION = -1
-LIFT2_END_SESSION = -2
-LIFT2_PURGE = -3
+SWEEP_START_SESSION = -1
+SWEEP_END_SESSION = -2
+SWEEP_PURGE = -3
 
-LIFT2_WAIT = 2 # in seconds
+SWEEP_WAIT = 2 # in seconds
 
 #==================================================
 
@@ -81,13 +81,13 @@ def processAgregator(in_queue,out_queue, val_queue, ctx):
         inq = in_queue.get()
         while inq is not None:
             (id, x, val) = inq
-            if x == LIFT2_IN_ENTRY:
+            if x == SWEEP_IN_ENTRY:
                 (s,p,o,t,cl) = val
                 # time = fromISO(t) # prend pas en compte le 't' de l'entrée pour pouvoir gérer les serveurs TPF concurrents
                 time = now()
                 currentTime = time #max(currentTime,time)
                 elist[id] = (s,p,o,time,cl,set(),set(),set())
-            elif x == LIFT2_IN_DATA :
+            elif x == SWEEP_IN_DATA :
                 if id in elist: # peut être absent car purgé
                     (s,p,o,t,c,sm,pm,om) = elist[id]
                     (xs,xp,xo) = val
@@ -95,20 +95,20 @@ def processAgregator(in_queue,out_queue, val_queue, ctx):
                     if isinstance(s,Variable): sm.add(xs)
                     if isinstance(p,Variable): pm.add(xp)
                     if isinstance(o,Variable): om.add(xo)
-            elif x == LIFT2_IN_END :
+            elif x == SWEEP_IN_END :
                 mss = elist.pop(id,None)
                 if mss is not None: # peut être absent car purgé
                     out_queue.put( (id, mss) )
-            elif x == LIFT2_START_SESSION :
+            elif x == SWEEP_START_SESSION :
                 # print('Agregator - Start Session')
                 elist.clear()
-                out_queue.put( (id, LIFT2_START_SESSION) )
-            elif x == LIFT2_END_SESSION :
+                out_queue.put( (id, SWEEP_START_SESSION) )
+            elif x == SWEEP_END_SESSION :
                 # print('Agregator - End Session')
                 for v in elist:
                     out_queue.put( (v, elist.pop(v)) )
-                out_queue.put( (id, LIFT2_END_SESSION) )
-            elif x == LIFT2_IN_QUERY :
+                out_queue.put( (id, SWEEP_END_SESSION) )
+            elif x == SWEEP_IN_QUERY :
                 val_queue.put( (id,val) )
             else: # Impossible...
                 pass
@@ -176,19 +176,19 @@ def processBGPDiscover(in_queue, out_queue, val_queue, ctx):
         entry = in_queue.get()
         while entry != None:
             (id, val) = entry
-            if val==LIFT2_PURGE:
+            if val==SWEEP_PURGE:
                 pass
-            elif val == LIFT2_START_SESSION:
+            elif val == SWEEP_START_SESSION:
                 # print('BGPDiscover - Start Session')
                 BGP_list.clear()
-                out_queue.put(LIFT2_START_SESSION)
-            elif val == LIFT2_END_SESSION:
+                out_queue.put(SWEEP_START_SESSION)
+            elif val == SWEEP_END_SESSION:
                 # print('BGPDiscover - End Session')
                 for bgp in BGP_list:
                     out_queue.put(bgp)
                     val_queue.put((0,bgp))
                 BGP_list.clear()
-                out_queue.put(LIFT2_END_SESSION)
+                out_queue.put(SWEEP_END_SESSION)
             else :
                 (s,p,o,time,client,sm,pm,om) = val
                 currentTime = time
@@ -295,11 +295,11 @@ def processBGPDiscover(in_queue, out_queue, val_queue, ctx):
             BGP_list = recent
 
             try:
-                entry = in_queue.get(timeout=LIFT2_WAIT)
+                entry = in_queue.get(timeout=SWEEP_WAIT)
             except Empty as e:
                 # print('purge')
-                currentTime = currentTime + dt.timedelta(seconds=LIFT2_WAIT)
-                entry = (0,LIFT2_PURGE)
+                currentTime = currentTime + dt.timedelta(seconds=SWEEP_WAIT)
+                entry = (0,SWEEP_PURGE)
     except KeyboardInterrupt:
         # penser à purger les derniers BGP ou uniquement autoutr du get pour gérer fin de session
         pass
@@ -367,10 +367,10 @@ def processValidation(in_queue, ctx):
                     old.append(id)
             for id in old:
                 ( (time,ip,query,qbgp),bgp,precision,recall) = queryList.pop(id)
-                print('---',precision,'/',recall,'---')
-                print(query)
-                print('---')
-                print(".\n".join([ toStr(s,p,o) for ((s,p,o), sm,pm,om ) in bgp.tp_set ]))
+                # print('---',precision,'/',recall,'---')
+                # print(query)
+                # print('---')
+                # print(".\n".join([ toStr(s,p,o) for ((s,p,o), sm,pm,om ) in bgp.tp_set ]))
                 ctx.memory.append( (id, time, ip, query, bgp, precision, recall) )
                 ctx.stat['sumRecall'] += recall
                 ctx.stat['sumPrecision'] += precision
@@ -380,14 +380,14 @@ def processValidation(in_queue, ctx):
                 #---
                 assert ip == bgp.client, 'Client Query différent de client BGP'
                 #---
-                print('--- @'+ip+' ---')
+                # print('--- @'+ip+' ---')
 
             try:
-                inq = in_queue.get(timeout=LIFT2_WAIT)
+                inq = in_queue.get(timeout=SWEEP_WAIT)
             except Empty as e:
                 # print('purge')
                 inq = (-1, None)
-                currentTime = currentTime + dt.timedelta(seconds=LIFT2_WAIT)
+                currentTime = currentTime + dt.timedelta(seconds=SWEEP_WAIT)
     except KeyboardInterrupt:
         # penser à afficher les dernières queries ou uniquement autour du get pour fin de session
         pass
@@ -446,18 +446,16 @@ def processStat(ctx, duration) :
     try:
         while True:
             time.sleep(duration)
-            print('Saving memory')
+            # print('Saving memory')
             ctx.saveMemory()
             if ctx.stat['nbQueries']>0:
                 ctx.avgPrecision.value = ctx.stat['sumPrecision']/ctx.stat['nbQueries']
                 ctx.avgRecall.value = ctx.stat['sumRecall']/ctx.stat['nbQueries']
                 ctx.avgQual.value = ctx.stat['sumQuality']/ctx.stat['nbQueries']
-                print('Avg Recall:%.3f ; Avg Precision:%.3f ; Avg Quality:%.3f' % (ctx.avgRecall.value, ctx.avgPrecision.value,ctx.avgQual.value))
+                # print('Avg Recall:%.3f ; Avg Precision:%.3f ; Avg Quality:%.3f' % (ctx.avgRecall.value, ctx.avgPrecision.value,ctx.avgQual.value))
             if ctx.stat['nbBGP']>0 :                
                 ctx.Acuteness.value = ctx.stat['sumSelectedBGP'] / ctx.stat['nbBGP']
-            else:
-                ctx.Acuteness.value = 0
-            print('Nb queries:%d ; Nb unused BGP:%d ; Acuteness:%2.3f' % (ctx.stat['nbQueries'], max(0,ctx.stat['nbBGP'] - ctx.stat['nbQueries']),ctx.Acuteness.value  ))
+            # print('Nb queries:%d ; Nb unused BGP:%d ; Acuteness:%2.3f' % (ctx.stat['nbQueries'], max(0,ctx.stat['nbBGP'] - ctx.stat['nbQueries']),ctx.Acuteness.value  ))
     except KeyboardInterrupt:
         pass
 
@@ -468,7 +466,7 @@ class SWEEP:
         assert isinstance(gap,dt.timedelta)
         #---
         self.gap = gap
-        self.timeout = gap + dt.timedelta(seconds=LIFT2_WAIT)
+        self.timeout = gap + dt.timedelta(seconds=SWEEP_WAIT)
         self.optimistic = False # màj de la date du BGP avec le dernier TP reçu ?
 
         manager = mp.Manager()
@@ -487,7 +485,7 @@ class SWEEP:
         self.dataProcess = mp.Process(target=processAgregator, args=(self.dataQueue, self.entryQueue, self.validationQueue,self))
         self.entryProcess = mp.Process(target=processBGPDiscover, args=(self.entryQueue, self.resQueue, self.validationQueue, self))
         self.validationProcess = mp.Process(target=processValidation, args=(self.validationQueue, self))
-        self.statProcess = mp.Process(target=processStat, args=(self, LIFT2_WAIT*3))
+        self.statProcess = mp.Process(target=processStat, args=(self, SWEEP_WAIT*3))
 
         self.dataProcess.start()
         self.entryProcess.start()
@@ -501,10 +499,10 @@ class SWEEP:
         self.optimistic = not(self.optimistic)
 
     def startSession(self):
-        self.dataQueue.put(  (0,LIFT2_START_SESSION,() ) )
+        self.dataQueue.put(  (0,SWEEP_START_SESSION,() ) )
 
     def endSession(self):
-        self.dataQueue.put( (0,LIFT2_END_SESSION,()  ) )
+        self.dataQueue.put( (0,SWEEP_END_SESSION,()  ) )
 
     def put(self,v):
         self.dataQueue.put(v)
@@ -512,9 +510,9 @@ class SWEEP:
     def get(self):
         try:
             r = self.resQueue.get()
-            if r == LIFT2_START_SESSION:
+            if r == SWEEP_START_SESSION:
                 return self.get()
-            if r == LIFT2_END_SESSION :
+            if r == SWEEP_END_SESSION :
                 return None
             else: return r
         except KeyboardInterrupt:
@@ -555,18 +553,18 @@ class SWEEP_XML(SWEEP):
         s = unSerialize(x[0])
         p = unSerialize(x[1])
         o = unSerialize(x[2])
-        return (id, LIFT2_IN_ENTRY, (s,p,o,x.attrib['time'],x.attrib['client']) )
+        return (id, SWEEP_IN_ENTRY, (s,p,o,x.attrib['time'],x.attrib['client']) )
 
     def processXMLEndEntry(self,x):
         id = x.attrib['id']
-        return (id, LIFT2_IN_END, () )
+        return (id, SWEEP_IN_END, () )
 
     def processXMLData(self, x):
         id = x.attrib['id']
         xs = unSerialize(x[0])
         xp = unSerialize(x[1])
         xo = unSerialize(x[2])
-        return (id, LIFT2_IN_DATA, (xs, xp, xo))  
+        return (id, SWEEP_IN_DATA, (xs, xp, xo))  
 
     def processXMLQuery(self,x):
         # print(etree.tostring(x))
@@ -575,7 +573,7 @@ class SWEEP_XML(SWEEP):
         (bgp,nquery) = self.qm.extractBGP(query)
         ip = x.attrib['client']
         self.qId +=1
-        return (self.qId, LIFT2_IN_QUERY, (time,ip,nquery,bgp) )
+        return (self.qId, SWEEP_IN_QUERY, (time,ip,nquery,bgp) )
 
 
     def put(self,x):
