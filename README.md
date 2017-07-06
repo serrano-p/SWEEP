@@ -1,1 +1,1 @@
-# Semantic WEb QuEry Profiler (SWEEP) Project
+# Semantic WEb quEry Profiler (SWEEP) Project
