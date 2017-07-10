@@ -43,7 +43,10 @@ class BGP:
         return now() - self.time
 
     def toString(self):
-        pass
+        rep = ''
+        for ((s,p,o),sm,pm,om) in bgp.tp_set:
+                rep +=".\n".join([toStr(s,p,o)])
+        return rep
 
     def print(self):
         #print(serializeBGP2str([ x for (x,sm,pm,om,h) in self.tp_set]))
@@ -67,7 +70,7 @@ SWEEP_START_SESSION = -1
 SWEEP_END_SESSION = -2
 SWEEP_PURGE = -3
 
-SWEEP_WAIT = 2 # in seconds
+SWEEP_WAIT = 1 # in seconds
 
 #==================================================
 
@@ -295,10 +298,10 @@ def processBGPDiscover(in_queue, out_queue, val_queue, ctx):
             BGP_list = recent
 
             try:
-                entry = in_queue.get(timeout=SWEEP_WAIT)
+                entry = in_queue.get(timeout=gap.total_seconds())#SWEEP_WAIT)
             except Empty as e:
                 # print('purge')
-                currentTime = currentTime + dt.timedelta(seconds=SWEEP_WAIT)
+                currentTime = currentTime + gap #dt.timedelta(seconds= SWEEP_WAIT)
                 entry = (0,SWEEP_PURGE)
     except KeyboardInterrupt:
         # penser à purger les derniers BGP ou uniquement autoutr du get pour gérer fin de session
@@ -330,6 +333,19 @@ def testPrecisionRecallBGP(queryList, bgp):
     else:
         return bgp
 
+def addBGP2Rank(bgp, nquery, line, ranking):
+    ok = False
+    for (i, (d, n, query, ll)) in enumerate(ranking):
+        if bgp == d:
+            ok = True
+            break
+    if ok:
+        ll.add(line)
+        if query == '': query = nquery
+        ranking[i] = (d, n+1, query, ll)
+    else:
+        ranking.append( (bgp, 1 , nquery, {line}) )
+
 def processValidation(in_queue, ctx):
     timeout = ctx.timeout
     gap = ctx.gap
@@ -355,6 +371,7 @@ def processValidation(in_queue, ctx):
                 bgp = testPrecisionRecallBGP(queryList,bgp)
                 if bgp is not None:
                     ctx.memory.append( (0, bgp.birthTime, bgp.client, None, bgp, 0, 0) )
+                    addBGP2Rank(canonicalize_sparql_bgp([x for (x,sm,pm,om) in bgp.tp_set]), '', id, ctx.rankingBGPs)
             else:
                 pass
 
@@ -367,27 +384,31 @@ def processValidation(in_queue, ctx):
                     old.append(id)
             for id in old:
                 ( (time,ip,query,qbgp),bgp,precision,recall) = queryList.pop(id)
-                # print('---',precision,'/',recall,'---')
-                # print(query)
-                # print('---')
-                # print(".\n".join([ toStr(s,p,o) for ((s,p,o), sm,pm,om ) in bgp.tp_set ]))
+                print('---',precision,'/',recall,'---')
+                print(query)
+                print('---')
                 ctx.memory.append( (id, time, ip, query, bgp, precision, recall) )
                 ctx.stat['sumRecall'] += recall
                 ctx.stat['sumPrecision'] += precision
                 ctx.stat['sumQuality'] += (recall+precision)/2
-                if bgp is not None: ctx.stat['sumSelectedBGP'] += 1
-
-                #---
-                assert ip == bgp.client, 'Client Query différent de client BGP'
-                #---
-                # print('--- @'+ip+' ---')
+                if bgp is not None: 
+                    print(".\n".join([ toStr(s,p,o) for ((s,p,o), sm,pm,om ) in bgp.tp_set ]))
+                    ctx.stat['sumSelectedBGP'] += 1
+                    #---
+                    assert ip == bgp.client, 'Client Query différent de client BGP'
+                    #---
+                    addBGP2Rank(qbgp, query, id, ctx.rankingQueries)
+                    addBGP2Rank(canonicalize_sparql_bgp([x for (x,sm,pm,om) in bgp.tp_set]), query, id, ctx.rankingBGPs)
+                else:
+                    print('Query not assigned : ', query)
+                print('--- @'+ip+' ---')
 
             try:
-                inq = in_queue.get(timeout=SWEEP_WAIT)
+                inq = in_queue.get(timeout= gap.total_seconds())#SWEEP_WAIT)
             except Empty as e:
                 # print('purge')
                 inq = (-1, None)
-                currentTime = currentTime + dt.timedelta(seconds=SWEEP_WAIT)
+                currentTime = currentTime + gap #dt.timedelta(seconds=SWEEP_WAIT)
     except KeyboardInterrupt:
         # penser à afficher les dernières queries ou uniquement autour du get pour fin de session
         pass
@@ -448,13 +469,13 @@ def processStat(ctx, duration) :
             time.sleep(duration)
             # print('Saving memory')
             ctx.saveMemory()
-            if ctx.stat['nbQueries']>0:
-                ctx.avgPrecision.value = ctx.stat['sumPrecision']/ctx.stat['nbQueries']
-                ctx.avgRecall.value = ctx.stat['sumRecall']/ctx.stat['nbQueries']
-                ctx.avgQual.value = ctx.stat['sumQuality']/ctx.stat['nbQueries']
-                # print('Avg Recall:%.3f ; Avg Precision:%.3f ; Avg Quality:%.3f' % (ctx.avgRecall.value, ctx.avgPrecision.value,ctx.avgQual.value))
-            if ctx.stat['nbBGP']>0 :                
-                ctx.Acuteness.value = ctx.stat['sumSelectedBGP'] / ctx.stat['nbBGP']
+            # if ctx.stat['nbQueries']>0:
+            #     ctx.avgPrecision.value = ctx.stat['sumPrecision']/ctx.stat['nbQueries']
+            #     ctx.avgRecall.value = ctx.stat['sumRecall']/ctx.stat['nbQueries']
+            #     ctx.avgQual.value = ctx.stat['sumQuality']/ctx.stat['nbQueries']
+            #     # print('Avg Recall:%.3f ; Avg Precision:%.3f ; Avg Quality:%.3f' % (ctx.avgRecall.value, ctx.avgPrecision.value,ctx.avgQual.value))
+            # if ctx.stat['nbBGP']>0 :                
+            #     ctx.Acuteness.value = ctx.stat['sumSelectedBGP'] / ctx.stat['nbBGP']
             # print('Nb queries:%d ; Nb unused BGP:%d ; Acuteness:%2.3f' % (ctx.stat['nbQueries'], max(0,ctx.stat['nbBGP'] - ctx.stat['nbQueries']),ctx.Acuteness.value  ))
     except KeyboardInterrupt:
         pass
@@ -466,11 +487,13 @@ class SWEEP:
         assert isinstance(gap,dt.timedelta)
         #---
         self.gap = gap
-        self.timeout = gap + dt.timedelta(seconds=SWEEP_WAIT)
+        self.timeout = gap # + dt.timedelta(seconds=SWEEP_WAIT)
         self.optimistic = False # màj de la date du BGP avec le dernier TP reçu ?
 
         manager = mp.Manager()
         self.memory = manager.list()
+        self.rankingBGPs = manager.list()
+        self.rankingQueries = manager.list()
         self.avgPrecision = manager.Value('f',0.0)
         self.avgRecall = manager.Value('f',0.0)
         self.avgQual = manager.Value('f',0.0)
@@ -534,7 +557,10 @@ class SWEEP:
             writer = csv.DictWriter(f,fieldnames=fn,delimiter=sep)
             writer.writeheader()
             for (id, time, ip, query, bgp, precision, recall) in self.memory:
-                bgp_txt = ".\n".join([ toStr(s,p,o) for ((s,p,o), sm,pm,om ) in bgp.tp_set ])
+                if bgp is not None :
+                    bgp_txt = ".\n".join([ toStr(s,p,o) for ((s,p,o), sm,pm,om ) in bgp.tp_set ])
+                else:
+                    bgp_txt = "..."
                 s = { 'id':id, 'time':time, 'ip':ip, 'query':query, 'bgp':bgp_txt, 'precision':precision, 'recall':recall }
                 writer.writerow(s)
 

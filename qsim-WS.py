@@ -173,11 +173,11 @@ def doTab(s):
 
 def treat(query,ip,datasource):
     try:
-        mess = '<query time="'+date2str(now())+'" client="'+str(ip)+'"><![CDATA['+query+']]></query>'
-        url = 'http://'+ctx.host+':'+str(ctx.port)+'/query'
+        # mess = '<query time="'+date2str(now())+'" client="'+str(ip)+'"><![CDATA['+query+']]></query>'
+        # url = 'http://'+ctx.host+':'+str(ctx.port)+'/query'
         # print('Send to ',url)
         # print('query',mess)
-        s = http.post(url,data={'data':mess})
+        # s = http.post(url,data={'data':mess})
         # print('res:',s.text)
         res=  ctx.listeSP[datasource].query(query) # ctx.tpfc.query(query)
         # pprint(res)
@@ -195,14 +195,20 @@ def treat(query,ip,datasource):
 # launch : python3.6 ldqp-WS.py 
 # example to request : curl -d 'query="select * where {?s :p1 ?o}"' http://127.0.0.1:8090/_add_query
 
+TPF_SERVEUR_HOST = 'http://127.0.0.1'
+TPF_SERVEUR_PORT = 5000
+TPF_CLIENT = '/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client'
+SWEEP_SERVEUR_HOST = 'http://127.0.0.1'
+SWEEP_SERVEUR_PORT = 5002
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Linked Data Query Profiler (for a modified TPF server)')
     # parser.add_argument('files', metavar='file', nargs='+',help='files to analyse')
 
-    parser.add_argument("--port", type=int, default=5002, dest="port", help="Port (5002 by default)")
-    parser.add_argument("--host", default='127.0.0.1', dest="host", help="Host ('127.0.0.1' by default)")
-    parser.add_argument("-s","--server", default='http://localhost:5000/dbpedia', dest="tpfServer", help="TPF Server ('http://localhost:5000/lift' by default)")
-    parser.add_argument("-c", "--client", default='/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client', dest="tpfClient", help="TPF Client ('...' by default)")
+    parser.add_argument("--port", type=int, default=SWEEP_SERVEUR_PORT, dest="port", help="SWEEP Port ('"+str(SWEEP_SERVEUR_PORT)+"' by default)")
+    parser.add_argument("--host", default=SWEEP_SERVEUR_HOST, dest="host", help="SWEEP Host ('"+SWEEP_SERVEUR_HOST+"' by default)")
+    parser.add_argument("-s","--server", default=TPF_SERVEUR_HOST+':'+str(TPF_SERVEUR_PORT), dest="tpfServer", help="TPF Server ('"+TPF_SERVEUR_HOST+':'+str(TPF_SERVEUR_PORT)+"' by default)")
+    parser.add_argument("-c", "--client", default=TPF_CLIENT, dest="tpfClient", help="TPF Client ('...' by default)")
     parser.add_argument("-t", "--time", default='', dest="now", help="Time reference (now by default)")
     parser.add_argument("-v", "--valid", default='', dest="valid", action="store_true", help="Do precision/recall")
 
@@ -210,10 +216,6 @@ if __name__ == '__main__':
     ctx.setLDQPServer(args.host,args.port)
     # http://localhost:5000/lift : serveur TPF LIFT (exemple du papier)
     # http://localhost:5001/dbpedia_3_9 server dppedia si : ssh -L 5001:172.16.9.3:5001 desmontils@172.16.9.15
-    
-    sp = TPFEP(service = args.tpfServer ) #'http://localhost:5000/lift') 
-    sp.setEngine(args.tpfClient) #'/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client')
-    ctx.setTPFClient(sp)
 
     XMLparser = etree.XMLParser(recover=True, strip_cdata=True)
     ctx.tree = etree.parse('config.xml', XMLparser)
@@ -227,9 +229,9 @@ if __name__ == '__main__':
         f = l.find('fichier')
         ref = l.find('référence')
         if ref.text is None: ref.text=''
-        print('Configure ',l.get('nom'), ' in ',f.get('nom'))
-        sp = TPFEP(service = f.get('nom') )
-        sp.setEngine(args.tpfClient)
+        print('Configure ',l.get('nom'), ' in ',args.tpfServer+'/'+f.get('nom'))
+        sp = TPFEP(service = args.tpfServer, dataset= f.get('nom') , clientParams= '-s '+args.host+':'+str(args.port) )
+        sp.setEngine(args.tpfClient )
         ctx.listeBases[l.get('nom')] = {'fichier':f.get('nom'),'prefixe':f.get('prefixe'),'référence':ref.text,
                                         'description':etree.tostring(l.find('description'), encoding='utf8').decode('utf8'),
                                         'tables':[]}

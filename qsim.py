@@ -10,7 +10,7 @@ Application ...
 #    GPL v 2.0 license.
 
 # import sys
-from tools.Socket import *
+# from tools.Socket import *
 from threading import *
 
 # import multiprocessing as mp
@@ -47,16 +47,16 @@ def queryThread(sInfo, sp, doPR, query,ref):
 	print('Sleep:',duration.total_seconds(),' second(s)')
 	time.sleep(duration.total_seconds())
 	print('Query:',query.q)
-	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	s.connect(sInfo)
+	# s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	# s.connect(sInfo)
 	(ip,port) = s.getsockname()
 	try:
-		if doPR:
-			mess = '<query time="'+date2str(query.time)+'" client="'+str(ip)+'"><![CDATA['+query.q+']]></query>'
-			print("Send query:",mess)
-			s.send(mess.encode('utf8'))
-			rep = s.recv(2048)
-			print('ok:',rep)
+		# if doPR:
+		# 	mess = '<query time="'+date2str(query.time)+'" client="'+str(ip)+'"><![CDATA['+query.q+']]></query>'
+		# 	print("Send query:",mess)
+		# 	s.send(mess.encode('utf8'))
+		# 	rep = s.recv(2048)
+		# 	print('ok:',rep)
 		print(sp.query(query.q))
 	except Exception as e:
 		print('Exception',e)
@@ -97,23 +97,32 @@ def play(file,sp,doValid, sInfo):
 #==================================================
 #==================================================
 
+TPF_SERVEUR_HOST = 'http://127.0.0.1'
+TPF_SERVEUR_PORT = 5000
+TPF_SERVEUR_DATASET = 'lift'
+TPF_CLIENT = '/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client'
+SWEEP_SERVEUR_HOST = 'http://127.0.0.1'
+SWEEP_SERVEUR_PORT = 5002
+
+
 parser = argparse.ArgumentParser(description='Linked Data Query simulator (for a modified TPF server)')
 parser.add_argument('files', metavar='file', nargs='+', help='files to analyse')
-parser.add_argument("--port", type=int, default=5002, dest="port", help="Port (5002 by default)")
-parser.add_argument("--host", default='127.0.0.1', dest="host", help="Host ('127.0.0.1' by default)")
-parser.add_argument("-s","--server", default='http://localhost:5000/lift', dest="tpfServer", help="TPF Server ('http://localhost:5000/lift' by default)")
-parser.add_argument("-c", "--client", default='/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client', dest="tpfClient", help="TPF Client ('...' by default)")
+parser.add_argument("--port", type=int, default=SWEEP_SERVEUR_PORT, dest="port", help="SWEEP Port ('"+str(SWEEP_SERVEUR_PORT)+"' by default)")
+parser.add_argument("--host", default=SWEEP_SERVEUR_HOST, dest="host", help="SWEEP Host ('"+SWEEP_SERVEUR_HOST+"' by default)")
+parser.add_argument("-s","--server", default=TPF_SERVEUR_HOST+':'+str(TPF_SERVEUR_PORT), dest="tpfServer", help="TPF Server ('"+TPF_SERVEUR_HOST+':'+str(TPF_SERVEUR_PORT)+"' by default)")
+parser.add_argument("-d", "--dataset", default=TPF_SERVEUR_DATASET, dest="dataset", help="TPF Server Dataset ('"+TPF_SERVEUR_DATASET+"' by default)")
+parser.add_argument("-c", "--client", default=TPF_CLIENT, dest="tpfClient", help="TPF Client ('...' by default)")
 parser.add_argument("-t", "--time", default='', dest="now", help="Time reference (now by default)")
 parser.add_argument("-v", "--valid", default='', dest="valid", action="store_true", help="Do precision/recall")
-# parser.add_argument("-to", "--timeout", type=float, default=0, dest="timeout",
-#                     help="TPF server Time Out in minutes (%d by default). If '-to 0', the timeout is the gap." % 0)
+parser.add_argument("-to", "--timeout", type=float, default=0, dest="timeout",
+                    help="TPF server Time Out in minutes (%d by default). If '-to 0', the timeout is the gap." % 0)
 
 args = parser.parse_args()
 
 # http://localhost:5000/lift : serveur TPF LIFT (exemple du papier)
 # http://localhost:5001/dbpedia_3_9 server dppedia si : ssh -L 5001:172.16.9.3:5001 desmontils@172.16.9.15
 
-sp = TPFEP(service = args.tpfServer ) #'http://localhost:5000/lift') 
+sp = TPFEP(service = args.tpfServer, dataset = args.dataset, clientParams= '-s '+args.host+':'+str(args.port)  ) #'http://localhost:5000/lift') 
 sp.setEngine(args.tpfClient) #'/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client')
 
 if args.now =='':

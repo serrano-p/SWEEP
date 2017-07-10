@@ -24,6 +24,7 @@ import argparse
 import html
 
 from tools.tools import *
+from operator import itemgetter
 
 from lxml import etree  # http://lxml.de/index.html#documentation
 from lib.bgp import *
@@ -39,12 +40,20 @@ class Context(object):
     """docstring for Context"""
     def __init__(self):
         super(Context, self).__init__()
-        self.ldqp = None
+        self.sweep = None
         self.parser = etree.XMLParser(recover=True, strip_cdata=True)
         self.cpt = 0
         self.list = mp.Manager().list()
+        self.to = 0.0
+        self.gap = 0.0 
+        self.opt = False
+        self.nlast = 10
         
 ctx = Context()
+
+#==================================================
+
+
 
 #==================================================
 
@@ -58,42 +67,93 @@ app.secret_key = '\x0ctD\xe3g\xe1XNJ\x86\x02\x03`O\x98\x84\xfd,e/5\x8b\xd1\x11'
 def index():
     return render_template('index-sweep.html',nom_appli="SWEEP Monitor", version="0.1")
 
+@app.route('/bestof')
+def bo():
+    t = '<table cellspacing="50"><tr>'
+
+    rep = '<td><h1>Frequent BGPs</h1><p>('+str(ctx.nlast)+' more frequents)</p>'
+    rep += '<table cellspacing="5" border="1" cellpadding="2">'
+    rep += '<thead><td>BGP</td><td>Nb Occ.</td><td>Query Exemple</td>'
+    ctx.sweep.rankingBGPs.sort(key=itemgetter(1), reverse=True)
+    for (bgp, freq, query, lines) in ctx.sweep.rankingBGPs[-1*ctx.nlast:]:
+        rep += '<tr>'
+        rep += '<td>'
+        for (s,p,o) in bgp:
+            rep += html.escape(".\n".join([toStr(s,p,o)]))+'<br/>'
+        rep += '</td>'
+        rep += '<td>%d</td><td>%s</td>'%(freq,query)
+        rep += '</tr>'
+    rep += '</table></td>'
+
+    rep += '<td><h1>Frequent Queries</h1><p>('+str(ctx.nlast)+' more frequents)</p>'
+    rep += '<table cellspacing="5" border="1" cellpadding="2">'
+    rep += '<thead><td>BGP</td><td>Nb Occ.</td><td>Query Exemple</td>'
+    ctx.sweep.rankingQueries.sort(key=itemgetter(1), reverse=True)
+    for (bgp, freq, query, lines) in ctx.sweep.rankingQueries[-1*ctx.nlast:]:
+        rep += '<tr>'
+        rep += '<td>'
+        for (s,p,o) in bgp:
+            rep += html.escape(".\n".join([toStr(s,p,o)]))+'<br/>'
+        rep += '</td>'
+        rep += '<td>%d</td><td>%s</td>'%(freq,html.escape(query))
+        rep += '</tr>'
+    rep += '</table></td>'
+
+    t += rep + '<tr></table>' 
+
+    return rep #'<p>Not implemented</p>'
+
+
 @app.route('/sweep')
 def sweep():
     ctx.cpt += 1
-    rep = ''
-    nb = ctx.ldqp.stat['nbQueries']
-    nbbgp = ctx.ldqp.stat['nbBGP']
+    nb = ctx.sweep.stat['nbQueries']
+    nbbgp = ctx.sweep.stat['nbBGP']
     if nb>0:
-        avgPrecision = ctx.ldqp.stat['sumPrecision']/nb
-        avgRecall = ctx.ldqp.stat['sumRecall']/nb
-        avgQual = ctx.ldqp.stat['sumQuality']/nb
+        avgPrecision = ctx.sweep.stat['sumPrecision']/nb
+        avgRecall = ctx.sweep.stat['sumRecall']/nb
+        avgQual = ctx.sweep.stat['sumQuality']/nb
     else:
         avgPrecision = 0
         avgRecall = 0
         avgQual = 0
     if nbbgp>0 :                
-        Acuteness = ctx.ldqp.stat['sumSelectedBGP'] / nbbgp
+        Acuteness = ctx.sweep.stat['sumSelectedBGP'] / nbbgp
     else:
         Acuteness = 0
-    rep += '<table border="1"><thead><td>Nb Queries</td><td>Nb BGP</td><td>Avg Precision</td><td>Avg Recall</td><td>Avg Quality</td><td>Acureness</td></thead><tr><td>%d</td><td>%d</td><td>%2.3f</td><td>%2.3f</td><td>%2.3f</td><td>%2.3f</td></tr></table>\n'%(nb,nbbgp,avgPrecision,avgRecall,avgQual,Acuteness)
-    rep += '<table cellspacing="5" border="1" cellpadding="2">\n'
+
+    rep = '<table cellspacing="50"><tr><td><h1>SWEEP parameters</h1><table border="1"><thead>'
+    rep += '<td>Gap (in sec.)</td><td>Time out (in sec.)</td><td>Opt</td></thead><tr>'
+    rep += '<td>%1.3f</td><td>%1.3f</td><td>%s</td>'%(ctx.gap,ctx.to,str(ctx.opt))
+    rep += '</tr></table></td>'
+
+    rep += '<td><h1>Global measures</h1><table border="1"><thead>'
+    rep += '<td>Nb Queries</td><td>Nb BGP</td>'
+    rep += '<td>Avg Precision</td><td>Avg Recall</td><td>Avg Quality</td><td>Acureness</td></thead><tr>'
+    rep += '<td>%d</td><td>%d</td>'%(nb,nbbgp)
+    rep += '<td>%2.3f</td><td>%2.3f</td><td>%2.3f</td><td>%2.3f</td>'%(avgPrecision,avgRecall,avgQual,Acuteness)
+    rep += '</tr></table></td></tr></table>\n<hr size="2" width="100" align="CENTER" />'
+
+    rep += '<h1>BGPs</h1><p>('+str(ctx.nlast)+' more recents)</p><table cellspacing="5" border="1" cellpadding="2">\n'
     rep += '<thead><td>ip</td><td>time</td><td>bgp</td><td>Original query</td><td>Precision</td><td>Recall</td><td>Quality</td></thead>\n'
     # for bgp in ctx.list:
     #     rep +='<tr><td>'+bgp.client+'</td><td>'+str(bgp.time)+'</td><td>'
     #     for ((s,p,o),sm,pm,om) in bgp.tp_set:
     #         rep += html.escape(toStr(s,p,o))+'<br/>'
     #     rep += '</td></tr>'
-    for (i,t,ip,query,bgp,precision,recall) in ctx.ldqp.memory:
+    for (i,t,ip,query,bgp,precision,recall) in ctx.sweep.memory[-1*ctx.nlast:] :
         if i==0:
             rep +='<tr><td>'+bgp.client+'</td><td>'+str(bgp.time)+'</td><td>'
             for ((s,p,o),sm,pm,om) in bgp.tp_set:
                 rep += html.escape(".\n".join([toStr(s,p,o)]))+'<br/>'
-            rep += '</td><td></td><td></td><td></td><td></td></tr>'
+            rep += '</td><td>No query assigned</td><td></td><td></td><td></td></tr>'
         else:
             rep +='<tr><td>'+ip+'</td><td>'+str(t)+'</td><td>'
-            for ((s,p,o),sm,pm,om) in bgp.tp_set:
-                rep += html.escape(toStr(s,p,o))+'<br/>'
+            if bgp is not None:
+                for ((s,p,o),sm,pm,om) in bgp.tp_set:
+                    rep += html.escape(toStr(s,p,o))+'<br/>'
+            else:
+                rep += 'No BGP assigned !'
             rep += '</td><td>'+html.escape(query)+'</td><td>%2.3f</td><td>%2.3f</td><td>%2.3f</td></tr>'%(precision,recall,(precision+recall)/2)
     rep += '</table>'
     return rep
@@ -114,7 +174,7 @@ def processQuery():
                 query.set('client',str(ip) )
             elif "::ffff:" in client:
                 query.set('client', client[7:])
-            ctx.ldqp.put(query)   
+            ctx.sweep.put(query)   
             return jsonify(result=True)            
         except Exception as e:
             print('Exception',e)
@@ -140,7 +200,7 @@ def processEntry():
                 query.set('client',str(ip) )
             elif "::ffff:" in client:
                 query.set('client', client[7:])
-            ctx.ldqp.put(query)  
+            ctx.sweep.put(query)  
             return jsonify(result=True)             
         except Exception as e:
             print('Exception',e)
@@ -158,7 +218,7 @@ def processData():
         print('Receiving data:',data)
         try:
             tree = etree.parse(StringIO(data), ctx.parser)
-            ctx.ldqp.put(tree.getroot()) 
+            ctx.sweep.put(tree.getroot()) 
             return jsonify(result=True)              
         except Exception as e:
             print('Exception',e)
@@ -170,15 +230,15 @@ def processData():
 
 #==================================================
 
-def processResults(ldqp,list):
+def processResults(sweep,list):
     i = 0
     try:
-        res = ldqp.get()
+        res = sweep.get()
         while res != None:
             i += 1
             res.print()
             list.append(res)
-            res = ldqp.get()
+            res = sweep.get()
     except KeyboardInterrupt:
         pass
 
@@ -192,18 +252,24 @@ if __name__ == '__main__':
     parser.add_argument("-to", "--timeout", type=float, default=0, dest="timeout",
                         help="TPF server Time Out in minutes (%d by default). If '-to 0', the timeout is the gap." % 0)
     parser.add_argument("-o","--optimistic", help="BGP time is the last TP added (False by default)",
-                    action="store_true",dest="doOptimistic")
-
+                    action="store_false",dest="doOptimistic")
+    parser.add_argument("-l", "--last", type=int, default=10, dest="nlast", help="Number of last BGPs ti view (10 by default)")
     args = parser.parse_args()
 
-    ctx.ldqp = SWEEP_XML(dt.timedelta(minutes= args.gap))
-    resProcess = mp.Process(target=processResults, args=(ctx.ldqp,ctx.list))
-
-    if args.timeout > 0 : ctx.ldqp.setTimeout(dt.timedelta(minutes= args.timeout))
-    if args.doOptimistic: ctx.ldqp.swapOptimistic()
+    ctx.gap = args.gap
+    ctx.sweep = SWEEP_XML(dt.timedelta(minutes= args.gap))
+    resProcess = mp.Process(target=processResults, args=(ctx.sweep,ctx.list))
+    ctx.nlast = args.nlast
+    if args.timeout > 0 : 
+        ctx.to = args.timeout
+        ctx.sweep.setTimeout(dt.timedelta(minutes= ctx.to))
+    else:
+        ctx.to = args.gap
+    if args.doOptimistic: ctx.sweep.swapOptimistic()
+    ctx.opt = args.doOptimistic 
 
     try:
-        ctx.ldqp.startSession()
+        ctx.sweep.startSession()
         resProcess.start()
         app.run(
             host="0.0.0.0",
@@ -213,7 +279,7 @@ if __name__ == '__main__':
         # while 1:
         #     time.sleep(60)
     except KeyboardInterrupt:
-        ctx.ldqp.endSession() 
-        ctx.ldqp.stop()
+        ctx.sweep.endSession() 
+        ctx.sweep.stop()
         resProcess.join()
     print('Fin')

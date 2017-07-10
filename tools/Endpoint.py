@@ -38,7 +38,9 @@ class EndpointException(Exception):
 EP_QueryBadFormed = False
 EP_QueryWellFormed = True
 
-DEFAULT_TPF_EP = 'http://localhost:5001/dbpedia_3_9' # http://172.16.9.3:5001/dbpedia_3_9   http://localhost:5001/dbpedia_3_9
+DEFAULT_TPF_EP = 'http://localhost:5001' # http://172.16.9.3:5001/dbpedia_3_9   http://localhost:5001/dbpedia_3_9
+DEFAULT_TPF_DATASET = 'dbpedia_3_9'
+
 DEFAULT_SPARQL_EP = 'http://172.16.9.15:8890/sparql' # "http://dbpedia.org/sparql" "http://172.16.9.15:8890/sparql"
 
 MODE_TE_SPARQL = 'SPARQL'
@@ -197,18 +199,28 @@ class DBPediaEP (SPARQLEP):
 #==================================================
 
 class TPFEP(Endpoint):
-    def __init__(self,service = DEFAULT_TPF_EP, cacheDir = '.'):
+    def __init__(self,service = DEFAULT_TPF_EP, dataset = DEFAULT_TPF_DATASET, clientParams = '', cacheDir = '.'):
         Endpoint.__init__(self,service, cacheType=MODE_TE_TPF, cacheDir=cacheDir)
+        self.dataset = dataset
         self.reSyntaxError = re.compile(r'\A(ERROR\:).*?\n\n(Syntax\ error\ in\ query).*',re.IGNORECASE)
         self.reQueryNotSupported = re.compile(r'\A(ERROR\:).*?\n\n(The\ query\ is\ not\ yet\ supported).*',re.IGNORECASE)
         self.appli = 'ldf-client'
+        self.clientParams = clientParams
 
     def setEngine(self,en):
         self.appli = en
 
+    def setDataset(self,d):
+        self.dataset = d
+
     def query(self, qstr):
         # 'run' n'existe que depuis python 3.5 !!! donc pas en 3.2 !!!!
-        ret = subprocess.run([self.appli,self.service, qstr], 
+        # print('Execute:',self.appli,self.service+'/'+self.dataset,qstr)
+        if self.clientParams == '':
+            ret = subprocess.run([self.appli,self.service+'/'+self.dataset, qstr], 
+                             stdout=subprocess.PIPE, encoding='utf-8', stderr=subprocess.PIPE, check=True, timeout=self.timeOut)
+        else :
+            ret = subprocess.run([self.appli,self.service+'/'+self.dataset, self.clientParams, qstr], 
                              stdout=subprocess.PIPE, encoding='utf-8', stderr=subprocess.PIPE, check=True, timeout=self.timeOut)
         #pprint(ret)
         #sys.exit()
@@ -230,7 +242,7 @@ class TPFEP(Endpoint):
             else:
                 raise Exception('TPF Client error : %s' % err)
         
-        # out = subprocess.check_output(['ldf-client',self.service, qstr.encode('utf8')]) #, encoding='utf-8') # ,stderr=subprocess.DEVNULL : python3.3 # timeout... uniquement python 3.3
+        # out = subprocess.check_output(['ldf-client',self.service+'/'+self.dataset, qstr.encode('utf8')]) #, encoding='utf-8') # ,stderr=subprocess.DEVNULL : python3.3 # timeout... uniquement python 3.3
         # #print('out=',out)
         # if out != '':
         #     return json.loads(out.decode('utf8'))
