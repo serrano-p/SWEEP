@@ -123,8 +123,8 @@ def sweep():
         Acuteness = 0
 
     rep = '<table cellspacing="50"><tr><td><h1>SWEEP parameters</h1><table border="1"><thead>'
-    rep += '<td>Gap (in sec.)</td><td>Time out (in sec.)</td><td>Opt</td></thead><tr>'
-    rep += '<td>%1.3f</td><td>%1.3f</td><td>%s</td>'%(ctx.gap,ctx.to,str(ctx.opt))
+    rep += '<td>Gap</td><td>Time out</td><td>Opt</td></thead><tr>'
+    rep += '<td>%s</td><td>%s</td><td>%s</td>'%(dt.timedelta(minutes= ctx.gap),dt.timedelta(minutes= ctx.to),str(ctx.opt))
     rep += '</tr></table></td>'
 
     rep += '<td><h1>Global measures</h1><table border="1"><thead>'
@@ -163,7 +163,7 @@ def processQuery():
     if request.method == 'POST':
         ip = request.remote_addr
         data = request.form['data']
-        print('Receiving request:',data)
+        # print('Receiving request:',data)
         try:
             tree = etree.parse(StringIO(data), ctx.parser)
             query = tree.getroot()
@@ -189,7 +189,7 @@ def processEntry():
     if request.method == 'POST':
         ip = request.remote_addr
         data = request.form['data']
-        print('Receiving entry:',data)
+        # print('Receiving entry:',data)
         try:
             tree = etree.parse(StringIO(data), ctx.parser)
             query = tree.getroot()
@@ -215,7 +215,7 @@ def processEntry():
 def processData():
     if request.method == 'POST':
         data = request.form['data']
-        print('Receiving data:',data)
+        # print('Receiving data:',data)
         try:
             tree = etree.parse(StringIO(data), ctx.parser)
             ctx.sweep.put(tree.getroot()) 
@@ -225,7 +225,7 @@ def processData():
             print('About:',data)
             return jsonify(result=False)       
     else:
-        print('"entry/data/end" not implemented for HTTP GET')
+        print('"data/end" not implemented for HTTP GET')
         return jsonify(result=False)
 
 #==================================================
@@ -236,7 +236,7 @@ def processResults(sweep,list):
         res = sweep.get()
         while res != None:
             i += 1
-            res.print()
+            # res.print()
             list.append(res)
             res = sweep.get()
     except KeyboardInterrupt:
@@ -257,16 +257,18 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     ctx.gap = args.gap
-    ctx.sweep = SWEEP_XML(dt.timedelta(minutes= args.gap))
-    resProcess = mp.Process(target=processResults, args=(ctx.sweep,ctx.list))
-    ctx.nlast = args.nlast
-    if args.timeout > 0 : 
-        ctx.to = args.timeout
-        ctx.sweep.setTimeout(dt.timedelta(minutes= ctx.to))
+    if args.timeout == 0:
+        ctx.to = ctx.gap
     else:
-        ctx.to = args.gap
+        ctx.to = args.timeout
+
     if args.doOptimistic: ctx.sweep.swapOptimistic()
     ctx.opt = args.doOptimistic 
+
+    ctx.sweep = SWEEP_XML(dt.timedelta(minutes= ctx.gap),dt.timedelta(minutes= ctx.to),ctx.opt)
+    resProcess = mp.Process(target=processResults, args=(ctx.sweep,ctx.list))
+    ctx.nlast = args.nlast
+
 
     try:
         ctx.sweep.startSession()

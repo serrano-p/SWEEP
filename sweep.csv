@@ -1,148 +1,29 @@
 id	time	ip	query	bgp	precision	recall
-1	2017-07-12 07:44:18.538844	127.0.0.1	"select * where{ 
-?s3 <http://www.example.org/lift2#p2> ""toto"" .
-?s3 <http://www.example.org/lift2#p1> ?o8 .
- }"	...	0	0
-0	2017-07-12 07:44:20.309937	127.0.0.1		"?se14015_110 <http://www.example.org/lift2#p2> ""toto"".
-?se14015_110 <http://www.example.org/lift2#p1> ?oe14018_106"	0	0
-0	2017-07-12 07:44:20.314715	127.0.0.1		?se14015_111 <http://www.example.org/lift2#p1> ?oe14015_111	0	0
-0	2017-07-12 07:44:20.327098	127.0.0.1		?se14018_105 <http://www.example.org/lift2#p1> ?oe14018_105	0	0
-0	2017-07-12 07:44:20.340688	127.0.0.1		"?se14014_107 <http://www.example.org/lift2#p4> ""tata"""	0	0
-2	2017-07-12 07:44:19.682015	127.0.0.1	"select * where{ 
+0	2017-07-12 21:35:00.783782	127.0.0.1		"?se14018_258 <http://www.example.org/lift2#p4> ""tata"""	0	0
+0	2017-07-12 21:35:00.799109	127.0.0.1		?se14015_271 <http://www.example.org/lift2#p1> ?oe14015_271	0	0
+0	2017-07-12 21:35:00.810798	127.0.0.1		?se14014_263 <http://www.example.org/lift2#p1> ?oe14014_263	0	0
+1	2017-07-12 21:35:00.326034	127.0.0.1	"select * where{ 
 ?s4 <http://www.example.org/lift2#p3> ""titi"" .
 ?s4 <http://www.example.org/lift2#p4> ""tata"" .
 ?s4 <http://www.example.org/lift2#p1> ?o12 .
- }"	"?se14016_106 <http://www.example.org/lift2#p3> ""titi"".
-?se14016_106 <http://www.example.org/lift2#p4> ""tata"".
-?se14016_106 <http://www.example.org/lift2#p1> ?oe14014_108"	1.0	1.0
-3	2017-07-12 08:11:04.488591	127.0.0.1	"select * where{ 
+ }"	"?se14014_262 <http://www.example.org/lift2#p3> ""titi"".
+?se14014_262 <http://www.example.org/lift2#p4> ""tata"".
+?se14014_262 <http://www.example.org/lift2#p1> ?oe14018_259"	1.0	1.0
+2	2017-07-12 21:35:00.330576	127.0.0.1	"select * where{ 
 ?s3 <http://www.example.org/lift2#p2> ""toto"" .
 ?s3 <http://www.example.org/lift2#p1> ?o8 .
- }"	...	0	0
-0	2017-07-12 08:11:04.934020	127.0.0.1		"?se14014_110 <http://www.example.org/lift2#p2> ""toto"".
-?se14014_110 <http://www.example.org/lift2#p1> ?oe14018_108"	0	0
-0	2017-07-12 08:11:04.933894	127.0.0.1		"?se14016_110 <http://www.example.org/lift2#p3> ""titi"""	0	0
-0	2017-07-12 08:11:04.956637	127.0.0.1		?se14018_107 <http://www.example.org/lift2#p1> ?oe14018_107	0	0
-0	2017-07-12 08:11:04.956462	127.0.0.1		?se14016_111 <http://www.example.org/lift2#p1> ?oe14016_111	0	0
-4	2017-07-12 08:11:04.493640	127.0.0.1	"select * where{ 
-?s4 <http://www.example.org/lift2#p3> ""titi"" .
-?s4 <http://www.example.org/lift2#p4> ""tata"" .
-?s4 <http://www.example.org/lift2#p1> ?o12 .
- }"	"?se14015_114 <http://www.example.org/lift2#p4> ""tata"".
-?se14015_114 <http://www.example.org/lift2#p3> ""titi"".
-?se14015_114 <http://www.example.org/lift2#p1> ?oe14016_113"	1.0	1.0
-5	2017-07-12 08:57:41.638102	127.0.0.1	"select * where{ 
-?s3 <http://www.example.org/lift2#p2> ""toto"" .
-?s3 <http://www.example.org/lift2#p1> ?o8 .
- }"	...	0	0
-0	2017-07-12 08:57:42.021116	127.0.0.1		"?se14016_115 <http://www.example.org/lift2#p4> ""tata"".
-?se14016_115 <http://www.example.org/lift2#p1> ?oe14014_116"	0	0
-0	2017-07-12 08:57:42.019316	127.0.0.1		"?se14014_113 <http://www.example.org/lift2#p2> ""toto"".
-?se14014_113 <http://www.example.org/lift2#p1> ?oe14015_117"	0	0
-0	2017-07-12 08:57:42.019203	127.0.0.1		"?se14018_110 <http://www.example.org/lift2#p3> ""titi"""	0	0
-0	2017-07-12 08:57:42.027509	127.0.0.1		?se14014_114 <http://www.example.org/lift2#p1> ?oe14014_114	0	0
-6	2017-07-12 08:57:41.642617	127.0.0.1	"select * where{ 
-?s4 <http://www.example.org/lift2#p3> ""titi"" .
-?s4 <http://www.example.org/lift2#p4> ""tata"" .
-?s4 <http://www.example.org/lift2#p1> ?o12 .
- }"	"?se14015_116 <http://www.example.org/lift2#p1> ?oe14015_116.
-?se14015_116 <http://www.example.org/lift2#p3> ""titi"""	1.0	0.6666666666666666
-7	2017-07-12 08:59:52.598072	127.0.0.1	"select * where{ 
-?s3 <http://www.example.org/lift2#p2> ""toto"" .
-?s3 <http://www.example.org/lift2#p1> ?o8 .
- }"	...	0	0
-8	2017-07-12 08:59:52.603033	127.0.0.1	"select * where{ 
-?s4 <http://www.example.org/lift2#p3> ""titi"" .
-?s4 <http://www.example.org/lift2#p4> ""tata"" .
-?s4 <http://www.example.org/lift2#p1> ?o12 .
- }"	...	0	0
-9	2017-07-12 09:00:30.785910	127.0.0.1	"select * where{ 
-?s4 <http://www.example.org/lift2#p3> ""titi"" .
-?s4 <http://www.example.org/lift2#p4> ""tata"" .
-?s4 <http://www.example.org/lift2#p1> ?o12 .
- }"	...	0	0
-10	2017-07-12 09:00:30.791302	127.0.0.1	"select * where{ 
-?s3 <http://www.example.org/lift2#p2> ""toto"" .
-?s3 <http://www.example.org/lift2#p1> ?o8 .
- }"	...	0	0
-11	2017-07-12 09:02:01.871946	127.0.0.1	"select * where{ 
-?s3 <http://www.example.org/lift2#p2> ""toto"" .
-?s3 <http://www.example.org/lift2#p1> ?o8 .
- }"	...	0	0
-12	2017-07-12 09:02:01.876525	127.0.0.1	"select * where{ 
-?s4 <http://www.example.org/lift2#p3> ""titi"" .
-?s4 <http://www.example.org/lift2#p4> ""tata"" .
-?s4 <http://www.example.org/lift2#p1> ?o12 .
- }"	...	0	0
-13	2017-07-12 09:02:12.288573	127.0.0.1	"select * where{ 
-?s3 <http://www.example.org/lift2#p2> ""toto"" .
-?s3 <http://www.example.org/lift2#p1> ?o8 .
- }"	...	0	0
-14	2017-07-12 09:02:12.293138	127.0.0.1	"select * where{ 
-?s4 <http://www.example.org/lift2#p3> ""titi"" .
-?s4 <http://www.example.org/lift2#p4> ""tata"" .
-?s4 <http://www.example.org/lift2#p1> ?o12 .
- }"	...	0	0
-15	2017-07-12 09:03:24.903707	127.0.0.1	"select * where{ 
-?s4 <http://www.example.org/lift2#p3> ""titi"" .
-?s4 <http://www.example.org/lift2#p4> ""tata"" .
-?s4 <http://www.example.org/lift2#p1> ?o12 .
- }"	...	0	0
-16	2017-07-12 09:03:24.909425	127.0.0.1	"select * where{ 
-?s3 <http://www.example.org/lift2#p2> ""toto"" .
-?s3 <http://www.example.org/lift2#p1> ?o8 .
- }"	...	0	0
-0	2017-07-12 09:03:25.213400	127.0.0.1		"?se14016_118 <http://www.example.org/lift2#p1> ?oe14016_118.
-?se14016_118 <http://www.example.org/lift2#p4> ""tata"""	0	0
-0	2017-07-12 09:03:25.225171	127.0.0.1		?se14018_114 <http://www.example.org/lift2#p1> ?oe14018_114	0	0
-0	2017-07-12 09:04:03.904049	127.0.0.1		"?se14014_119 <http://www.example.org/lift2#p1> ?oe14014_119.
-?se14014_119 <http://www.example.org/lift2#p4> ""tata"""	0	0
-0	2017-07-12 09:04:03.939196	127.0.0.1		"?se14016_121 <http://www.example.org/lift2#p3> ""titi"".
-?se14016_121 <http://www.example.org/lift2#p1> ?oe14014_125"	0	0
-0	2017-07-12 09:04:03.939712	127.0.0.1		?se14015_125 <http://www.example.org/lift2#p1> ?oe14015_125	0	0
-0	2017-07-12 09:04:03.943291	127.0.0.1		"?se14018_117 <http://www.example.org/lift2#p4> ""tata"""	0	0
-0	2017-07-12 09:04:45.037188	127.0.0.1		"?se14014_122 <http://www.example.org/lift2#p2> ""toto"".
-?se14014_122 <http://www.example.org/lift2#p1> ?oe14018_120"	0	0
-0	2017-07-12 09:04:45.038885	127.0.0.1		?se14018_119 <http://www.example.org/lift2#p1> ?oe14018_119	0	0
-0	2017-07-12 09:04:45.050116	127.0.0.1		"?se14016_125 <http://www.example.org/lift2#p3> ""titi"""	0	0
-0	2017-07-12 09:04:45.054514	127.0.0.1		"?se14015_127 <http://www.example.org/lift2#p4> ""tata"""	0	0
-0	2017-07-12 09:04:45.051653	127.0.0.1		?se14014_123 <http://www.example.org/lift2#p1> ?oe14014_123	0	0
-17	2017-07-12 09:04:03.591953	127.0.0.1	"select * where{ 
-?s4 <http://www.example.org/lift2#p3> ""titi"" .
-?s4 <http://www.example.org/lift2#p4> ""tata"" .
-?s4 <http://www.example.org/lift2#p1> ?o12 .
- }"	"?se14014_117 <http://www.example.org/lift2#p4> ""tata"".
-?se14014_117 <http://www.example.org/lift2#p1> ?oe14018_118"	1.0	0.6666666666666666
-18	2017-07-12 09:04:03.597299	127.0.0.1	"select * where{ 
-?s3 <http://www.example.org/lift2#p2> ""toto"" .
-?s3 <http://www.example.org/lift2#p1> ?o8 .
- }"	"?se14015_123 <http://www.example.org/lift2#p2> ""toto"".
-?se14015_123 <http://www.example.org/lift2#p1> ?oe14014_120"	1.0	1.0
-19	2017-07-12 09:04:44.707976	127.0.0.1	"select * where{ 
-?s3 <http://www.example.org/lift2#p2> ""toto"" .
-?s3 <http://www.example.org/lift2#p1> ?o8 .
- }"	"?se14018_113 <http://www.example.org/lift2#p2> ""toto"".
-?se14018_113 <http://www.example.org/lift2#p1> ?oe14016_119"	1.0	1.0
-20	2017-07-12 09:04:44.713141	127.0.0.1	"select * where{ 
-?s4 <http://www.example.org/lift2#p3> ""titi"" .
-?s4 <http://www.example.org/lift2#p4> ""tata"" .
-?s4 <http://www.example.org/lift2#p1> ?o12 .
- }"	"?se14015_119 <http://www.example.org/lift2#p3> ""titi"".
-?se14015_119 <http://www.example.org/lift2#p1> ?oe14018_116.
-?se14015_119 <http://www.example.org/lift2#p4> ""tata"""	1.0	1.0
-21	2017-07-12 09:06:41.398491	127.0.0.1	"select * where{ 
-?s3 <http://www.example.org/lift2#p2> ""toto"" .
-?s3 <http://www.example.org/lift2#p1> ?o8 .
- }"	...	0	0
-0	2017-07-12 09:06:41.700979	127.0.0.1		"?se14018_122 <http://www.example.org/lift2#p2> ""toto"".
-?se14018_122 <http://www.example.org/lift2#p1> ?oe14015_131"	0	0
-0	2017-07-12 09:06:41.701319	127.0.0.1		"?se14016_128 <http://www.example.org/lift2#p3> ""titi"".
-?se14016_128 <http://www.example.org/lift2#p1> ?oe14016_131"	0	0
-0	2017-07-12 09:06:41.705509	127.0.0.1		"?se14014_126 <http://www.example.org/lift2#p4> ""tata"""	0	0
-0	2017-07-12 09:06:41.707563	127.0.0.1		?se14016_129 <http://www.example.org/lift2#p1> ?oe14016_129	0	0
-22	2017-07-12 09:06:41.402719	127.0.0.1	"select * where{ 
-?s4 <http://www.example.org/lift2#p3> ""titi"" .
-?s4 <http://www.example.org/lift2#p4> ""tata"" .
-?s4 <http://www.example.org/lift2#p1> ?o12 .
- }"	"?se14015_130 <http://www.example.org/lift2#p1> ?oe14015_130.
-?se14015_130 <http://www.example.org/lift2#p3> ""titi"""	1.0	0.6666666666666666
+ }"	"?se14016_267 <http://www.example.org/lift2#p2> ""toto"".
+?se14016_267 <http://www.example.org/lift2#p1> ?oe14016_268"	1.0	1.0
+3	2017-07-12 21:35:00.337025	127.0.0.1	"select * where{ 
+?s5 <http://www.example.org/lift2#p1> ?o5 .
+ }"	?se14015_270 <http://www.example.org/lift2#p1> ?oe14015_270	1.0	1.0
+4	2017-07-12 21:35:00.341491	127.0.0.1	"select * where{ 
+?s6 <http://www.example.org/lift2#p1> ?o6 .
+ }"	?se14018_257 <http://www.example.org/lift2#p1> ?oe14018_257	1.0	1.0
+5	2017-07-12 21:35:00.346556	127.0.0.1	"select * where{ 
+?s7 <http://www.example.org/lift2#p4> ""tata"" .
+ }"	"?se14016_266 <http://www.example.org/lift2#p4> ""tata"""	1.0	1.0
+0	2017-07-12 21:37:33.407662	127.0.0.1		"?se14016_271 <http://www.example.org/lift2#p3> ""titi"""	0	0
+0	2017-07-12 21:37:33.579361	127.0.0.1		?se14018_263 <http://www.example.org/lift2#p1> ?oe14018_263	0	0
+0	2017-07-12 21:37:33.403128	127.0.0.1		"?se14015_273 <http://www.example.org/lift2#p4> ""tata"".
+?se14015_273 <http://www.example.org/lift2#p1> ?oe14016_272"	0	0

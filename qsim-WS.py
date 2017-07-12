@@ -178,7 +178,7 @@ def treat(query,ip,datasource):
         # print('Send to ',url)
         # print('query',mess)
         s = http.post(url,data={'data':mess})
-        # print('res:',s.text)
+        # print('res:',s.json()['result'])
         res=  ctx.listeSP[datasource].query(query) # ctx.tpfc.query(query)
         # pprint(res)
         # print(type(res))

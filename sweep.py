@@ -44,15 +44,16 @@ class BGP:
 
     def toString(self):
         rep = ''
-        for ((s,p,o),sm,pm,om) in bgp.tp_set:
-                rep +=".\n".join([toStr(s,p,o)])
+        for ((s,p,o),sm,pm,om) in self.tp_set:
+                rep += ".\n".join([toStr(s,p,o)])
         return rep
 
     def print(self):
         #print(serializeBGP2str([ x for (x,sm,pm,om,h) in self.tp_set]))
-        print('From:',self.client,' at ',self.time)
-        for ((s,p,o),sm,pm,om) in self.tp_set:
-            print('\t'+toStr(s,p,o) )
+        print('BGP:',self.client,' at ',self.time)
+        print(self.toString())
+        # for ((s,p,o),sm,pm,om) in self.tp_set:
+        #     print('\t'+toStr(s,p,o) )
 
 #==================================================
 
@@ -72,6 +73,9 @@ SWEEP_PURGE = -3
 
 SWEEP_WAIT = 1 # in seconds
 
+SWEEP_DEBUG_BGP_BUILD = False
+SWEEP_DEBUB_PR = False
+
 #==================================================
 
 #==================================================
@@ -80,16 +84,15 @@ def processAgregator(in_queue,out_queue, val_queue, ctx):
     timeout = ctx.timeout
     currentTime = now()
     elist = dict()   
+    # print(timeout.total_seconds())
     try:
         inq = in_queue.get()
         while inq is not None:
             (id, x, val) = inq
             if x == SWEEP_IN_ENTRY:
                 (s,p,o,t,cl) = val
-                # time = fromISO(t) # prend pas en compte le 't' de l'entrée pour pouvoir gérer les serveurs TPF concurrents
-                time = now()
-                currentTime = time #max(currentTime,time)
-                elist[id] = (s,p,o,time,cl,set(),set(),set())
+                currentTime = now()
+                elist[id] = (s,p,o,currentTime,cl,set(),set(),set())
             elif x == SWEEP_IN_DATA :
                 if id in elist: # peut être absent car purgé
                     (s,p,o,t,c,sm,pm,om) = elist[id]
@@ -104,17 +107,21 @@ def processAgregator(in_queue,out_queue, val_queue, ctx):
                     out_queue.put( (id, mss) )
             elif x == SWEEP_START_SESSION :
                 # print('Agregator - Start Session')
+                currentTime = now()
                 elist.clear()
                 out_queue.put( (id, SWEEP_START_SESSION) )
             elif x == SWEEP_END_SESSION :
                 # print('Agregator - End Session')
+                currentTime = now()
                 for v in elist:
                     out_queue.put( (v, elist.pop(v)) )
                 out_queue.put( (id, SWEEP_END_SESSION) )
             elif x == SWEEP_IN_QUERY :
-                val_queue.put( (id,val) )
-            else: # Impossible...
-                pass
+                currentTime = now()
+                (time,ip,query,qbgp) = val
+                val_queue.put( (id, (currentTime,ip,query,qbgp) ) )
+            else: # SWEEP_PURGE...
+                out_queue.put( (id, SWEEP_PURGE) )
 
             #purge les entrées trop vieilles !
             old = []
@@ -125,10 +132,18 @@ def processAgregator(in_queue,out_queue, val_queue, ctx):
             for id in old:
                 v = elist.pop(id)
                 out_queue.put( (id, v) )
-            inq = in_queue.get()
+
+            try:
+                inq = in_queue.get(timeout=timeout.total_seconds())#SWEEP_WAIT)
+            except Empty as e:
+                # print('purge')
+                currentTime = now()#currentTime + timeout #dt.timedelta(seconds= SWEEP_WAIT)
+                inq = (0,SWEEP_PURGE,None)
+            # inq = in_queue.get()
     except KeyboardInterrupt:
         # penser à purger les dernières entrées -> comme une fin de session
-        pass        
+        for v in elist:
+            out_queue.put( (v, elist.pop(v)) )
     out_queue.put(None)
     val_queue.put(None)
 
@@ -180,36 +195,40 @@ def processBGPDiscover(in_queue, out_queue, val_queue, ctx):
         while entry != None:
             (id, val) = entry
             if val==SWEEP_PURGE:
-                pass
+                currentTime = now()
+                val_queue.put((0,SWEEP_PURGE))
             elif val == SWEEP_START_SESSION:
+                currentTime = now()
                 # print('BGPDiscover - Start Session')
                 BGP_list.clear()
                 out_queue.put(SWEEP_START_SESSION)
             elif val == SWEEP_END_SESSION:
+                currentTime = now()
                 # print('BGPDiscover - End Session')
                 for bgp in BGP_list:
                     out_queue.put(bgp)
-                    val_queue.put((0,bgp))
+                    val_queue.put((-1,bgp))
                 BGP_list.clear()
                 out_queue.put(SWEEP_END_SESSION)
             else :
                 (s,p,o,time,client,sm,pm,om) = val
-                currentTime = time
-                print('Etude de :',toStr(s,p,o))
+                currentTime = now()
+                if SWEEP_DEBUG_BGP_BUILD : print('Etude de :',toStr(s,p,o))
                 if not(isinstance(s,Variable) and isinstance(p,Variable) and isinstance(o,Variable) ):
                     h = hash(toStr(s,p,o))
                     #print(currentTime)
                     trouve = False
                     for (i,bgp) in enumerate(BGP_list):
                         # Si c'est le même client, dans le gap et un TP identique n'a pas déjà été utilisé pour ce BGP
-                        print('\t Etude avec BGP ',i)
-                        if (client == bgp.client) and (currentTime - bgp.time <= gap) and (h not in bgp.input_set): 
+                        if SWEEP_DEBUG_BGP_BUILD : print('\t Etude avec BGP ',i)
+                        if (client == bgp.client) and (time - bgp.time <= gap) and (h not in bgp.input_set): 
                             ref_couv = 0
                             # on regarde si une constante du sujet et ou de l'objet est une injection
                             for tp in  bgp.tp_set:
                                 ( (bs, bp, bo), bsm, bpm, bom) = tp
-                                print('\t\t Comparaison avec :',toStr(bs,bp,bo))
-                                print('\t\tbsm:',bsm) ; print('\t\tbpm:',bpm); print('\t\tbom:',bom)
+                                if SWEEP_DEBUG_BGP_BUILD : 
+                                    print('\t\t Comparaison avec :',toStr(bs,bp,bo))
+                                    print('\t\tbsm:',bsm) ; print('\t\tbpm:',bpm); print('\t\tbom:',bom)
 
                                 #On recherche les mappings possibles : s-s, s-p, s-o, etc.
                                 d = None
@@ -243,9 +262,9 @@ def processBGPDiscover(in_queue, out_queue, val_queue, ctx):
                                     break
 
                             if trouve:
-                                print('\t\t ok avec :',toStr(bs,bp,bo) )
+                                if SWEEP_DEBUG_BGP_BUILD : print('\t\t ok avec :',toStr(bs,bp,bo) )
                                 (s2, p2, o2) = (ref_d[s],ref_d[p],ref_d[o])
-                                print('\t\t |-> ',toStr(s2,p2,o2) )
+                                if SWEEP_DEBUG_BGP_BUILD : print('\t\t |-> ',toStr(s2,p2,o2) )
                                 inTP = False
                                 # peut-être que un TP similaire a déjà été utilisé pour une autre valeur... alors pas la peine de le doubler
                                 for  ( (b2s, b2p, b2o), b2sm, b2pm, b2om) in  bgp.tp_set:
@@ -256,16 +275,16 @@ def processBGPDiscover(in_queue, out_queue, val_queue, ctx):
                                     if (p==ref_d[p]) and isinstance(p,Variable): p2 = Variable("p"+str(id).replace("-","_"))
                                     if (o==ref_d[o]) and isinstance(o,Variable): o2 = Variable("o"+str(id).replace("-","_"))
                                     bgp.tp_set.append( ((s2,p2,o2),sm,pm,om) )
-                                    print('\t\t Ajout de ',toStr(s2,p2,o2))
+                                    if SWEEP_DEBUG_BGP_BUILD : print('\t\t Ajout de ',toStr(s2,p2,o2))
                                     bgp.input_set.add(h)
                                 else: 
-                                    print('\t Déjà présent avec ',toStr(b2s, b2p, b2o))
+                                    if SWEEP_DEBUG_BGP_BUILD : print('\t Déjà présent avec ',toStr(b2s, b2p, b2o))
                                     pass
-                                if ctx.optimistic: bgp.time = currentTime
+                                if ctx.optimistic: bgp.time = time
                                 break
                         else: 
-                            if (client == bgp.client) and (currentTime - bgp.time <= gap):
-                                print('\t\t Déjà ajouté')
+                            if (client == bgp.client) and (time - bgp.time <= gap):
+                                if SWEEP_DEBUG_BGP_BUILD : print('\t\t Déjà ajouté')
                                 pass
 
                     # pas trouvé => nouveau BGP ?
@@ -277,11 +296,11 @@ def processBGPDiscover(in_queue, out_queue, val_queue, ctx):
                             p = Variable("p"+str(id).replace("-","_"))
                         if isinstance(o,Variable):
                             o = Variable("o"+str(id).replace("-","_"))
-                        print('\t Création de ',toStr(s,p,o),'-> BGP ',len(BGP_list))
+                        if SWEEP_DEBUG_BGP_BUILD : print('\t Création de ',toStr(s,p,o),'-> BGP ',len(BGP_list))
                         bgp.tp_set.append( ((s,p,o), sm,pm,om) )
                         bgp.input_set.add(h)
-                        bgp.time = currentTime
-                        bgp.birthTime = currentTime
+                        bgp.time = time
+                        bgp.birthTime = time
                         bgp.client = client
                         BGP_list.append(bgp)
 
@@ -290,19 +309,20 @@ def processBGPDiscover(in_queue, out_queue, val_queue, ctx):
             recent = []
             for bgp in BGP_list:
                 # print(currentTime,bgp.time)
-                if (currentTime - bgp.time > gap): old.append(bgp)
+                if currentTime - bgp.time > gap : old.append(bgp)
                 else: recent.append(bgp)
             for bgp in old :  
                 out_queue.put(bgp)
-                val_queue.put((0,bgp))
+                val_queue.put((-1,bgp))
             BGP_list = recent
 
-            try:
-                entry = in_queue.get(timeout=gap.total_seconds())#SWEEP_WAIT)
-            except Empty as e:
-                # print('purge')
-                currentTime = currentTime + gap #dt.timedelta(seconds= SWEEP_WAIT)
-                entry = (0,SWEEP_PURGE)
+            # try:
+            #     entry = in_queue.get(timeout=timeout)#gap.total_seconds())#SWEEP_WAIT)
+            # except Empty as e:
+            #     # print('purge')
+            #     currentTime = currentTime + timeout #dt.timedelta(seconds= SWEEP_WAIT)
+            #     entry = (0,SWEEP_PURGE)
+            entry = in_queue.get()
     except KeyboardInterrupt:
         # penser à purger les derniers BGP ou uniquement autoutr du get pour gérer fin de session
         pass
@@ -359,40 +379,46 @@ def processValidation(in_queue, ctx):
             if id > 0:
                 ctx.stat['nbQueries'] +=1 
                 (time,ip,query,qbgp) = val
-                currentTime = time
-                # print('New query', val)
+                currentTime = now()
+                if SWEEP_DEBUB_PR: print(currentTime,' New query', val)
                 (precision, recall, bgp) = (0,0, None)
                 queryList[id] = ( (time,ip,query,qbgp),bgp,precision,recall)
-            elif id == 0:
-                # print('A BGP')
+
+            elif id < 0:
                 ctx.stat['nbBGP'] +=1
                 bgp = val
-                currentTime = bgp.birthTime # or bgp.time ?
+                currentTime = now()
+                if SWEEP_DEBUB_PR: 
+                    print(currentTime,' New BGP')
+                    val.print()
                 bgp = testPrecisionRecallBGP(queryList,bgp)
                 if bgp is not None:
                     ctx.memory.append( (0, bgp.birthTime, bgp.client, None, bgp, 0, 0) )
                     addBGP2Rank(canonicalize_sparql_bgp([x for (x,sm,pm,om) in bgp.tp_set]), '', id, ctx.rankingBGPs)
             else:
-                pass
+                currentTime =now()
 
             # Suppress older queries
             old = []
             for id in queryList:
                 ( (time,ip,query,qbgp),bgp,precision,recall) = queryList[id]
-                # print(currentTime,' vs. ',time)
-                if currentTime - time > timeout:
+                if SWEEP_DEBUB_PR:  print('purge:',currentTime,' vs. ',time)
+                if currentTime - time > gap+timeout :
+                    if SWEEP_DEBUB_PR:  print('\t yes')
                     old.append(id)
+
             for id in old:
                 ( (time,ip,query,qbgp),bgp,precision,recall) = queryList.pop(id)
-                print('---',precision,'/',recall,'---')
-                print(query)
-                print('---')
+                if SWEEP_DEBUB_PR: 
+                    print('---',precision,'/',recall,'---',time)
+                    print(query)
+                    print('---')
                 ctx.memory.append( (id, time, ip, query, bgp, precision, recall) )
                 ctx.stat['sumRecall'] += recall
                 ctx.stat['sumPrecision'] += precision
                 ctx.stat['sumQuality'] += (recall+precision)/2
                 if bgp is not None: 
-                    print(".\n".join([ toStr(s,p,o) for ((s,p,o), sm,pm,om ) in bgp.tp_set ]))
+                    if SWEEP_DEBUB_PR: print(".\n".join([ toStr(s,p,o) for ((s,p,o), sm,pm,om ) in bgp.tp_set ]))
                     ctx.stat['sumSelectedBGP'] += 1
                     #---
                     assert ip == bgp.client, 'Client Query différent de client BGP'
@@ -400,16 +426,17 @@ def processValidation(in_queue, ctx):
                     addBGP2Rank(qbgp, query, id, ctx.rankingQueries)
                     addBGP2Rank(canonicalize_sparql_bgp([x for (x,sm,pm,om) in bgp.tp_set]), query, id, ctx.rankingBGPs)
                 else:
-                    print('Query not assigned : ', query)
+                    if SWEEP_DEBUB_PR: print('Query not assigned : ', query)
                     addBGP2Rank(qbgp, query, id, ctx.rankingQueries)
-                print('--- @'+ip+' ---')
+                if SWEEP_DEBUB_PR: print('--- @'+ip+' ---',now())
 
-            try:
-                inq = in_queue.get(timeout= gap.total_seconds())#SWEEP_WAIT)
-            except Empty as e:
-                # print('purge')
-                inq = (-1, None)
-                currentTime = currentTime + gap #dt.timedelta(seconds=SWEEP_WAIT)
+            # try:
+            #     inq = in_queue.get(timeout= timeout.total_seconds())#gap.total_seconds())#SWEEP_WAIT)
+            # except Empty as e:
+            #     if SWEEP_DEBUB_PR:  print('purge (Validation)')
+            #     inq = (-1, None)
+            #     currentTime = now()#currentTime + gap #dt.timedelta(seconds=SWEEP_WAIT)
+            inq = in_queue.get()
     except KeyboardInterrupt:
         # penser à afficher les dernières queries ou uniquement autour du get pour fin de session
         pass
@@ -483,13 +510,13 @@ def processStat(ctx, duration) :
 
 #==================================================
 class SWEEP:
-    def __init__(self,gap):
+    def __init__(self,gap,to,opt):
         #---
         assert isinstance(gap,dt.timedelta)
         #---
         self.gap = gap
-        self.timeout = gap # + dt.timedelta(seconds=SWEEP_WAIT)
-        self.optimistic = False # màj de la date du BGP avec le dernier TP reçu ?
+        self.timeout = to # + dt.timedelta(seconds=SWEEP_WAIT)
+        self.optimistic = opt # màj de la date du BGP avec le dernier TP reçu ?
 
         manager = mp.Manager()
         self.memory = manager.list()
@@ -517,6 +544,7 @@ class SWEEP:
         self.statProcess.start()
 
     def setTimeout(self,to):
+        print('chg to:',to.total_seconds())
         self.timeout = to
 
     def swapOptimistic(self) :
@@ -567,8 +595,8 @@ class SWEEP:
 
 class SWEEP_XML(SWEEP):
     """docstring for SWEEP_XML"""
-    def __init__(self, gap):
-        super(SWEEP_XML, self).__init__(gap)
+    def __init__(self, gap,to,opt):
+        super(SWEEP_XML, self).__init__(gap,to,opt)
         self.qm = QueryManager(modeStat = False)
         self.qId = 0
 
