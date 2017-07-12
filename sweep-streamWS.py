@@ -81,7 +81,7 @@ def bo():
         for (s,p,o) in bgp:
             rep += html.escape(".\n".join([toStr(s,p,o)]))+'<br/>'
         rep += '</td>'
-        rep += '<td>%d</td><td>%s</td>'%(freq,query)
+        rep += '<td>%d</td><td>%s</td>'%(freq,html.escape(query))
         rep += '</tr>'
     rep += '</table></td>'
 
@@ -252,7 +252,7 @@ if __name__ == '__main__':
     parser.add_argument("-to", "--timeout", type=float, default=0, dest="timeout",
                         help="TPF server Time Out in minutes (%d by default). If '-to 0', the timeout is the gap." % 0)
     parser.add_argument("-o","--optimistic", help="BGP time is the last TP added (False by default)",
-                    action="store_false",dest="doOptimistic")
+                    action="store_true",dest="doOptimistic")
     parser.add_argument("-l", "--last", type=int, default=10, dest="nlast", help="Number of last BGPs ti view (10 by default)")
     args = parser.parse_args()
 

@@ -401,6 +401,7 @@ def processValidation(in_queue, ctx):
                     addBGP2Rank(canonicalize_sparql_bgp([x for (x,sm,pm,om) in bgp.tp_set]), query, id, ctx.rankingBGPs)
                 else:
                     print('Query not assigned : ', query)
+                    addBGP2Rank(qbgp, query, id, ctx.rankingQueries)
                 print('--- @'+ip+' ---')
 
             try:

@@ -19,11 +19,17 @@ import datetime as dt
 import iso8601 # https://pypi.python.org/pypi/iso8601/     http://pyiso8601.readthedocs.io/en/latest/
 import time
 
+from tools.tools import *
+from tools.Endpoint import *
+
+import json
+
+import requests as http
+# http://docs.python-requests.org/en/master/user/quickstart/
+
 # import re
 import argparse
 
-from tools.tools import *
-from tools.Endpoint import *
 
 from lxml import etree  # http://lxml.de/index.html#documentation
 # from lib.bgp import *
@@ -43,28 +49,34 @@ class Query(object):
 #==================================================	
 
 def queryThread(sInfo, sp, doPR, query,ref):
-	duration = query.time - ref
-	print('Sleep:',duration.total_seconds(),' second(s)')
-	time.sleep(duration.total_seconds())
-	print('Query:',query.q)
-	# s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	# s.connect(sInfo)
-	(ip,port) = s.getsockname()
-	try:
-		# if doPR:
-		# 	mess = '<query time="'+date2str(query.time)+'" client="'+str(ip)+'"><![CDATA['+query.q+']]></query>'
-		# 	print("Send query:",mess)
-		# 	s.send(mess.encode('utf8'))
-		# 	rep = s.recv(2048)
-		# 	print('ok:',rep)
-		print(sp.query(query.q))
-	except Exception as e:
-		print('Exception',e)
+    duration = query.time - ref
+    print('Sleep:',duration.total_seconds(),' second(s)')
+    time.sleep(duration.total_seconds())
+    print('Query:',query.q)
+    # s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # s.connect(sInfo)
+    #(ip,port) = s.getsockname()
+    (host,port) = sInfo
+    try:
+        if doPR:
+            mess = '<query time="'+date2str(dt.datetime.now())+'"><![CDATA['+query.q+']]></query>'
+            url = host+':'+str(port)+'/query'
+            print('on:',url)
+            s = http.post(url,data={'data':mess})
+            print('Request posted : ',s.json()['result'])
+        # 	mess = '<query time="'+date2str(query.time)+'" client="'+str(ip)+'"><![CDATA['+query.q+']]></query>'
+        # 	print("Send query:",mess)
+        # 	s.send(mess.encode('utf8'))
+        # 	rep = s.recv(2048)
+        # 	print('ok:',rep)
+        print(sp.query(query.q))
+    except Exception as e:
+        print('Exception',e)
 
 #==================================================
 
 def play(file,sp,doValid, sInfo):
-
+ 
     print('Traitement de %s' % file)
     parser = etree.XMLParser(recover=True, strip_cdata=True)
     tree = etree.parse(file, parser)
@@ -73,25 +85,26 @@ def play(file,sp,doValid, sInfo):
     assert dtd.validate(tree), '%s non valide au chargement : %s' % (
         file, dtd.error_log.filter_from_errors()[0])
     #---
-    #print('DTD valide !')
+    print('DTD valide !')
 
     nbe = 0
     date = 'no-date'
     ip = 'ip-'+tree.getroot().get('ip').split('-')[0]
-    #print('ranking building')
     for entry in tree.getroot():
         nbe += 1
-        #print('(%d) new entry to add' % nbe)
-        if nbe == 1:
-        	date_ref = fromISO(entry.get('datetime'))
-        date = fromISO(entry.get('datetime'))
-        ide = entry.get('logline')
-        valid = entry.get("valid")
-        if valid is not None :
-        	if valid == 'TPF' :
-        		query = entry.find('request').text
-        		t = Thread(target=queryThread ,args=(sInfo,sp,doValid,Query(query,date),date_ref))
-        		t.start()
+        if entry.tag == 'entry':
+            print('(%d) new entry to add' % nbe)
+            # print(entry.tag)
+            if nbe == 1:
+            	date_ref = fromISO(entry.get('datetime'))
+            date = fromISO(entry.get('datetime'))
+            ide = entry.get('logline')
+            valid = entry.get("valid")
+            if valid is not None :
+            	if valid == 'TPF' :
+            		query = entry.find('request').text
+            		t = Thread(target=queryThread ,args=(sInfo,sp,doValid,Query(query,date),date_ref))
+            		t.start()
 
 #==================================================
 #==================================================
@@ -122,7 +135,7 @@ args = parser.parse_args()
 # http://localhost:5000/lift : serveur TPF LIFT (exemple du papier)
 # http://localhost:5001/dbpedia_3_9 server dppedia si : ssh -L 5001:172.16.9.3:5001 desmontils@172.16.9.15
 
-sp = TPFEP(service = args.tpfServer, dataset = args.dataset, clientParams= '-s '+args.host+':'+str(args.port)  ) #'http://localhost:5000/lift') 
+sp = TPFEP(service = args.tpfServer, dataset = args.dataset)#, clientParams= '-s '+args.host+':'+str(args.port)  ) #'http://localhost:5000/lift') 
 sp.setEngine(args.tpfClient) #'/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client')
 
 if args.now =='':

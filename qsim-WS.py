@@ -173,11 +173,11 @@ def doTab(s):
 
 def treat(query,ip,datasource):
     try:
-        # mess = '<query time="'+date2str(now())+'" client="'+str(ip)+'"><![CDATA['+query+']]></query>'
-        # url = 'http://'+ctx.host+':'+str(ctx.port)+'/query'
+        mess = '<query time="'+date2str(now())+'" client="'+str(ip)+'"><![CDATA['+query+']]></query>'
+        url = 'http://'+ctx.host+':'+str(ctx.port)+'/query'
         # print('Send to ',url)
         # print('query',mess)
-        # s = http.post(url,data={'data':mess})
+        s = http.post(url,data={'data':mess})
         # print('res:',s.text)
         res=  ctx.listeSP[datasource].query(query) # ctx.tpfc.query(query)
         # pprint(res)
@@ -230,7 +230,7 @@ if __name__ == '__main__':
         ref = l.find('référence')
         if ref.text is None: ref.text=''
         print('Configure ',l.get('nom'), ' in ',args.tpfServer+'/'+f.get('nom'))
-        sp = TPFEP(service = args.tpfServer, dataset= f.get('nom') , clientParams= '-s '+args.host+':'+str(args.port) )
+        sp = TPFEP(service = args.tpfServer, dataset= f.get('nom') )#, clientParams= '-s '+args.host+':'+str(args.port) )
         sp.setEngine(args.tpfClient )
         ctx.listeBases[l.get('nom')] = {'fichier':f.get('nom'),'prefixe':f.get('prefixe'),'référence':ref.text,
                                         'description':etree.tostring(l.find('description'), encoding='utf8').decode('utf8'),
