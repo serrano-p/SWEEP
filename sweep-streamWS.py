@@ -48,10 +48,11 @@ class Context(object):
         self.gap = 0.0 
         self.opt = False
         self.nlast = 10
+        self.nbQueries = 0
+        self.nbEntries = 0
+        self.nbCancelledQueries = 0
         
 ctx = Context()
-
-#==================================================
 
 
 
@@ -71,31 +72,31 @@ def index():
 def bo():
     t = '<table cellspacing="50"><tr>'
 
-    rep = '<td><h1>Frequent BGPs</h1><p>('+str(ctx.nlast)+' more frequents)</p>'
+    rep = '<td><h1>Frequent deduced BGPs</h1><p>('+str(ctx.nlast)+' more frequents)</p>'
     rep += '<table cellspacing="5" border="1" cellpadding="2">'
     rep += '<thead><td>BGP</td><td>Nb Occ.</td><td>Query Exemple</td>'
     ctx.sweep.rankingBGPs.sort(key=itemgetter(1), reverse=True)
-    for (bgp, freq, query, lines) in ctx.sweep.rankingBGPs[-1*ctx.nlast:]:
+    for (bgp, freq, query, lines, precision, recall) in ctx.sweep.rankingBGPs[-1*ctx.nlast:]:
         rep += '<tr>'
         rep += '<td>'
-        for (s,p,o) in bgp:
-            rep += html.escape(".\n".join([toStr(s,p,o)]))+'<br/>'
+        for (s,p,o) in simplifyVars(bgp):
+            rep += html.escape(toStr(s,p,o))+' . <br/>'
         rep += '</td>'
         rep += '<td>%d</td><td>%s</td>'%(freq,html.escape(query))
         rep += '</tr>'
     rep += '</table></td>'
 
-    rep += '<td><h1>Frequent Queries</h1><p>('+str(ctx.nlast)+' more frequents)</p>'
+    rep += '<td><h1>Frequent Ground Truth Queries</h1><p>('+str(ctx.nlast)+' more frequents)</p>'
     rep += '<table cellspacing="5" border="1" cellpadding="2">'
-    rep += '<thead><td>BGP</td><td>Nb Occ.</td><td>Query Exemple</td>'
+    rep += '<thead><td>BGP</td><td>Nb Occ.</td><td>Query Exemple</td><td>Avg. Precision</td><td>Avg. Recall</td>'
     ctx.sweep.rankingQueries.sort(key=itemgetter(1), reverse=True)
-    for (bgp, freq, query, lines) in ctx.sweep.rankingQueries[-1*ctx.nlast:]:
+    for (bgp, freq, query, lines, precision, recall) in ctx.sweep.rankingQueries[-1*ctx.nlast:]:
         rep += '<tr>'
         rep += '<td>'
-        for (s,p,o) in bgp:
-            rep += html.escape(".\n".join([toStr(s,p,o)]))+'<br/>'
+        for (s,p,o) in simplifyVars(bgp):
+            rep += html.escape(toStr(s,p,o))+' . <br/>'
         rep += '</td>'
-        rep += '<td>%d</td><td>%s</td>'%(freq,html.escape(query))
+        rep += '<td>%d</td><td>%s</td><td>%2.3f</td><td>%2.3f</td>'%(freq,html.escape(query), precision/freq, recall/freq)
         rep += '</tr>'
     rep += '</table></td>'
 
@@ -128,9 +129,9 @@ def sweep():
     rep += '</tr></table></td>'
 
     rep += '<td><h1>Global measures</h1><table border="1"><thead>'
-    rep += '<td>Nb Queries</td><td>Nb BGP</td>'
+    rep += '<td>Nb Evaluated Queries</td><td>Nb Cancelled Queries</td><td>Nb BGP</td><td>Nb Entries</td>'
     rep += '<td>Avg Precision</td><td>Avg Recall</td><td>Avg Quality</td><td>Acureness</td></thead><tr>'
-    rep += '<td>%d</td><td>%d</td>'%(nb,nbbgp)
+    rep += '<td>%d / %d</td><td>%d</td><td>%d</td><td>%d</td>'%(nb,ctx.nbQueries,ctx.nbCancelledQueries,nbbgp,ctx.nbEntries)
     rep += '<td>%2.3f</td><td>%2.3f</td><td>%2.3f</td><td>%2.3f</td>'%(avgPrecision,avgRecall,avgQual,Acuteness)
     rep += '</tr></table></td></tr></table>\n<hr size="2" width="100" align="CENTER" />'
 
@@ -144,19 +145,32 @@ def sweep():
     for (i,t,ip,query,bgp,precision,recall) in ctx.sweep.memory[-1*ctx.nlast:] :
         if i==0:
             rep +='<tr><td>'+bgp.client+'</td><td>'+str(bgp.time)+'</td><td>'
-            for ((s,p,o),sm,pm,om) in bgp.tp_set:
-                rep += html.escape(".\n".join([toStr(s,p,o)]))+'<br/>'
+            for (s,p,o) in simplifyVars([tp for (tp,sm,pm,om) in bgp.tp_set]):
+                rep += html.escape(toStr(s,p,o))+' . <br/>'
             rep += '</td><td>No query assigned</td><td></td><td></td><td></td></tr>'
         else:
             rep +='<tr><td>'+ip+'</td><td>'+str(t)+'</td><td>'
             if bgp is not None:
-                for ((s,p,o),sm,pm,om) in bgp.tp_set:
-                    rep += html.escape(toStr(s,p,o))+'<br/>'
+                for (s,p,o) in simplifyVars([tp for (tp,sm,pm,om) in bgp.tp_set]):
+                    rep += html.escape(toStr(s,p,o))+' . <br/>'
             else:
                 rep += 'No BGP assigned !'
             rep += '</td><td>'+html.escape(query)+'</td><td>%2.3f</td><td>%2.3f</td><td>%2.3f</td></tr>'%(precision,recall,(precision+recall)/2)
     rep += '</table>'
     return rep
+
+@app.route('/delquery', methods=['post','get'])
+def processDelQuery():
+    if request.method == 'POST':
+        ip = request.remote_addr
+        # data = request.form['data']
+        ctx.sweep.stat['nbQueries'] -= 1
+        ctx.nbCancelledQueries += 1
+        # ctx.nbQueries -= 1
+        return jsonify(result=True)
+    else:
+        print('"delquery" not implemented for HTTP GET')
+        return jsonify(result=False)
 
 @app.route('/query', methods=['post','get'])
 def processQuery():
@@ -174,6 +188,7 @@ def processQuery():
                 query.set('client',str(ip) )
             elif "::ffff:" in client:
                 query.set('client', client[7:])
+            ctx.nbQueries += 1
             ctx.sweep.put(query)   
             return jsonify(result=True)            
         except Exception as e:
@@ -192,15 +207,16 @@ def processEntry():
         # print('Receiving entry:',data)
         try:
             tree = etree.parse(StringIO(data), ctx.parser)
-            query = tree.getroot()
-            client = query.get('client')
+            entry = tree.getroot()
+            client = entry.get('client')
             if client is None:
-                query.set('client',str(ip) )
+                entry.set('client',str(ip) )
             elif client in ["undefined","", "undefine"]:
-                query.set('client',str(ip) )
+                entry.set('client',str(ip) )
             elif "::ffff:" in client:
-                query.set('client', client[7:])
-            ctx.sweep.put(query)  
+                entry.set('client', client[7:])
+            ctx.nbEntries += 1
+            ctx.sweep.put(entry)  
             return jsonify(result=True)             
         except Exception as e:
             print('Exception',e)

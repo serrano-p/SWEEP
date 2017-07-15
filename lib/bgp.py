@@ -162,6 +162,27 @@ def getBGP(n):
 
 #==================================================
 
+#==================================================
+
+def chgVar(s,i,var):
+    if isinstance(s,Variable) : 
+        if s in var.keys() : s = var[s]
+        else: 
+            i += 1
+            var[s] = '?v'+str(i)
+            s = var[s]
+    return (s,i,var)
+
+def simplifyVars(bgp):
+    var = dict() ; i = 0
+    nbgp = []
+    for (s,p,o) in bgp:
+        (s,i,var) = chgVar(s,i,var)
+        (p,i,var) = chgVar(p,i,var)
+        (o,i,var) = chgVar(o,i,var)
+        nbgp.append( (s,p,o) )
+    return nbgp
+
 def serialize2string(i):
     if isinstance(i, Variable):
         return '?'+ i.__str__()

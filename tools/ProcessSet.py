@@ -15,6 +15,13 @@ from queue import Empty
 from tools.tools import *
 from tools.Stat import *
 
+class ContextProcess(object):
+	"""docstring for ContextProcess"""
+	def __init__(self,id):
+		super(ContextProcess, self).__init__()
+		self.idp = id
+		
+
 class ProcessSet:
 	def __init__(self, nb_processes, func, *args):
 		self.nb_processes = nb_processes

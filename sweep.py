@@ -45,7 +45,7 @@ class BGP:
     def toString(self):
         rep = ''
         for ((s,p,o),sm,pm,om) in self.tp_set:
-                rep += ".\n".join([toStr(s,p,o)])
+                rep += toStr(s,p,o) + " . "
         return rep
 
     def print(self):
@@ -353,18 +353,18 @@ def testPrecisionRecallBGP(queryList, bgp):
     else:
         return bgp
 
-def addBGP2Rank(bgp, nquery, line, ranking):
+def addBGP2Rank(bgp, nquery, line, precision, recall, ranking):
     ok = False
-    for (i, (d, n, query, ll)) in enumerate(ranking):
+    for (i, (d, n, query, ll, p, r)) in enumerate(ranking):
         if bgp == d:
             ok = True
             break
     if ok:
         ll.add(line)
         if query == '': query = nquery
-        ranking[i] = (d, n+1, query, ll)
+        ranking[i] = (d, n+1, query, ll, p+precision, r+recall)
     else:
-        ranking.append( (bgp, 1 , nquery, {line}) )
+        ranking.append( (bgp, 1 , nquery, {line}, precision, recall) )
 
 def processValidation(in_queue, ctx):
     timeout = ctx.timeout
@@ -394,7 +394,7 @@ def processValidation(in_queue, ctx):
                 bgp = testPrecisionRecallBGP(queryList,bgp)
                 if bgp is not None:
                     ctx.memory.append( (0, bgp.birthTime, bgp.client, None, bgp, 0, 0) )
-                    addBGP2Rank(canonicalize_sparql_bgp([x for (x,sm,pm,om) in bgp.tp_set]), '', id, ctx.rankingBGPs)
+                    addBGP2Rank(canonicalize_sparql_bgp([x for (x,sm,pm,om) in bgp.tp_set]), '', id, 0,0, ctx.rankingBGPs)
             else:
                 currentTime =now()
 
@@ -423,11 +423,11 @@ def processValidation(in_queue, ctx):
                     #---
                     assert ip == bgp.client, 'Client Query différent de client BGP'
                     #---
-                    addBGP2Rank(qbgp, query, id, ctx.rankingQueries)
-                    addBGP2Rank(canonicalize_sparql_bgp([x for (x,sm,pm,om) in bgp.tp_set]), query, id, ctx.rankingBGPs)
+                    addBGP2Rank(canonicalize_sparql_bgp(qbgp), query, id, precision, recall, ctx.rankingQueries)
+                    addBGP2Rank(canonicalize_sparql_bgp([x for (x,sm,pm,om) in bgp.tp_set]), query, id, 0,0, ctx.rankingBGPs)
                 else:
                     if SWEEP_DEBUB_PR: print('Query not assigned : ', query)
-                    addBGP2Rank(qbgp, query, id, ctx.rankingQueries)
+                    addBGP2Rank(qbgp, query, id, precision, recall, ctx.rankingQueries)
                 if SWEEP_DEBUB_PR: print('--- @'+ip+' ---',now())
 
             # try:

@@ -214,39 +214,42 @@ class TPFEP(Endpoint):
         self.dataset = d
 
     def query(self, qstr):
-        # 'run' n'existe que depuis python 3.5 !!! donc pas en 3.2 !!!!
-        # print('Execute:',self.appli,self.service+'/'+self.dataset,qstr)
-        if self.clientParams == '':
-            ret = subprocess.run([self.appli,self.service+'/'+self.dataset, qstr], 
-                             stdout=subprocess.PIPE, encoding='utf-8', stderr=subprocess.PIPE, check=True, timeout=self.timeOut)
-        else :
-            ret = subprocess.run([self.appli,self.service+'/'+self.dataset, self.clientParams, qstr], 
-                             stdout=subprocess.PIPE, encoding='utf-8', stderr=subprocess.PIPE, check=True, timeout=self.timeOut)
-        #pprint(ret)
-        #sys.exit()
-        out = ret.stdout
-        if out != '':
-            return json.loads(out)
-        else:
-            err = ret.stderr
-            #print('##'+err+'##')
-            #pprint(self.reSyntaxError.search(err).group(0))
-            #pprint(self.reQueryNotSupported.search(err).group(0))
+        try:
+            # 'run' n'existe que depuis python 3.5 !!! donc pas en 3.2 !!!!
+            # print('Execute:',self.appli,self.service+'/'+self.dataset,qstr)
+            if self.clientParams == '':
+                ret = subprocess.run([self.appli,self.service+'/'+self.dataset, qstr], 
+                                 stdout=subprocess.PIPE, encoding='utf-8', stderr=subprocess.PIPE, check=True, timeout=self.timeOut)
+            else :
+                ret = subprocess.run([self.appli,self.service+'/'+self.dataset, self.clientParams, qstr], 
+                                 stdout=subprocess.PIPE, encoding='utf-8', stderr=subprocess.PIPE, check=True, timeout=self.timeOut)
+            #pprint(ret)
             #sys.exit()
-            if self.reSyntaxError.search(err) != None: #ret.stderr.startswith('ERROR: Query execution could not start.\n\nSyntax error in query'):
-                raise Exception('QueryBadFormed : %s' % err)
-            elif self.reQueryNotSupported.search(err) != None: #ret.stderr.startswith('ERROR: Query execution could not start.\n\The query is not yet supported'):
-                #print(err)
-                #sys.exit()
-                raise Exception('QueryBadFormed : %s' % err) 
+            out = ret.stdout
+            if out != '':
+                return json.loads(out)
             else:
-                raise Exception('TPF Client error : %s' % err)
-        
-        # out = subprocess.check_output(['ldf-client',self.service+'/'+self.dataset, qstr.encode('utf8')]) #, encoding='utf-8') # ,stderr=subprocess.DEVNULL : python3.3 # timeout... uniquement python 3.3
-        # #print('out=',out)
-        # if out != '':
-        #     return json.loads(out.decode('utf8'))
-        # else: raise Exception('QueryBadFormed') #return []
+                err = ret.stderr
+                #print('##'+err+'##')
+                #pprint(self.reSyntaxError.search(err).group(0))
+                #pprint(self.reQueryNotSupported.search(err).group(0))
+                #sys.exit()
+                if self.reSyntaxError.search(err) != None: #ret.stderr.startswith('ERROR: Query execution could not start.\n\nSyntax error in query'):
+                    raise Exception('QueryBadFormed : %s' % err)
+                elif self.reQueryNotSupported.search(err) != None: #ret.stderr.startswith('ERROR: Query execution could not start.\n\The query is not yet supported'):
+                    #print(err)
+                    #sys.exit()
+                    raise Exception('QueryBadFormed : %s' % err) 
+                else:
+                    raise Exception('TPF Client error : %s' % err)
+            
+            # out = subprocess.check_output(['ldf-client',self.service+'/'+self.dataset, qstr.encode('utf8')]) #, encoding='utf-8') # ,stderr=subprocess.DEVNULL : python3.3 # timeout... uniquement python 3.3
+            # #print('out=',out)
+            # if out != '':
+            #     return json.loads(out.decode('utf8'))
+            # else: raise Exception('QueryBadFormed') #return []
+        except Exception as e:
+            raise Exception('TPF Client error. ' , e)
 
     def is_answering(self, qstr):
         try:
