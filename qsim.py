@@ -37,6 +37,16 @@ from lxml import etree  # http://lxml.de/index.html#documentation
 # from lib.bgp import *
 
 #==================================================	
+
+
+TPF_SERVEUR_HOST = 'http://127.0.0.1'
+TPF_SERVEUR_PORT = 5000
+TPF_SERVEUR_DATASET = 'lift'
+TPF_CLIENT = '/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client'
+TPF_CLIENT_REDO = 3
+SWEEP_SERVEUR_HOST = 'http://127.0.0.1'
+SWEEP_SERVEUR_PORT = 5002
+
 #==================================================
 
 def play(file,nb_processes, server,client,timeout, dataset,doValid, sInfo):
@@ -77,7 +87,7 @@ def play(file,nb_processes, server,client,timeout, dataset,doValid, sInfo):
                     date = current_date+(date-date_ref)
                     print('(%d) new entry to add - executed at %s' % (nbe,date))
                     compute_queue.put( (nbe, entry.find('request').text, date )  )
-                    
+
         if nbe>100:break
 
     if nbe>0: 
@@ -109,7 +119,7 @@ def run(inq, server, client, timeout, dataset, host, port, doPR):
                 print('Exception',e)
 
         try:
-            for i in range(3): # We try the query 3 times beause of TPF Client problems 
+            for i in range(TPF_CLIENT_REDO): # We try the query 3 times beause of TPF Client problems 
                 try:
                     rep = sp.query(query)
                     # print('(%d)'%nbe,':',rep)
@@ -160,14 +170,6 @@ def run(inq, server, client, timeout, dataset, host, port, doPR):
 #==================================================
 #==================================================
 #==================================================
-
-TPF_SERVEUR_HOST = 'http://127.0.0.1'
-TPF_SERVEUR_PORT = 5000
-TPF_SERVEUR_DATASET = 'lift'
-TPF_CLIENT = '/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client'
-SWEEP_SERVEUR_HOST = 'http://127.0.0.1'
-SWEEP_SERVEUR_PORT = 5002
-
 
 parser = argparse.ArgumentParser(description='Linked Data Query simulator (for a modified TPF server)')
 parser.add_argument('files', metavar='file', nargs='+', help='files to analyse')
