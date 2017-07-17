@@ -39,6 +39,7 @@ class Context(object):
         self.version = '1.0'
         self.name = 'Name'
         self.ok = True        
+        self.nbQuery = 0
 
     def setLDQPServer(self, host, port):
         self.host = host
@@ -148,7 +149,7 @@ def envoyer():
 def liste(datasource):
     ip = request.remote_addr
     # print(datasource, )
-    s=treat("select * where{?s ?p ?o} limit 100",ip,datasource)
+    s=treat("select * where{?s ?p ?o} limit 15",ip,datasource)
     tab = doTab(s)
     d = dict({'ok':s != 'Error','val':tab})
     return jsonify(result=d)    
@@ -173,15 +174,59 @@ def doTab(s):
 
 def treat(query,ip,datasource):
     try:
-        mess = '<query time="'+date2str(now())+'" client="'+str(ip)+'"><![CDATA['+query+']]></query>'
+        ctx.nbQuery += 1
+        no = str(ip)+str(ctx.nbQuery)
+        mess = '<query time="'+date2str(now())+'" client="'+str(ip)+'" no="'+no+'"><![CDATA['+query+']]></query>'
         url = 'http://'+ctx.host+':'+str(ctx.port)+'/query'
         # print('Send to ',url)
         # print('query',mess)
-        s = http.post(url,data={'data':mess})
+        s = http.post(url,data={'data':mess, 'no':no})
         # print('res:',s.json()['result'])
-        res=  ctx.listeSP[datasource].query(query) # ctx.tpfc.query(query)
+        # res=  ctx.listeSP[datasource].query(query) # ctx.tpfc.query(query)
         # pprint(res)
         # print(type(res))
+        try:
+            res=  ctx.listeSP[datasource].query(query)
+            # print('(%d)'%nbe,':',rep)
+            if rep == []:
+               print("Empty query !!!")
+               url = host+':'+str(port)+'/inform'
+               s = http.post(url,data={'data':mess,'errtype':'Empty', 'no':no})
+        except TPFClientError as e :
+            print('(%d)'%nbe,'Exception TPFClientError : %s'%e.__str__())
+            if doPR:
+                url = host+':'+str(port)+'/inform'
+                s = http.post(url,data={'data':mess,'errtype':'CltErr', 'no':no})
+                print('(%d)'%nbe,'Request cancelled : ',s.json()['result']) 
+            res='Error'
+        except TimeOut as e :
+            print('(%d)'%nbe,'Timeout :',e)
+            if doPR:
+                url = host+':'+str(port)+'/inform'
+                s = http.post(url,data={'data':mess,'errtype':'TO', 'no':no})
+                print('(%d)'%nbe,'Request cancelled : ',s.json()['result'])   
+            res='Error'     
+        except QueryBadFormed as e:
+            print('(%d)'%nbe,'Query Bad Formed :',e)
+            if doPR:
+                url = host+':'+str(port)+'/inform'
+                s = http.post(url,data={'data':mess,'errtype':'QBF', 'no':no})
+                print('(%d)'%nbe,'Request cancelled : ',s.json()['result']) 
+            res='Error'
+        except EndpointException as e:
+            print('(%d)'%nbe,'Endpoint Exception :',e)
+            if doPR:
+                url = host+':'+str(port)+'/inform'
+                s = http.post(url,data={'data':mess,'errtype':'EQ', 'no':no})
+                print('(%d)'%nbe,'Request cancelled : ',s.json()['result']) 
+            res='Error'
+        except Exception as e:
+            print('(%d)'%nbe,'Exception execution query... :',e)
+            if doPR:
+                url = host+':'+str(port)+'/inform'
+                s = http.post(url,data={'data':mess,'errtype':'Other', 'no':no})
+                print('(%d)'%nbe,'Request cancelled : ',s.json()['result'])
+            res='Error'
     except Exception as e:
         print('Exception',e)
         res='Error'

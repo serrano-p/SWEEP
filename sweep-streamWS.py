@@ -51,10 +51,14 @@ class Context(object):
         self.nbQueries = 0
         self.nbEntries = 0
         self.nbCancelledQueries = 0
+        self.nbQBF = 0
+        self.nbTO = 0
+        self.nbEQ = 0
+        self.nbOther = 0
+        self.nbClientError = 0
+        self.nbEmpty = 0
         
 ctx = Context()
-
-
 
 #==================================================
 
@@ -129,19 +133,18 @@ def sweep():
     rep += '</tr></table></td>'
 
     rep += '<td><h1>Global measures</h1><table border="1"><thead>'
-    rep += '<td>Nb Evaluated Queries</td><td>Nb Cancelled Queries</td><td>Nb BGP</td><td>Nb Entries</td>'
+    rep += '<td>Nb Evaluated Queries</td><td>Nb Cancelled Queries</td><td>Nb Empty Queries</td><td>Nb Timeout Queries</td><td>Nb Bad formed Queries</td><td>Nb TPF Client Error</td><td>Nb TPF Client Query Error</td><td>Nb Other query Error</td>'   
+    rep += '<td>Nb BGP</td><td>Nb Entries</td>'
     rep += '<td>Avg Precision</td><td>Avg Recall</td><td>Avg Quality</td><td>Acureness</td></thead><tr>'
-    rep += '<td>%d / %d</td><td>%d</td><td>%d</td><td>%d</td>'%(nb,ctx.nbQueries,ctx.nbCancelledQueries,nbbgp,ctx.nbEntries)
+
+    rep += '<td>%d / %d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>'%(nb,ctx.nbQueries,ctx.nbCancelledQueries,ctx.nbEmpty,ctx.nbTO,ctx.nbQBF,ctx.nbClientError,ctx.nbEQ,ctx.nbOther)
+
+    rep += '<td>%d</td><td>%d</td>'%(nbbgp,ctx.nbEntries)
     rep += '<td>%2.3f</td><td>%2.3f</td><td>%2.3f</td><td>%2.3f</td>'%(avgPrecision,avgRecall,avgQual,Acuteness)
     rep += '</tr></table></td></tr></table>\n<hr size="2" width="100" align="CENTER" />'
 
     rep += '<h1>BGPs</h1><p>('+str(ctx.nlast)+' more recents)</p><table cellspacing="5" border="1" cellpadding="2">\n'
     rep += '<thead><td>ip</td><td>time</td><td>bgp</td><td>Original query</td><td>Precision</td><td>Recall</td><td>Quality</td></thead>\n'
-    # for bgp in ctx.list:
-    #     rep +='<tr><td>'+bgp.client+'</td><td>'+str(bgp.time)+'</td><td>'
-    #     for ((s,p,o),sm,pm,om) in bgp.tp_set:
-    #         rep += html.escape(toStr(s,p,o))+'<br/>'
-    #     rep += '</td></tr>'
     for (i,t,ip,query,bgp,precision,recall) in ctx.sweep.memory[-1*ctx.nlast:] :
         if i==0:
             rep +='<tr><td>'+bgp.client+'</td><td>'+str(bgp.time)+'</td><td>'
@@ -159,17 +162,61 @@ def sweep():
     rep += '</table>'
     return rep
 
-@app.route('/delquery', methods=['post','get'])
-def processDelQuery():
+# @app.route('/delquery', methods=['post','get'])
+# def processDelQuery():
+#     if request.method == 'POST':
+#         ip = request.remote_addr
+#         # data = request.form['data']
+#         ctx.sweep.stat['nbQueries'] -= 1
+#         ctx.nbCancelledQueries += 1
+#         # ctx.nbQueries -= 1
+#         return jsonify(result=True)
+#     else:
+#         print('"delquery" not implemented for HTTP GET')
+#         return jsonify(result=False)
+
+@app.route('/inform', methods=['post','get'])
+def processInform():
     if request.method == 'POST':
         ip = request.remote_addr
-        # data = request.form['data']
-        ctx.sweep.stat['nbQueries'] -= 1
-        ctx.nbCancelledQueries += 1
-        # ctx.nbQueries -= 1
+        errtype = request.form['errtype']
+        queryNb = request.form['no']
+        if errtype == 'QBF':
+            print('(%s)'%queryNb,'Query Bad Formed :',request.form['data'])
+            ctx.sweep.delQuery(queryNb)
+            ctx.nbCancelledQueries += 1 
+            ctx.nbQBF += 1
+        elif errtype == 'TO':
+            print('(%s)'%queryNb,'Time Out :',request.form['data'])
+            ctx.sweep.delQuery(queryNb)
+            ctx.nbCancelledQueries += 1 
+            ctx.nbTO += 1
+        elif errtype == 'CltErr':
+            print('(%s)'%queryNb,'TPF Client Error for :',request.form['data'])
+            ctx.sweep.delQuery(queryNb)
+            ctx.nbCancelledQueries += 1 
+            ctx.nbClientError += 1
+        elif errtype == 'EQ':
+            print('(%s)'%queryNb,'Error Query for :',request.form['data'])
+            ctx.sweep.delQuery(queryNb)
+            ctx.nbCancelledQueries += 1 
+            ctx.nbEQ += 1
+        elif errtype == 'Other':
+            print('(%s)'%queryNb,'Unknown Pb for query :',request.form['data'])
+            ctx.sweep.delQuery(queryNb)  
+            ctx.nbCancelledQueries += 1       
+            ctx.nbOther += 1 
+        elif errtype == 'Empty':
+            print('(%s)'%queryNb,'Empty for :',request.form['data'])
+            ctx.nbEmpty += 1
+        else:
+            print('(%s)'%queryNb,'Unknown Pb for query :',request.form['data'])
+            ctx.sweep.delQuery(queryNb)
+            ctx.nbCancelledQueries += 1 
+            ctx.nbOther += 1
         return jsonify(result=True)
     else:
-        print('"delquery" not implemented for HTTP GET')
+        print('"inform" not implemented for HTTP GET')
         return jsonify(result=False)
 
 @app.route('/query', methods=['post','get'])
@@ -189,7 +236,7 @@ def processQuery():
             elif "::ffff:" in client:
                 query.set('client', client[7:])
             ctx.nbQueries += 1
-            ctx.sweep.put(query)   
+            ctx.sweep.putQuery(query)
             return jsonify(result=True)            
         except Exception as e:
             print('Exception',e)
@@ -269,9 +316,9 @@ if __name__ == '__main__':
                         help="TPF server Time Out in minutes (%d by default). If '-to 0', the timeout is the gap." % 0)
     parser.add_argument("-o","--optimistic", help="BGP time is the last TP added (False by default)",
                     action="store_true",dest="doOptimistic")
-    parser.add_argument("-l", "--last", type=int, default=10, dest="nlast", help="Number of last BGPs ti view (10 by default)")
+    parser.add_argument("-l", "--last", type=int, default=10, dest="nlast", help="Number of last BGPs to view (10 by default)")
     args = parser.parse_args()
-
+ 
     ctx.gap = args.gap
     if args.timeout == 0:
         ctx.to = ctx.gap
@@ -292,7 +339,7 @@ if __name__ == '__main__':
         app.run(
             host="0.0.0.0",
             port=int("5002"),
-            debug=True
+            debug=False
         )
         # while 1:
         #     time.sleep(60)

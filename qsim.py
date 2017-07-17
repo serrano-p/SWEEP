@@ -39,7 +39,7 @@ from lxml import etree  # http://lxml.de/index.html#documentation
 #==================================================	
 #==================================================
 
-def play(file,nb_processes, server,client,dataset,doValid, sInfo):
+def play(file,nb_processes, server,client,timeout, dataset,doValid, sInfo):
     (host,port) = sInfo
     compute_queue = mp.Queue(nb_processes)
     print('Traitement de %s' % file)
@@ -58,14 +58,14 @@ def play(file,nb_processes, server,client,dataset,doValid, sInfo):
     for entry in tree.getroot():
         nbe += 1
         if entry.tag == 'entry':
-            print('(%d) new entry to add' % nbe)
+            
             # print(entry.tag)
             if nbe == 1:
                 date_ref = fromISO(entry.get('datetime'))
                 current_date = dt.datetime.now()
                 processes = []
                 for i in range(nb_processes):
-                    p = mp.Process(target=run, args=(compute_queue, server, client, dataset, host,port,doValid))
+                    p = mp.Process(target=run, args=(compute_queue, server, client, timeout, dataset, host,port,doValid))
                     processes.append(p)
                 for p in processes:
                     p.start()
@@ -74,16 +74,19 @@ def play(file,nb_processes, server,client,dataset,doValid, sInfo):
             valid = entry.get("valid")
             if valid is not None :
                 if valid == 'TPF' :
-                    compute_queue.put( (nbe, entry.find('request').text, current_date+(date-date_ref) )  )
+                    date = current_date+(date-date_ref)
+                    print('(%d) new entry to add - executed at %s' % (nbe,date))
+                    compute_queue.put( (nbe, entry.find('request').text, date )  )
     if nbe>0: 
-        for p in self.processes:
+        for p in processes:
             compute_queue.put(None)
-        for p in self.processes:
+        for p in processes:
             p.join()
 
-def run(inq, server, client, dataset, host, port, doPR):
+def run(inq, server, client, timeout, dataset, host, port, doPR):
     sp = TPFEP(service = server, dataset = dataset)#, clientParams= '-s '+host+':'+str(port)  ) #'http://localhost:5000/lift') 
     sp.setEngine(client) #'/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client')
+    if timeout: sp.setTimeout(timeout)
     mss = inq.get()
     while mss is not None:
         (nbe,query,d) = mss
@@ -91,26 +94,63 @@ def run(inq, server, client, dataset, host, port, doPR):
         print('(%d)'%nbe,'Sleep:',duration.total_seconds(),' second(s)')
         time.sleep(duration.total_seconds())
         print('(%d)'%nbe,'Query:',query)
-        try:
-            if doPR:
-                mess = '<query time="'+date2str(dt.datetime.now())+'"><![CDATA['+query+']]></query>'
-                url = host+':'+str(port)+'/query'
-                print('on:',url)
-                s = http.post(url,data={'data':mess})
-                print('(%d)'%nbe,'Request posted : ',s.json()['result'])
+        no = 'qsim-'+str(nbe)
+        mess = '<query time="'+date2str(dt.datetime.now())+'" no="'+no+'"><![CDATA['+query+']]></query>'
+        if doPR:
+            url = host+':'+str(port)+'/query'
+            print('on:',url)
             try:
-                rep = sp.query(query)
-                print('(%d)'%nbe,':',rep)
+                s = http.post(url,data={'data':mess, 'no':no})
+                print('(%d)'%nbe,'Request posted : ',s.json()['result'])
             except Exception as e:
-                print('(%d)'%nbe,'Exception execution query... :',e)
-                if doPR:
-                    url = host+':'+str(port)+'/delquery'
-                    s = http.post(url,data={'data':mess})
-                    print('(%d)'%nbe,'Request cancelled : ',s.json()['result'])
-            mss = inq.get()
+                print('Exception',e)
+
+        try:
+            for i in range(3): # We try the query 3 times beause of TPF Client problems 
+                try:
+                    rep = sp.query(query)
+                    print('(%d)'%nbe,':',rep)
+                    if rep == []:
+                       print("Empty query !!!")
+                       url = host+':'+str(port)+'/inform'
+                       s = http.post(url,data={'data':mess,'errtype':'Empty', 'no':no})
+                    break
+                except TPFClientError as e :
+                    print('(%d)'%nbe,'Exception TPFClientError (%d) : %s'%(i+1,e.__str__()))
+                    if i==2:
+                        if doPR:
+                            url = host+':'+str(port)+'/inform'
+                            s = http.post(url,data={'data':mess,'errtype':'CltErr', 'no':no})
+                            print('(%d)'%nbe,'Request cancelled : ',s.json()['result']) 
+                except TimeOut as e :
+                    print('(%d)'%nbe,'Timeout (%d) :'%(i+1),e)
+                    if i==2:
+                        if doPR:
+                            url = host+':'+str(port)+'/inform'
+                            s = http.post(url,data={'data':mess,'errtype':'TO', 'no':no})
+                            print('(%d)'%nbe,'Request cancelled : ',s.json()['result'])  
+
+        except QueryBadFormed as e:
+            print('(%d)'%nbe,'Query Bad Formed :',e)
+            if doPR:
+                url = host+':'+str(port)+'/inform'
+                s = http.post(url,data={'data':mess,'errtype':'QBF', 'no':no})
+                print('(%d)'%nbe,'Request cancelled : ',s.json()['result']) 
+        except EndpointException as e:
+            print('(%d)'%nbe,'Endpoint Exception :',e)
+            if doPR:
+                url = host+':'+str(port)+'/inform'
+                s = http.post(url,data={'data':mess,'errtype':'EQ', 'no':no})
+                print('(%d)'%nbe,'Request cancelled : ',s.json()['result']) 
         except Exception as e:
-            print('Exception qsim run :',e)
-            break
+            print('(%d)'%nbe,'Exception execution query... :',e)
+            if doPR:
+                url = host+':'+str(port)+'/inform'
+                s = http.post(url,data={'data':mess,'errtype':'Other', 'no':no})
+                print('(%d)'%nbe,'Request cancelled : ',s.json()['result'])
+
+        mss = inq.get()
+
 
 #==================================================
 #==================================================
@@ -132,8 +172,7 @@ parser.add_argument("-s","--server", default=TPF_SERVEUR_HOST+':'+str(TPF_SERVEU
 parser.add_argument("-d", "--dataset", default=TPF_SERVEUR_DATASET, dest="dataset", help="TPF Server Dataset ('"+TPF_SERVEUR_DATASET+"' by default)")
 parser.add_argument("-c", "--client", default=TPF_CLIENT, dest="tpfClient", help="TPF Client ('...' by default)")
 parser.add_argument("-v", "--valid", default='', dest="valid", action="store_true", help="Do precision/recall")
-parser.add_argument("-to", "--timeout", type=float, default=0, dest="timeout",
-                    help="TPF server Time Out in minutes (%d by default). If '-to 0', the timeout is the gap." % 0)
+parser.add_argument("-to", "--timeout", type=float, default=None, dest="timeout",help="TPF Client Time Out in minutes (no timeout by default).")
 parser.add_argument("-p", "--proc", type=int, default=mp.cpu_count(), dest="nb_processes",
                     help="Number of processes used (%d by default)" % mp.cpu_count())
 
@@ -145,4 +184,4 @@ print('Start simulating with %d processes'%args.nb_processes)
 file_set = args.files
 for file in file_set:
     if existFile(file):
-    	play(file,args.nb_processes, args.tpfServer, args.tpfClient, args.dataset,args.valid, (args.host,args.port)  )
+    	play(file,args.nb_processes, args.tpfServer, args.tpfClient, args.timeout, args.dataset,args.valid, (args.host,args.port)  )

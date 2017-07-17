@@ -65,7 +65,10 @@ def toStr(s,p,o):
 SWEEP_IN_ENTRY = 1
 SWEEP_IN_DATA = 2
 SWEEP_IN_END = 3
+
 SWEEP_IN_QUERY = 4
+SWEEP_OUT_QUERY = 5
+SWEEP_IN_BGP = 6
 
 SWEEP_START_SESSION = -1
 SWEEP_END_SESSION = -2
@@ -82,6 +85,7 @@ SWEEP_DEBUB_PR = False
 
 def processAgregator(in_queue,out_queue, val_queue, ctx):
     timeout = ctx.timeout
+    gap = ctx.gap
     currentTime = now()
     elist = dict()   
     # print(timeout.total_seconds())
@@ -116,10 +120,6 @@ def processAgregator(in_queue,out_queue, val_queue, ctx):
                 for v in elist:
                     out_queue.put( (v, elist.pop(v)) )
                 out_queue.put( (id, SWEEP_END_SESSION) )
-            elif x == SWEEP_IN_QUERY :
-                currentTime = now()
-                (time,ip,query,qbgp) = val
-                val_queue.put( (id, (currentTime,ip,query,qbgp) ) )
             else: # SWEEP_PURGE...
                 out_queue.put( (id, SWEEP_PURGE) )
 
@@ -127,7 +127,7 @@ def processAgregator(in_queue,out_queue, val_queue, ctx):
             old = []
             for id in elist:
                 (s,p,o,t,c,sm,pm,om) = elist[id]
-                if (currentTime - t) > timeout:
+                if (currentTime - t) > gap:
                     old.append(id)
             for id in old:
                 v = elist.pop(id)
@@ -196,7 +196,7 @@ def processBGPDiscover(in_queue, out_queue, val_queue, ctx):
             (id, val) = entry
             if val==SWEEP_PURGE:
                 currentTime = now()
-                val_queue.put((0,SWEEP_PURGE))
+                val_queue.put((SWEEP_PURGE,0,None))
             elif val == SWEEP_START_SESSION:
                 currentTime = now()
                 # print('BGPDiscover - Start Session')
@@ -207,7 +207,7 @@ def processBGPDiscover(in_queue, out_queue, val_queue, ctx):
                 # print('BGPDiscover - End Session')
                 for bgp in BGP_list:
                     out_queue.put(bgp)
-                    val_queue.put((-1,bgp))
+                    val_queue.put((SWEEP_IN_BGP,-1,bgp))
                 BGP_list.clear()
                 out_queue.put(SWEEP_END_SESSION)
             else :
@@ -313,15 +313,9 @@ def processBGPDiscover(in_queue, out_queue, val_queue, ctx):
                 else: recent.append(bgp)
             for bgp in old :  
                 out_queue.put(bgp)
-                val_queue.put((-1,bgp))
+                val_queue.put((SWEEP_IN_BGP,-1,bgp))
             BGP_list = recent
 
-            # try:
-            #     entry = in_queue.get(timeout=timeout)#gap.total_seconds())#SWEEP_WAIT)
-            # except Empty as e:
-            #     # print('purge')
-            #     currentTime = currentTime + timeout #dt.timedelta(seconds= SWEEP_WAIT)
-            #     entry = (0,SWEEP_PURGE)
             entry = in_queue.get()
     except KeyboardInterrupt:
         # penser à purger les derniers BGP ou uniquement autoutr du get pour gérer fin de session
@@ -335,7 +329,7 @@ def testPrecisionRecallBGP(queryList, bgp):
     test = [ tp for (tp, sm,pm,om) in bgp.tp_set ]
     # print(test)
     for i in queryList:
-        ( (time,ip,query,qbgp),old_bgp,precision,recall) = queryList[i]
+        ( (time,ip,query,qbgp,queryID),old_bgp,precision,recall) = queryList[i]
         # print(qbgp)
         if ip == bgp.client:
             (precision2, recall2, inter, mapping) = calcPrecisionRecall(qbgp,test)
@@ -344,8 +338,8 @@ def testPrecisionRecallBGP(queryList, bgp):
                 best_precision = precision2
                 best_recall = recall2
     if best > 0:
-        ( (time,ip,query,qbgp),old_bgp,precision,recall) = queryList[best]
-        queryList[best] = ( (time,ip,query,qbgp),bgp,best_precision,best_recall)
+        ( (time,ip,query,qbgp,queryID),old_bgp,precision,recall) = queryList[best]
+        queryList[best] = ( (time,ip,query,qbgp,queryID),bgp,best_precision,best_recall)
         # essayer de replacer le vieux...
         if old_bgp is not None: 
             return testPrecisionRecallBGP(queryList,old_bgp)
@@ -374,17 +368,18 @@ def processValidation(in_queue, ctx):
     try:
         inq = in_queue.get()
         while inq is not None:
-            (id, val) = inq
+            (mode, id, val) = inq
 
-            if id > 0:
-                ctx.stat['nbQueries'] +=1 
-                (time,ip,query,qbgp) = val
+            if mode == SWEEP_IN_QUERY:
+                with ctx.lck:
+                    ctx.stat['nbQueries'] +=1 
+                (time,ip,query,qbgp,queryID) = val
                 currentTime = now()
                 if SWEEP_DEBUB_PR: print(currentTime,' New query', val)
                 (precision, recall, bgp) = (0,0, None)
-                queryList[id] = ( (time,ip,query,qbgp),bgp,precision,recall)
+                queryList[id] = ( (time,ip,query,qbgp,queryID),bgp,precision,recall)
 
-            elif id < 0:
+            elif mode == SWEEP_IN_BGP :
                 ctx.stat['nbBGP'] +=1
                 bgp = val
                 currentTime = now()
@@ -395,20 +390,36 @@ def processValidation(in_queue, ctx):
                 if bgp is not None:
                     ctx.memory.append( (0, bgp.birthTime, bgp.client, None, bgp, 0, 0) )
                     addBGP2Rank(canonicalize_sparql_bgp([x for (x,sm,pm,om) in bgp.tp_set]), '', id, 0,0, ctx.rankingBGPs)
-            else:
+
+            elif mode == SWEEP_OUT_QUERY: # dans le cas où le client TPF n'a pas pu exécuter la requête...
+                # suppress query 'queryID'
+                for i in queryList:
+                    ( (time,ip,query,qbgp,queryID),bgp,precision,recall) = queryList[i]
+                    if queryID == val :
+                        queryList.pop(i)
+                        with ctx.lck:
+                            ctx.stat['nbQueries'] -=1        
+                        if bgp is not None:           
+                            bgp = testPrecisionRecallBGP(queryList,bgp)
+                            if bgp is not None:
+                                ctx.memory.append( (0, bgp.birthTime, bgp.client, None, bgp, 0, 0) )
+                                addBGP2Rank(canonicalize_sparql_bgp([x for (x,sm,pm,om) in bgp.tp_set]), '', id, 0,0, ctx.rankingBGPs)
+                        break
+
+            else: # mode == SWEEP_PURGE
                 currentTime =now()
 
             # Suppress older queries
             old = []
             for id in queryList:
-                ( (time,ip,query,qbgp),bgp,precision,recall) = queryList[id]
+                ( (time,ip,query,qbgp,queryID),bgp,precision,recall) = queryList[id]
                 if SWEEP_DEBUB_PR:  print('purge:',currentTime,' vs. ',time)
                 if currentTime - time > gap+timeout :
                     if SWEEP_DEBUB_PR:  print('\t yes')
                     old.append(id)
 
             for id in old:
-                ( (time,ip,query,qbgp),bgp,precision,recall) = queryList.pop(id)
+                ( (time,ip,query,qbgp,queryID),bgp,precision,recall) = queryList.pop(id)
                 if SWEEP_DEBUB_PR: 
                     print('---',precision,'/',recall,'---',time)
                     print(query)
@@ -430,12 +441,6 @@ def processValidation(in_queue, ctx):
                     addBGP2Rank(qbgp, query, id, precision, recall, ctx.rankingQueries)
                 if SWEEP_DEBUB_PR: print('--- @'+ip+' ---',now())
 
-            # try:
-            #     inq = in_queue.get(timeout= timeout.total_seconds())#gap.total_seconds())#SWEEP_WAIT)
-            # except Empty as e:
-            #     if SWEEP_DEBUB_PR:  print('purge (Validation)')
-            #     inq = (-1, None)
-            #     currentTime = now()#currentTime + gap #dt.timedelta(seconds=SWEEP_WAIT)
             inq = in_queue.get()
     except KeyboardInterrupt:
         # penser à afficher les dernières queries ou uniquement autour du get pour fin de session
@@ -509,7 +514,7 @@ def processStat(ctx, duration) :
         pass
 
 #==================================================
-class SWEEP:
+class SWEEP: # Abstract Class
     def __init__(self,gap,to,opt):
         #---
         assert isinstance(gap,dt.timedelta)
@@ -518,14 +523,16 @@ class SWEEP:
         self.timeout = to # + dt.timedelta(seconds=SWEEP_WAIT)
         self.optimistic = opt # màj de la date du BGP avec le dernier TP reçu ?
 
+        self.lck = mp.Lock()
         manager = mp.Manager()
         self.memory = manager.list()
         self.rankingBGPs = manager.list()
         self.rankingQueries = manager.list()
-        self.avgPrecision = manager.Value('f',0.0)
-        self.avgRecall = manager.Value('f',0.0)
-        self.avgQual = manager.Value('f',0.0)
-        self.Acuteness = manager.Value('f',0.0)
+        # self.avgPrecision = mp.Value('f',0.0)
+        # self.avgRecall = mp.Value('f',0.0)
+        # self.avgQual = mp.Value('f',0.0)
+        # self.Acuteness = mp.Value('f',0.0)
+        self.qId = mp.Value('i',0)
         self.stat = manager.dict({'sumRecall':0, 'sumPrecision':0, 'sumQuality':0, 'nbQueries':0, 'nbBGP':0, 'sumSelectedBGP':0})
 
         self.dataQueue = mp.Queue()
@@ -558,6 +565,14 @@ class SWEEP:
 
     def put(self,v):
         self.dataQueue.put(v)
+        #To implement
+
+    def putQuery(self,q):
+        self.validationQueue.put(q)
+        #To implement
+
+    def delQuery(self,x):
+        self.validationQueue.put( (SWEEP_OUT_QUERY, 0, x) )
 
     def get(self):
         try:
@@ -598,7 +613,6 @@ class SWEEP_XML(SWEEP):
     def __init__(self, gap,to,opt):
         super(SWEEP_XML, self).__init__(gap,to,opt)
         self.qm = QueryManager(modeStat = False)
-        self.qId = 0
 
     def processXMLEntry(self,x):
         id = x.attrib['id']
@@ -627,18 +641,29 @@ class SWEEP_XML(SWEEP):
         time = now()# fromISO(x.attrib['time']) 
         (bgp,nquery) = self.qm.extractBGP(query)
         ip = x.attrib['client']
-        self.qId +=1
-        return (self.qId, SWEEP_IN_QUERY, (time,ip,nquery,bgp) )
+        queryID = x.get('no')
+        with self.qId.get_lock():
+            self.qId.value += 1
+            qId = self.qId.value
+            if queryID is None: queryID = 'id'+str(qId)
+        return (SWEEP_IN_QUERY, qId, (time,ip,nquery,bgp,queryID) )
 
 
     def put(self,x):
         if x.tag == 'entry': self.dataQueue.put( self.processXMLEntry(x) )
         elif x.tag == 'data-triple-N3' : self.dataQueue.put( self.processXMLData(x) )
         elif x.tag == 'end' : self.dataQueue.put( self.processXMLEndEntry(x) )
-        elif x.tag == 'query': self.dataQueue.put( self.processXMLQuery(x) )
         else:
             pass
-       
+ 
+    def putQuery(self,x):
+        if x.tag == 'query': self.validationQueue.put( self.processXMLQuery(x) )
+        else:
+            pass
+
+    # def delQuery(self,x):
+    #     pass
+
 #==================================================
 #==================================================
 #==================================================
