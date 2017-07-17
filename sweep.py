@@ -388,7 +388,7 @@ def processValidation(in_queue, ctx):
                     val.print()
                 bgp = testPrecisionRecallBGP(queryList,bgp)
                 if bgp is not None:
-                    ctx.memory.append( (0, bgp.birthTime, bgp.client, None, bgp, 0, 0) )
+                    ctx.memory.append( (0,'', bgp.birthTime, bgp.client, None, bgp, 0, 0) )
                     addBGP2Rank(canonicalize_sparql_bgp([x for (x,sm,pm,om) in bgp.tp_set]), '', id, 0,0, ctx.rankingBGPs)
 
             elif mode == SWEEP_OUT_QUERY: # dans le cas où le client TPF n'a pas pu exécuter la requête...
@@ -402,7 +402,7 @@ def processValidation(in_queue, ctx):
                         if bgp is not None:           
                             bgp = testPrecisionRecallBGP(queryList,bgp)
                             if bgp is not None:
-                                ctx.memory.append( (0, bgp.birthTime, bgp.client, None, bgp, 0, 0) )
+                                ctx.memory.append( (0, '',bgp.birthTime, bgp.client, None, bgp, 0, 0) )
                                 addBGP2Rank(canonicalize_sparql_bgp([x for (x,sm,pm,om) in bgp.tp_set]), '', id, 0,0, ctx.rankingBGPs)
                         break
 
@@ -424,7 +424,7 @@ def processValidation(in_queue, ctx):
                     print('---',precision,'/',recall,'---',time)
                     print(query)
                     print('---')
-                ctx.memory.append( (id, time, ip, query, bgp, precision, recall) )
+                ctx.memory.append( (id,queryID, time, ip, query, bgp, precision, recall) )
                 ctx.stat['sumRecall'] += recall
                 ctx.stat['sumPrecision'] += precision
                 ctx.stat['sumQuality'] += (recall+precision)/2

@@ -135,7 +135,7 @@ def sweep():
     rep += '<td><h1>Global measures</h1><table border="1"><thead>'
     rep += '<td>Nb Evaluated Queries</td><td>Nb Cancelled Queries</td><td>Nb Empty Queries</td><td>Nb Timeout Queries</td><td>Nb Bad formed Queries</td><td>Nb TPF Client Error</td><td>Nb TPF Client Query Error</td><td>Nb Other query Error</td>'   
     rep += '<td>Nb BGP</td><td>Nb Entries</td>'
-    rep += '<td>Avg Precision</td><td>Avg Recall</td><td>Avg Quality</td><td>Acureness</td></thead><tr>'
+    rep += '<td>Avg Precision</td><td>Avg Recall</td><td>Avg Quality</td><td>Acuteness</td></thead><tr>'
 
     rep += '<td>%d / %d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>'%(nb,ctx.nbQueries,ctx.nbCancelledQueries,ctx.nbEmpty,ctx.nbTO,ctx.nbQBF,ctx.nbClientError,ctx.nbEQ,ctx.nbOther)
 
@@ -145,7 +145,7 @@ def sweep():
 
     rep += '<h1>BGPs</h1><p>('+str(ctx.nlast)+' more recents)</p><table cellspacing="5" border="1" cellpadding="2">\n'
     rep += '<thead><td>ip</td><td>time</td><td>bgp</td><td>Original query</td><td>Precision</td><td>Recall</td><td>Quality</td></thead>\n'
-    for (i,t,ip,query,bgp,precision,recall) in ctx.sweep.memory[-1*ctx.nlast:] :
+    for (i,idQ, t,ip,query,bgp,precision,recall) in ctx.sweep.memory[-1*ctx.nlast:] :
         if i==0:
             rep +='<tr><td>'+bgp.client+'</td><td>'+str(bgp.time)+'</td><td>'
             for (s,p,o) in simplifyVars([tp for (tp,sm,pm,om) in bgp.tp_set]):
@@ -158,7 +158,7 @@ def sweep():
                     rep += html.escape(toStr(s,p,o))+' . <br/>'
             else:
                 rep += 'No BGP assigned !'
-            rep += '</td><td>'+html.escape(query)+'</td><td>%2.3f</td><td>%2.3f</td><td>%2.3f</td></tr>'%(precision,recall,(precision+recall)/2)
+            rep += '</td><td>'+idQ+'<br/>'+html.escape(query)+'</td><td>%2.3f</td><td>%2.3f</td><td>%2.3f</td></tr>'%(precision,recall,(precision+recall)/2)
     rep += '</table>'
     return rep
 

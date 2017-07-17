@@ -77,6 +77,9 @@ def play(file,nb_processes, server,client,timeout, dataset,doValid, sInfo):
                     date = current_date+(date-date_ref)
                     print('(%d) new entry to add - executed at %s' % (nbe,date))
                     compute_queue.put( (nbe, entry.find('request').text, date )  )
+                    
+        if nbe>100:break
+
     if nbe>0: 
         for p in processes:
             compute_queue.put(None)
@@ -109,11 +112,13 @@ def run(inq, server, client, timeout, dataset, host, port, doPR):
             for i in range(3): # We try the query 3 times beause of TPF Client problems 
                 try:
                     rep = sp.query(query)
-                    print('(%d)'%nbe,':',rep)
+                    # print('(%d)'%nbe,':',rep)
                     if rep == []:
-                       print("Empty query !!!")
+                       print('(%d)'%nbe," Empty query !!!")
                        url = host+':'+str(port)+'/inform'
                        s = http.post(url,data={'data':mess,'errtype':'Empty', 'no':no})
+                    else: 
+                        print('(%d)'%nbe,': [...]')#,rep)
                     break
                 except TPFClientError as e :
                     print('(%d)'%nbe,'Exception TPFClientError (%d) : %s'%(i+1,e.__str__()))
