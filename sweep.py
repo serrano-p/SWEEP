@@ -74,7 +74,8 @@ SWEEP_START_SESSION = -1
 SWEEP_END_SESSION = -2
 SWEEP_PURGE = -3
 
-SWEEP_WAIT = 1 # in seconds
+SWEEP_ENTRY_TIMEOUT = 0.8 # percentage of the gap
+SWEEP_PURGE_TIMEOUT = 0.1 # percentage of the gap
 
 SWEEP_DEBUG_BGP_BUILD = False
 SWEEP_DEBUB_PR = False
@@ -84,8 +85,9 @@ SWEEP_DEBUB_PR = False
 #==================================================
 
 def processAgregator(in_queue,out_queue, val_queue, ctx):
-    timeout = ctx.timeout
-    gap = ctx.gap
+    # timeout = ctx.timeout
+    entry_timeout = ctx.gap*SWEEP_ENTRY_TIMEOUT
+    purge_timeout = (ctx.gap*SWEEP_PURGE_TIMEOUT).total_seconds()
     currentTime = now()
     elist = dict()   
     # print(timeout.total_seconds())
@@ -127,17 +129,17 @@ def processAgregator(in_queue,out_queue, val_queue, ctx):
             old = []
             for id in elist:
                 (s,p,o,t,c,sm,pm,om) = elist[id]
-                if (currentTime - t) > gap:
+                if (currentTime - t) > entry_timeout:
                     old.append(id)
             for id in old:
                 v = elist.pop(id)
                 out_queue.put( (id, v) )
 
             try:
-                inq = in_queue.get(timeout=timeout.total_seconds())#SWEEP_WAIT)
+                inq = in_queue.get(timeout=purge_timeout)
             except Empty as e:
                 # print('purge')
-                currentTime = now()#currentTime + timeout #dt.timedelta(seconds= SWEEP_WAIT)
+                currentTime = now()
                 inq = (0,SWEEP_PURGE,None)
             # inq = in_queue.get()
     except KeyboardInterrupt:
@@ -361,7 +363,6 @@ def addBGP2Rank(bgp, nquery, line, precision, recall, ranking):
         ranking.append( (bgp, 1 , nquery, {line}, precision, recall) )
 
 def processValidation(in_queue, ctx):
-    timeout = ctx.timeout
     gap = ctx.gap
     currentTime = now()
     queryList = OrderedDict()
@@ -386,10 +387,10 @@ def processValidation(in_queue, ctx):
                 if SWEEP_DEBUB_PR: 
                     print(currentTime,' New BGP')
                     val.print()
-                bgp = testPrecisionRecallBGP(queryList,bgp)
-                if bgp is not None:
-                    ctx.memory.append( (0,'', bgp.birthTime, bgp.client, None, bgp, 0, 0) )
-                    addBGP2Rank(canonicalize_sparql_bgp([x for (x,sm,pm,om) in bgp.tp_set]), '', id, 0,0, ctx.rankingBGPs)
+                old_bgp = testPrecisionRecallBGP(queryList,bgp)
+                if old_bgp is not None:
+                    ctx.memory.append( (0,'', old_bgp.birthTime, old_bgp.client, None, old_bgp, 0, 0) )
+                    addBGP2Rank(canonicalize_sparql_bgp([x for (x,sm,pm,om) in old_bgp.tp_set]), '', id, 0,0, ctx.rankingBGPs)
 
             elif mode == SWEEP_OUT_QUERY: # dans le cas où le client TPF n'a pas pu exécuter la requête...
                 # suppress query 'queryID'
@@ -400,10 +401,10 @@ def processValidation(in_queue, ctx):
                         with ctx.lck:
                             ctx.stat['nbQueries'] -=1        
                         if bgp is not None:           
-                            bgp = testPrecisionRecallBGP(queryList,bgp)
-                            if bgp is not None:
-                                ctx.memory.append( (0, '',bgp.birthTime, bgp.client, None, bgp, 0, 0) )
-                                addBGP2Rank(canonicalize_sparql_bgp([x for (x,sm,pm,om) in bgp.tp_set]), '', id, 0,0, ctx.rankingBGPs)
+                            old_bgp = testPrecisionRecallBGP(queryList,bgp)
+                            if old_bgp is not None:
+                                ctx.memory.append( (0, '',old_bgp.birthTime, old_bgp.client, None, old_bgp, 0, 0) )
+                                addBGP2Rank(canonicalize_sparql_bgp([x for (x,sm,pm,om) in old_bgp.tp_set]), '', id, 0,0, ctx.rankingBGPs)
                         break
 
             else: # mode == SWEEP_PURGE
@@ -414,7 +415,7 @@ def processValidation(in_queue, ctx):
             for id in queryList:
                 ( (time,ip,query,qbgp,queryID),bgp,precision,recall) = queryList[id]
                 if SWEEP_DEBUB_PR:  print('purge:',currentTime,' vs. ',time)
-                if currentTime - time > gap+timeout :
+                if currentTime - time > gap*1.1 :
                     if SWEEP_DEBUB_PR:  print('\t yes')
                     old.append(id)
 
@@ -500,16 +501,7 @@ def processStat(ctx, duration) :
     try:
         while True:
             time.sleep(duration)
-            # print('Saving memory')
             ctx.saveMemory()
-            # if ctx.stat['nbQueries']>0:
-            #     ctx.avgPrecision.value = ctx.stat['sumPrecision']/ctx.stat['nbQueries']
-            #     ctx.avgRecall.value = ctx.stat['sumRecall']/ctx.stat['nbQueries']
-            #     ctx.avgQual.value = ctx.stat['sumQuality']/ctx.stat['nbQueries']
-            #     # print('Avg Recall:%.3f ; Avg Precision:%.3f ; Avg Quality:%.3f' % (ctx.avgRecall.value, ctx.avgPrecision.value,ctx.avgQual.value))
-            # if ctx.stat['nbBGP']>0 :                
-            #     ctx.Acuteness.value = ctx.stat['sumSelectedBGP'] / ctx.stat['nbBGP']
-            # print('Nb queries:%d ; Nb unused BGP:%d ; Acuteness:%2.3f' % (ctx.stat['nbQueries'], max(0,ctx.stat['nbBGP'] - ctx.stat['nbQueries']),ctx.Acuteness.value  ))
     except KeyboardInterrupt:
         pass
 
@@ -520,7 +512,7 @@ class SWEEP: # Abstract Class
         assert isinstance(gap,dt.timedelta)
         #---
         self.gap = gap
-        self.timeout = to # + dt.timedelta(seconds=SWEEP_WAIT)
+        self.timeout = to
         self.optimistic = opt # màj de la date du BGP avec le dernier TP reçu ?
 
         self.lck = mp.Lock()
@@ -543,7 +535,7 @@ class SWEEP: # Abstract Class
         self.dataProcess = mp.Process(target=processAgregator, args=(self.dataQueue, self.entryQueue, self.validationQueue,self))
         self.entryProcess = mp.Process(target=processBGPDiscover, args=(self.entryQueue, self.resQueue, self.validationQueue, self))
         self.validationProcess = mp.Process(target=processValidation, args=(self.validationQueue, self))
-        self.statProcess = mp.Process(target=processStat, args=(self, SWEEP_WAIT*3))
+        self.statProcess = mp.Process(target=processStat, args=(self, gap*3))
 
         self.dataProcess.start()
         self.entryProcess.start()

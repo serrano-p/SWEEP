@@ -41,15 +41,16 @@ from lxml import etree  # http://lxml.de/index.html#documentation
 
 TPF_SERVEUR_HOST = 'http://127.0.0.1'
 TPF_SERVEUR_PORT = 5000
-TPF_SERVEUR_DATASET = 'lift'
+TPF_SERVEUR_DATASET = 'lift' # default dataset
 TPF_CLIENT = '/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client'
-TPF_CLIENT_REDO = 3
+TPF_CLIENT_REDO = 3 # Number of client execution in case of fails
+TPF_CLIENT_TEMPO = 1 # sleep duration if client fails
 SWEEP_SERVEUR_HOST = 'http://127.0.0.1'
 SWEEP_SERVEUR_PORT = 5002
 
 #==================================================
 
-def play(file,nb_processes, server,client,timeout, dataset,doValid, sInfo):
+def play(file,nb_processes, server,client,timeout, dataset, nbq,offset,doValid, sInfo):
     (host,port) = sInfo
     compute_queue = mp.Queue(nb_processes)
     print('Traitement de %s' % file)
@@ -62,33 +63,35 @@ def play(file,nb_processes, server,client,timeout, dataset,doValid, sInfo):
     #---
     print('DTD valide !')
 
-    nbe = 0
+    nbe = 0 # nombre d'entries traitées
+    n = 0 # nombre d'entries vues
     date = 'no-date'
     ip = 'ip-'+tree.getroot().get('ip').split('-')[0]
     for entry in tree.getroot():
-        nbe += 1
         if entry.tag == 'entry':
-            
-            # print(entry.tag)
-            if nbe == 1:
-                date_ref = fromISO(entry.get('datetime'))
-                current_date = dt.datetime.now()
-                processes = []
-                for i in range(nb_processes):
-                    p = mp.Process(target=run, args=(compute_queue, server, client, timeout, dataset, host,port,doValid))
-                    processes.append(p)
-                for p in processes:
-                    p.start()
-            date = fromISO(entry.get('datetime'))
-            ide = entry.get('logline')
-            valid = entry.get("valid")
-            if valid is not None :
-                if valid == 'TPF' :
-                    date = current_date+(date-date_ref)
-                    print('(%d) new entry to add - executed at %s' % (nbe,date))
-                    compute_queue.put( (nbe, entry.find('request').text, date )  )
-
-        if nbe>100:break
+            n += 1
+            if n>offset:
+                nbe += 1
+                if nbe == 1:
+                    date_ref = fromISO(entry.get('datetime'))
+                    current_date = dt.datetime.now()
+                    processes = []
+                    for i in range(nb_processes):
+                        p = mp.Process(target=run, args=(compute_queue, server, client, timeout, dataset, host,port,doValid))
+                        processes.append(p)
+                    for p in processes:
+                        p.start()
+                date = fromISO(entry.get('datetime'))
+                ide = entry.get('logline')
+                valid = entry.get("valid")
+                if valid is not None :
+                    if valid == 'TPF' :
+                        date = current_date+(date-date_ref)
+                        print('(%d) new entry to add - executed at %s' % (nbe,date))
+                        compute_queue.put( (nbe, entry.find('request').text, date )  )
+                    else: print('(%d) entry not executed : %s' % (nbe,valid))
+                else: print('(%d) entry not executed (not validated)' % nbe)   
+                if nbq>0 and nbe >= nbq : break
 
     if nbe>0: 
         for p in processes:
@@ -132,14 +135,18 @@ def run(inq, server, client, timeout, dataset, host, port, doPR):
                     break
                 except TPFClientError as e :
                     print('(%d)'%nbe,'Exception TPFClientError (%d) : %s'%(i+1,e.__str__()))
-                    if i==2:
+                    if i>TPF_CLIENT_REDO/2:
+                        time.sleep(TPF_CLIENT_TEMPO)
+                    elif i==TPF_CLIENT_REDO-1:
                         if doPR:
                             url = host+':'+str(port)+'/inform'
                             s = http.post(url,data={'data':mess,'errtype':'CltErr', 'no':no})
                             print('(%d)'%nbe,'Request cancelled : ',s.json()['result']) 
                 except TimeOut as e :
                     print('(%d)'%nbe,'Timeout (%d) :'%(i+1),e)
-                    if i==2:
+                    if i>TPF_CLIENT_REDO/2:
+                        time.sleep(TPF_CLIENT_TEMPO)
+                    elif i==TPF_CLIENT_REDO-1:
                         if doPR:
                             url = host+':'+str(port)+'/inform'
                             s = http.post(url,data={'data':mess,'errtype':'TO', 'no':no})
@@ -182,6 +189,8 @@ parser.add_argument("-v", "--valid", default='', dest="valid", action="store_tru
 parser.add_argument("-to", "--timeout", type=float, default=None, dest="timeout",help="TPF Client Time Out in minutes (no timeout by default).")
 parser.add_argument("-p", "--proc", type=int, default=mp.cpu_count(), dest="nb_processes",
                     help="Number of processes used (%d by default)" % mp.cpu_count())
+parser.add_argument('-n',"--nbQueries", type=int, default=0, dest="nbq", help="Max queries to study (0 by default, i.e. all queries)")
+parser.add_argument('-o',"--offset", type=int, default=0, dest="offset", help="first query to study (0 by default, i.e. all queries)")
 
 args = parser.parse_args()
 
@@ -191,4 +200,4 @@ print('Start simulating with %d processes'%args.nb_processes)
 file_set = args.files
 for file in file_set:
     if existFile(file):
-    	play(file,args.nb_processes, args.tpfServer, args.tpfClient, args.timeout, args.dataset,args.valid, (args.host,args.port)  )
+    	play(file,args.nb_processes, args.tpfServer, args.tpfClient, args.timeout, args.dataset, args.nbq, args.offset, args.valid, (args.host,args.port)  )
