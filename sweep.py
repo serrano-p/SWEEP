@@ -78,7 +78,7 @@ SWEEP_ENTRY_TIMEOUT = 0.8 # percentage of the gap
 SWEEP_PURGE_TIMEOUT = 0.1 # percentage of the gap
 
 SWEEP_DEBUG_BGP_BUILD = False
-SWEEP_DEBUB_PR = False
+SWEEP_DEBUB_PR = True
 
 #==================================================
 
@@ -332,7 +332,6 @@ def testPrecisionRecallBGP(queryList, bgp):
     # print(test)
     for i in queryList:
         ( (time,ip,query,qbgp,queryID),old_bgp,precision,recall) = queryList[i]
-        # print(qbgp)
         if ip == bgp.client:
             (precision2, recall2, inter, mapping) = calcPrecisionRecall(qbgp,test)
             if  precision2*recall2 > precision*recall:
@@ -342,6 +341,9 @@ def testPrecisionRecallBGP(queryList, bgp):
     if best > 0:
         ( (time,ip,query,qbgp,queryID),old_bgp,precision,recall) = queryList[best]
         queryList[best] = ( (time,ip,query,qbgp,queryID),bgp,best_precision,best_recall)
+        if SWEEP_DEBUB_PR: 
+            print('association:',queryID)
+            bgp.print()
         # essayer de replacer le vieux...
         if old_bgp is not None: 
             return testPrecisionRecallBGP(queryList,old_bgp)
@@ -376,7 +378,9 @@ def processValidation(in_queue, ctx):
                     ctx.stat['nbQueries'] +=1 
                 (time,ip,query,qbgp,queryID) = val
                 currentTime = now()
-                if SWEEP_DEBUB_PR: print(currentTime,' New query', val)
+                if SWEEP_DEBUB_PR: 
+                    print('+++')
+                    print(currentTime,' New query', val)
                 (precision, recall, bgp) = (0,0, None)
                 queryList[id] = ( (time,ip,query,qbgp,queryID),bgp,precision,recall)
 
@@ -385,9 +389,14 @@ def processValidation(in_queue, ctx):
                 bgp = val
                 currentTime = now()
                 if SWEEP_DEBUB_PR: 
+                    print('+++')
                     print(currentTime,' New BGP')
                     val.print()
                 old_bgp = testPrecisionRecallBGP(queryList,bgp)
+                if SWEEP_DEBUB_PR:
+                    if old_bgp is not None:
+                        print('BGP not associated and archieved :')
+                        old_bgp.print()
                 if old_bgp is not None:
                     ctx.memory.append( (0,'', old_bgp.birthTime, old_bgp.client, None, old_bgp, 0, 0) )
                     addBGP2Rank(canonicalize_sparql_bgp([x for (x,sm,pm,om) in old_bgp.tp_set]), '', id, 0,0, ctx.rankingBGPs)
@@ -413,16 +422,14 @@ def processValidation(in_queue, ctx):
             # Suppress older queries
             old = []
             for id in queryList:
-                ( (time,ip,query,qbgp,queryID),bgp,precision,recall) = queryList[id]
-                if SWEEP_DEBUB_PR:  print('purge:',currentTime,' vs. ',time)
+                ( (time,ip,query,qbgp,queryID),bgp,precision,recall) = queryList[id]                    
                 if currentTime - time > gap*1.1 :
-                    if SWEEP_DEBUB_PR:  print('\t yes')
                     old.append(id)
 
             for id in old:
                 ( (time,ip,query,qbgp,queryID),bgp,precision,recall) = queryList.pop(id)
                 if SWEEP_DEBUB_PR: 
-                    print('---',precision,'/',recall,'---',time)
+                    print('--- purge ',queryID, '(',time, ') ---',precision,'/',recall,'---',' @ ',currentTime ,'---')
                     print(query)
                     print('---')
                 ctx.memory.append( (id,queryID, time, ip, query, bgp, precision, recall) )
@@ -430,7 +437,8 @@ def processValidation(in_queue, ctx):
                 ctx.stat['sumPrecision'] += precision
                 ctx.stat['sumQuality'] += (recall+precision)/2
                 if bgp is not None: 
-                    if SWEEP_DEBUB_PR: print(".\n".join([ toStr(s,p,o) for ((s,p,o), sm,pm,om ) in bgp.tp_set ]))
+                    if SWEEP_DEBUB_PR: 
+                        print(".\n".join([ toStr(s,p,o) for ((s,p,o), sm,pm,om ) in bgp.tp_set ]))
                     ctx.stat['sumSelectedBGP'] += 1
                     #---
                     assert ip == bgp.client, 'Client Query différent de client BGP'
@@ -440,7 +448,9 @@ def processValidation(in_queue, ctx):
                 else:
                     if SWEEP_DEBUB_PR: print('Query not assigned : ', query)
                     addBGP2Rank(qbgp, query, id, precision, recall, ctx.rankingQueries)
-                if SWEEP_DEBUB_PR: print('--- @'+ip+' ---',now())
+                if SWEEP_DEBUB_PR: 
+                    print('--- --- @'+ip+' --- ---')
+                    print(' ')
 
             inq = in_queue.get()
     except KeyboardInterrupt:
@@ -500,7 +510,7 @@ def save(node_log, lift2):
 def processStat(ctx, duration) :
     try:
         while True:
-            time.sleep(duration)
+            time.sleep(duration.total_seconds())
             ctx.saveMemory()
     except KeyboardInterrupt:
         pass
@@ -589,15 +599,15 @@ class SWEEP: # Abstract Class
         file = 'sweep.csv' # (id, time, ip, query, bgp, precision, recall) 
         sep='\t'
         with open(file,"w", encoding='utf-8') as f:
-            fn=['id','time', 'ip', 'query', 'bgp', 'precision', 'recall']
+            fn=['id', 'qID', 'time', 'ip', 'query', 'bgp', 'precision', 'recall']
             writer = csv.DictWriter(f,fieldnames=fn,delimiter=sep)
             writer.writeheader()
-            for (id, time, ip, query, bgp, precision, recall) in self.memory:
+            for (id, queryID, time, ip, query, bgp, precision, recall) in self.memory:
                 if bgp is not None :
                     bgp_txt = ".\n".join([ toStr(s,p,o) for ((s,p,o), sm,pm,om ) in bgp.tp_set ])
                 else:
                     bgp_txt = "..."
-                s = { 'id':id, 'time':time, 'ip':ip, 'query':query, 'bgp':bgp_txt, 'precision':precision, 'recall':recall }
+                s = { 'id':id, 'qID':queryID, 'time':time, 'ip':ip, 'query':query, 'bgp':bgp_txt, 'precision':precision, 'recall':recall }
                 writer.writerow(s)
 
 class SWEEP_XML(SWEEP):

@@ -1,1 +1,301 @@
-id	time	ip	query	bgp	precision	recall
+id	qID	time	ip	query	bgp	precision	recall
+1	qsim-990	2017-07-18 18:53:43.867645	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Porcupine>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Porcupine> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe97838_58	1.0	1.0
+2	qsim-991	2017-07-18 18:53:45.012849	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Stephen_King>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Stephen_King> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe979_2	1.0	1.0
+3	qsim-992	2017-07-18 18:53:52.791301	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_Fantasticks>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_Fantasticks> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99294_32	1.0	1.0
+4	qsim-993	2017-07-18 18:53:53.792371	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Weather>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Weather> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe324_12	1.0	1.0
+5	qsim-994	2017-07-18 18:53:54.789410	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Tennessee_Williams>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Tennessee_Williams> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe176_16	1.0	1.0
+6	qsim-995	2017-07-18 18:53:57.791026	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Denmark>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Denmark> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe825_6	1.0	1.0
+7	qsim-996	2017-07-18 18:53:57.794039	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Mute_Records>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Mute_Records> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe98002_40	1.0	1.0
+8	qsim-997	2017-07-18 18:54:00.790325	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Teenage_Mutant_Ninja_Turtles>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Teenage_Mutant_Ninja_Turtles> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe330_12	1.0	1.0
+9	qsim-998	2017-07-18 18:54:02.789387	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Japan>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Japan> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe97737_70	1.0	1.0
+10	qsim-999	2017-07-18 18:54:04.789067	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Tower_of_Power>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Tower_of_Power> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99761_26	1.0	1.0
+11	qsim-990	2017-07-18 18:55:15.953380	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Porcupine>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Porcupine> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe522_10	1.0	1.0
+12	qsim-991	2017-07-18 18:55:16.854188	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Stephen_King>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Stephen_King> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99964_20	1.0	1.0
+13	qsim-992	2017-07-18 18:55:24.853482	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_Fantasticks>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_Fantasticks> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe972_4	1.0	1.0
+14	qsim-993	2017-07-18 18:55:25.858116	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Weather>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Weather> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99351_32	1.0	1.0
+15	qsim-994	2017-07-18 18:55:26.879537	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Tennessee_Williams>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Tennessee_Williams> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe169_18	1.0	1.0
+16	qsim-996	2017-07-18 18:55:29.853909	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Mute_Records>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Mute_Records> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99970_20	1.0	1.0
+17	qsim-995	2017-07-18 18:55:29.856991	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Denmark>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Denmark> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe97838_60	1.0	1.0
+18	qsim-997	2017-07-18 18:55:32.854912	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Teenage_Mutant_Ninja_Turtles>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Teenage_Mutant_Ninja_Turtles> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe979_4	1.0	1.0
+19	qsim-998	2017-07-18 18:55:34.856846	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Japan>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Japan> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99294_34	1.0	1.0
+20	qsim-999	2017-07-18 18:55:36.856187	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Tower_of_Power>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Tower_of_Power> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe324_14	1.0	1.0
+21	qsim-990	2017-07-18 18:57:01.813740	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Porcupine>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Porcupine> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe176_18	1.0	1.0
+22	qsim-991	2017-07-18 18:57:02.744310	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Stephen_King>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Stephen_King> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe98002_42	1.0	1.0
+23	qsim-992	2017-07-18 18:57:10.746339	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_Fantasticks>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_Fantasticks> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe825_8	1.0	1.0
+24	qsim-993	2017-07-18 18:57:11.746102	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Weather>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Weather> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe330_14	1.0	1.0
+25	qsim-994	2017-07-18 18:57:12.746565	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Tennessee_Williams>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Tennessee_Williams> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe97737_72	1.0	1.0
+26	qsim-995	2017-07-18 18:57:15.744193	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Denmark>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Denmark> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99761_28	1.0	1.0
+27	qsim-996	2017-07-18 18:57:15.747579	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Mute_Records>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Mute_Records> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe522_12	1.0	1.0
+28	qsim-997	2017-07-18 18:57:18.743209	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Teenage_Mutant_Ninja_Turtles>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Teenage_Mutant_Ninja_Turtles> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99964_22	1.0	1.0
+29	qsim-998	2017-07-18 18:57:20.745919	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Japan>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Japan> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe972_6	1.0	1.0
+30	qsim-999	2017-07-18 18:57:22.743576	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Tower_of_Power>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Tower_of_Power> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99351_34	1.0	1.0
+31	qsim-1	2017-07-18 18:58:41.098860	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Metallica>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Metallica> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe169_20	1.0	1.0
+32	qsim-2	2017-07-18 18:58:42.038362	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Dwayne_Bowe>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Dwayne_Bowe> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99970_22	1.0	1.0
+33	qsim-3	2017-07-18 18:58:45.037016	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Semisonic>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Semisonic> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe97838_62	1.0	1.0
+34	qsim-5	2017-07-18 18:58:46.039543	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Jonathan_Swift>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Jonathan_Swift> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe979_6	1.0	1.0
+35	qsim-4	2017-07-18 18:58:46.043016	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Ace_Frehley>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Ace_Frehley> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99294_36	1.0	1.0
+36	qsim-6	2017-07-18 18:58:47.040646	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Paint>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Paint> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe324_16	1.0	1.0
+37	qsim-7	2017-07-18 18:58:47.043854	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Charlie_Sheen>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Charlie_Sheen> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe176_20	1.0	1.0
+38	qsim-8	2017-07-18 18:58:54.039312	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Adam_and_Eve>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Adam_and_Eve> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe98002_44	1.0	1.0
+39	qsim-9	2017-07-18 18:58:55.040275	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_Cranberries>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_Cranberries> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe825_10	1.0	1.0
+40	qsim-10	2017-07-18 18:58:55.043718	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Scientist>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Scientist> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe97737_74	1.0	1.0
+41	qsim-1	2017-07-18 19:01:11.365723	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Metallica>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Metallica> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99761_30	1.0	1.0
+42	qsim-2	2017-07-18 19:01:12.301327	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Dwayne_Bowe>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Dwayne_Bowe> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe522_14	1.0	1.0
+43	qsim-3	2017-07-18 19:01:15.299084	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Semisonic>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Semisonic> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99964_24	1.0	1.0
+44	qsim-4	2017-07-18 19:01:16.300001	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Ace_Frehley>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Ace_Frehley> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe972_8	1.0	1.0
+45	qsim-5	2017-07-18 19:01:16.303071	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Jonathan_Swift>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Jonathan_Swift> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99351_36	1.0	1.0
+46	qsim-6	2017-07-18 19:01:17.299099	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Paint>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Paint> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe169_22	1.0	1.0
+47	qsim-7	2017-07-18 19:01:17.302031	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Charlie_Sheen>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Charlie_Sheen> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99970_24	1.0	1.0
+48	qsim-8	2017-07-18 19:01:24.300152	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Adam_and_Eve>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Adam_and_Eve> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe97838_64	1.0	1.0
+49	qsim-10	2017-07-18 19:01:25.300842	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Scientist>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Scientist> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe979_8	1.0	1.0
+50	qsim-9	2017-07-18 19:01:25.304023	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_Cranberries>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_Cranberries> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99294_38	1.0	1.0

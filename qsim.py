@@ -70,7 +70,7 @@ def play(file,nb_processes, server,client,timeout, dataset, nbq,offset,doValid, 
     for entry in tree.getroot():
         if entry.tag == 'entry':
             n += 1
-            if n>offset:
+            if n>=offset:
                 nbe += 1
                 if nbe == 1:
                     date_ref = fromISO(entry.get('datetime'))
@@ -87,10 +87,10 @@ def play(file,nb_processes, server,client,timeout, dataset, nbq,offset,doValid, 
                 if valid is not None :
                     if valid == 'TPF' :
                         date = current_date+(date-date_ref)
-                        print('(%d) new entry to add - executed at %s' % (nbe,date))
-                        compute_queue.put( (nbe, entry.find('request').text, date )  )
-                    else: print('(%d) entry not executed : %s' % (nbe,valid))
-                else: print('(%d) entry not executed (not validated)' % nbe)   
+                        print('(%d) new entry to add - executed at %s' % (n,date))
+                        compute_queue.put( (n, entry.find('request').text, date )  )
+                    else: print('(%d) entry not executed : %s' % (n,valid))
+                else: print('(%d) entry not executed (not validated)' % n)   
                 if nbq>0 and nbe >= nbq : break
 
     if nbe>0: 

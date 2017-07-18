@@ -80,7 +80,7 @@ def bo():
     rep += '<table cellspacing="5" border="1" cellpadding="2">'
     rep += '<thead><td>BGP</td><td>Nb Occ.</td><td>Query Exemple</td>'
     ctx.sweep.rankingBGPs.sort(key=itemgetter(1), reverse=True)
-    for (bgp, freq, query, lines, precision, recall) in ctx.sweep.rankingBGPs[-1*ctx.nlast:]:
+    for (bgp, freq, query, lines, precision, recall) in ctx.sweep.rankingBGPs[:ctx.nlast]:
         rep += '<tr>'
         rep += '<td>'
         for (s,p,o) in simplifyVars(bgp):
@@ -94,7 +94,7 @@ def bo():
     rep += '<table cellspacing="5" border="1" cellpadding="2">'
     rep += '<thead><td>BGP</td><td>Nb Occ.</td><td>Query Exemple</td><td>Avg. Precision</td><td>Avg. Recall</td>'
     ctx.sweep.rankingQueries.sort(key=itemgetter(1), reverse=True)
-    for (bgp, freq, query, lines, precision, recall) in ctx.sweep.rankingQueries[-1*ctx.nlast:]:
+    for (bgp, freq, query, lines, precision, recall) in ctx.sweep.rankingQueries[:ctx.nlast]:
         rep += '<tr>'
         rep += '<td>'
         for (s,p,o) in simplifyVars(bgp):
