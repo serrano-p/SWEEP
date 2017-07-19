@@ -1,301 +1,2305 @@
 id	qID	time	ip	query	bgp	precision	recall
-1	qsim-990	2017-07-18 18:53:43.867645	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Porcupine>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Porcupine> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe97838_58	1.0	1.0
-2	qsim-991	2017-07-18 18:53:45.012849	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Stephen_King>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Stephen_King> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe979_2	1.0	1.0
-3	qsim-992	2017-07-18 18:53:52.791301	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/The_Fantasticks>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/The_Fantasticks> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99294_32	1.0	1.0
-4	qsim-993	2017-07-18 18:53:53.792371	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Weather>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Weather> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe324_12	1.0	1.0
-5	qsim-994	2017-07-18 18:53:54.789410	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Tennessee_Williams>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Tennessee_Williams> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe176_16	1.0	1.0
-6	qsim-995	2017-07-18 18:53:57.791026	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Denmark>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Denmark> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe825_6	1.0	1.0
-7	qsim-996	2017-07-18 18:53:57.794039	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Mute_Records>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Mute_Records> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe98002_40	1.0	1.0
-8	qsim-997	2017-07-18 18:54:00.790325	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Teenage_Mutant_Ninja_Turtles>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Teenage_Mutant_Ninja_Turtles> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe330_12	1.0	1.0
-9	qsim-998	2017-07-18 18:54:02.789387	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Japan>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Japan> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe97737_70	1.0	1.0
-10	qsim-999	2017-07-18 18:54:04.789067	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Tower_of_Power>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Tower_of_Power> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99761_26	1.0	1.0
-11	qsim-990	2017-07-18 18:55:15.953380	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Porcupine>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Porcupine> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe522_10	1.0	1.0
-12	qsim-991	2017-07-18 18:55:16.854188	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Stephen_King>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Stephen_King> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99964_20	1.0	1.0
-13	qsim-992	2017-07-18 18:55:24.853482	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/The_Fantasticks>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/The_Fantasticks> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe972_4	1.0	1.0
-14	qsim-993	2017-07-18 18:55:25.858116	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Weather>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Weather> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99351_32	1.0	1.0
-15	qsim-994	2017-07-18 18:55:26.879537	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Tennessee_Williams>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Tennessee_Williams> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe169_18	1.0	1.0
-16	qsim-996	2017-07-18 18:55:29.853909	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Mute_Records>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Mute_Records> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99970_20	1.0	1.0
-17	qsim-995	2017-07-18 18:55:29.856991	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Denmark>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Denmark> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe97838_60	1.0	1.0
-18	qsim-997	2017-07-18 18:55:32.854912	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Teenage_Mutant_Ninja_Turtles>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Teenage_Mutant_Ninja_Turtles> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe979_4	1.0	1.0
-19	qsim-998	2017-07-18 18:55:34.856846	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Japan>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Japan> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99294_34	1.0	1.0
-20	qsim-999	2017-07-18 18:55:36.856187	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Tower_of_Power>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Tower_of_Power> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe324_14	1.0	1.0
-21	qsim-990	2017-07-18 18:57:01.813740	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Porcupine>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Porcupine> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe176_18	1.0	1.0
-22	qsim-991	2017-07-18 18:57:02.744310	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Stephen_King>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Stephen_King> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe98002_42	1.0	1.0
-23	qsim-992	2017-07-18 18:57:10.746339	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/The_Fantasticks>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/The_Fantasticks> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe825_8	1.0	1.0
-24	qsim-993	2017-07-18 18:57:11.746102	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Weather>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Weather> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe330_14	1.0	1.0
-25	qsim-994	2017-07-18 18:57:12.746565	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Tennessee_Williams>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Tennessee_Williams> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe97737_72	1.0	1.0
-26	qsim-995	2017-07-18 18:57:15.744193	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Denmark>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Denmark> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99761_28	1.0	1.0
-27	qsim-996	2017-07-18 18:57:15.747579	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Mute_Records>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Mute_Records> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe522_12	1.0	1.0
-28	qsim-997	2017-07-18 18:57:18.743209	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Teenage_Mutant_Ninja_Turtles>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Teenage_Mutant_Ninja_Turtles> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99964_22	1.0	1.0
-29	qsim-998	2017-07-18 18:57:20.745919	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Japan>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Japan> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe972_6	1.0	1.0
-30	qsim-999	2017-07-18 18:57:22.743576	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Tower_of_Power>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Tower_of_Power> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99351_34	1.0	1.0
-31	qsim-1	2017-07-18 18:58:41.098860	127.0.0.1	" SELECT DISTINCT  ?type
+1	qsim-1	2017-07-19 19:06:25.675374	127.0.0.1	" SELECT DISTINCT  ?type
 WHERE
   { <http://dbpedia.org/resource/Metallica>
               a                     ?type
   }
- "	<http://dbpedia.org/resource/Metallica> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe169_20	1.0	1.0
-32	qsim-2	2017-07-18 18:58:42.038362	127.0.0.1	" SELECT DISTINCT  ?type
+ "	<http://dbpedia.org/resource/Metallica> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7945_48	1.0	1.0
+2	qsim-2	2017-07-19 19:06:26.816880	127.0.0.1	" SELECT DISTINCT  ?type
 WHERE
   { <http://dbpedia.org/resource/Dwayne_Bowe>
               a                     ?type
   }
- "	<http://dbpedia.org/resource/Dwayne_Bowe> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99970_22	1.0	1.0
-33	qsim-3	2017-07-18 18:58:45.037016	127.0.0.1	" SELECT DISTINCT  ?type
+ "	<http://dbpedia.org/resource/Dwayne_Bowe> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7947_40	1.0	1.0
+3	qsim-3	2017-07-19 19:06:29.435203	127.0.0.1	" SELECT DISTINCT  ?type
 WHERE
   { <http://dbpedia.org/resource/Semisonic>
               a                     ?type
   }
- "	<http://dbpedia.org/resource/Semisonic> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe97838_62	1.0	1.0
-34	qsim-5	2017-07-18 18:58:46.039543	127.0.0.1	" SELECT DISTINCT  ?type
+ "	<http://dbpedia.org/resource/Semisonic> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7946_10	1.0	1.0
+4	qsim-5	2017-07-19 19:06:30.750475	127.0.0.1	" SELECT DISTINCT  ?type
 WHERE
   { <http://dbpedia.org/resource/Jonathan_Swift>
               a                     ?type
   }
- "	<http://dbpedia.org/resource/Jonathan_Swift> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe979_6	1.0	1.0
-35	qsim-4	2017-07-18 18:58:46.043016	127.0.0.1	" SELECT DISTINCT  ?type
+ "	<http://dbpedia.org/resource/Jonathan_Swift> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7933_58	1.0	1.0
+5	qsim-4	2017-07-19 19:06:30.755749	127.0.0.1	" SELECT DISTINCT  ?type
 WHERE
   { <http://dbpedia.org/resource/Ace_Frehley>
               a                     ?type
   }
- "	<http://dbpedia.org/resource/Ace_Frehley> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99294_36	1.0	1.0
-36	qsim-6	2017-07-18 18:58:47.040646	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Paint>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Paint> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe324_16	1.0	1.0
-37	qsim-7	2017-07-18 18:58:47.043854	127.0.0.1	" SELECT DISTINCT  ?type
+ "	<http://dbpedia.org/resource/Ace_Frehley> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7935_103	1.0	1.0
+6	qsim-7	2017-07-19 19:06:31.820113	127.0.0.1	" SELECT DISTINCT  ?type
 WHERE
   { <http://dbpedia.org/resource/Charlie_Sheen>
               a                     ?type
   }
- "	<http://dbpedia.org/resource/Charlie_Sheen> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe176_20	1.0	1.0
-38	qsim-8	2017-07-18 18:58:54.039312	127.0.0.1	" SELECT DISTINCT  ?type
+ "	<http://dbpedia.org/resource/Charlie_Sheen> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7939_97	1.0	1.0
+7	qsim-6	2017-07-19 19:06:31.845653	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Paint>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Paint> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7932_132	1.0	1.0
+8	qsim-8	2017-07-19 19:06:38.465099	127.0.0.1	" SELECT DISTINCT  ?type
 WHERE
   { <http://dbpedia.org/resource/Adam_and_Eve>
               a                     ?type
   }
- "	<http://dbpedia.org/resource/Adam_and_Eve> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe98002_44	1.0	1.0
-39	qsim-9	2017-07-18 18:58:55.040275	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/The_Cranberries>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/The_Cranberries> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe825_10	1.0	1.0
-40	qsim-10	2017-07-18 18:58:55.043718	127.0.0.1	" SELECT DISTINCT  ?type
+ "	<http://dbpedia.org/resource/Adam_and_Eve> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7941_134	1.0	1.0
+9	qsim-10	2017-07-19 19:06:39.622474	127.0.0.1	" SELECT DISTINCT  ?type
 WHERE
   { <http://dbpedia.org/resource/Scientist>
               a                     ?type
   }
- "	<http://dbpedia.org/resource/Scientist> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe97737_74	1.0	1.0
-41	qsim-1	2017-07-18 19:01:11.365723	127.0.0.1	" SELECT DISTINCT  ?type
+ "	<http://dbpedia.org/resource/Scientist> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7934_131	1.0	1.0
+10	qsim-9	2017-07-19 19:06:39.626454	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_Cranberries>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_Cranberries> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7936_109	1.0	1.0
+11	qsim-12	2017-07-19 19:06:40.802942	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Will.i.am>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Will.i.am> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7940_91	1.0	1.0
+12	qsim-11	2017-07-19 19:06:40.806687	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Business>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Business> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7937_111	1.0	1.0
+13	qsim-13	2017-07-19 19:06:45.489401	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Root_beer>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Root_beer> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7938_123	1.0	1.0
+14	qsim-14	2017-07-19 19:06:46.583669	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Colbie_Caillat>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Colbie_Caillat> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7943_124	1.0	1.0
+15	qsim-16	2017-07-19 19:06:49.660319	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Yogi_Bear>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Yogi_Bear> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7942_98	1.0	1.0
+16	qsim-15	2017-07-19 19:06:49.664513	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Scary_Movie>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Scary_Movie> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7944_89	1.0	1.0
+17	qsim-17	2017-07-19 19:06:54.287114	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Gary_Glitter>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Gary_Glitter> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7945_50	1.0	1.0
+18	qsim-18	2017-07-19 19:06:57.288219	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Ash_Williams>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Ash_Williams> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7947_42	1.0	1.0
+19	qsim-19	2017-07-19 19:07:03.287158	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Biffy_Clyro>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Biffy_Clyro> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7946_12	1.0	1.0
+20	qsim-20	2017-07-19 19:07:04.287019	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Arson>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Arson> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7933_60	1.0	1.0
+21	qsim-21	2017-07-19 19:07:09.287156	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/American_Dialect_Society>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/American_Dialect_Society> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7935_105	1.0	1.0
+22	qsim-22	2017-07-19 19:07:10.286505	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Myst>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Myst> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7939_99	1.0	1.0
+23	qsim-23	2017-07-19 19:07:11.287559	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_Wiggles>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_Wiggles> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7932_134	1.0	1.0
+24	qsim-24	2017-07-19 19:07:12.285957	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Dewey_Redman>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Dewey_Redman> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7941_136	1.0	1.0
+25	qsim-25	2017-07-19 19:07:14.286873	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Vic_Chesnutt>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Vic_Chesnutt> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7934_133	1.0	1.0
+26	qsim-26	2017-07-19 19:07:17.288444	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Channel_V>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Channel_V> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7936_111	1.0	1.0
+27	qsim-27	2017-07-19 19:07:18.286890	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/New_Zealand>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/New_Zealand> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7940_93	1.0	1.0
+28	qsim-28	2017-07-19 19:07:21.286763	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Earth_Song>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Earth_Song> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7937_113	1.0	1.0
+29	qsim-29	2017-07-19 19:07:23.286020	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Eddi_Reader>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Eddi_Reader> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7938_125	1.0	1.0
+30	qsim-30	2017-07-19 19:07:26.286258	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Eddie_Cochran>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Eddie_Cochran> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7943_126	1.0	1.0
+31	qsim-1	2017-07-19 19:10:38.231184	127.0.0.1	" SELECT DISTINCT  ?type
 WHERE
   { <http://dbpedia.org/resource/Metallica>
               a                     ?type
   }
- "	<http://dbpedia.org/resource/Metallica> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99761_30	1.0	1.0
-42	qsim-2	2017-07-18 19:01:12.301327	127.0.0.1	" SELECT DISTINCT  ?type
+ "	<http://dbpedia.org/resource/Metallica> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7942_100	1.0	1.0
+32	qsim-2	2017-07-19 19:10:39.102705	127.0.0.1	" SELECT DISTINCT  ?type
 WHERE
   { <http://dbpedia.org/resource/Dwayne_Bowe>
               a                     ?type
   }
- "	<http://dbpedia.org/resource/Dwayne_Bowe> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe522_14	1.0	1.0
-43	qsim-3	2017-07-18 19:01:15.299084	127.0.0.1	" SELECT DISTINCT  ?type
+ "	<http://dbpedia.org/resource/Dwayne_Bowe> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7944_91	1.0	1.0
+33	qsim-3	2017-07-19 19:10:42.130972	127.0.0.1	" SELECT DISTINCT  ?type
 WHERE
   { <http://dbpedia.org/resource/Semisonic>
               a                     ?type
   }
- "	<http://dbpedia.org/resource/Semisonic> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99964_24	1.0	1.0
-44	qsim-4	2017-07-18 19:01:16.300001	127.0.0.1	" SELECT DISTINCT  ?type
-WHERE
-  { <http://dbpedia.org/resource/Ace_Frehley>
-              a                     ?type
-  }
- "	<http://dbpedia.org/resource/Ace_Frehley> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe972_8	1.0	1.0
-45	qsim-5	2017-07-18 19:01:16.303071	127.0.0.1	" SELECT DISTINCT  ?type
+ "	<http://dbpedia.org/resource/Semisonic> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7945_52	1.0	1.0
+34	qsim-5	2017-07-19 19:10:43.264912	127.0.0.1	" SELECT DISTINCT  ?type
 WHERE
   { <http://dbpedia.org/resource/Jonathan_Swift>
               a                     ?type
   }
- "	<http://dbpedia.org/resource/Jonathan_Swift> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99351_36	1.0	1.0
-46	qsim-6	2017-07-18 19:01:17.299099	127.0.0.1	" SELECT DISTINCT  ?type
+ "	<http://dbpedia.org/resource/Jonathan_Swift> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7947_44	1.0	1.0
+35	qsim-4	2017-07-19 19:10:43.276042	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Ace_Frehley>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Ace_Frehley> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7946_14	1.0	1.0
+36	qsim-6	2017-07-19 19:10:44.378346	127.0.0.1	" SELECT DISTINCT  ?type
 WHERE
   { <http://dbpedia.org/resource/Paint>
               a                     ?type
   }
- "	<http://dbpedia.org/resource/Paint> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe169_22	1.0	1.0
-47	qsim-7	2017-07-18 19:01:17.302031	127.0.0.1	" SELECT DISTINCT  ?type
+ "	<http://dbpedia.org/resource/Paint> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7933_62	1.0	1.0
+37	qsim-7	2017-07-19 19:10:44.395742	127.0.0.1	" SELECT DISTINCT  ?type
 WHERE
   { <http://dbpedia.org/resource/Charlie_Sheen>
               a                     ?type
   }
- "	<http://dbpedia.org/resource/Charlie_Sheen> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99970_24	1.0	1.0
-48	qsim-8	2017-07-18 19:01:24.300152	127.0.0.1	" SELECT DISTINCT  ?type
+ "	<http://dbpedia.org/resource/Charlie_Sheen> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7935_107	1.0	1.0
+38	qsim-8	2017-07-19 19:10:51.078327	127.0.0.1	" SELECT DISTINCT  ?type
 WHERE
   { <http://dbpedia.org/resource/Adam_and_Eve>
               a                     ?type
   }
- "	<http://dbpedia.org/resource/Adam_and_Eve> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe97838_64	1.0	1.0
-49	qsim-10	2017-07-18 19:01:25.300842	127.0.0.1	" SELECT DISTINCT  ?type
+ "	<http://dbpedia.org/resource/Adam_and_Eve> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7939_101	1.0	1.0
+39	qsim-10	2017-07-19 19:10:52.286899	127.0.0.1	" SELECT DISTINCT  ?type
 WHERE
   { <http://dbpedia.org/resource/Scientist>
               a                     ?type
   }
- "	<http://dbpedia.org/resource/Scientist> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe979_8	1.0	1.0
-50	qsim-9	2017-07-18 19:01:25.304023	127.0.0.1	" SELECT DISTINCT  ?type
+ "	<http://dbpedia.org/resource/Scientist> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7932_136	1.0	1.0
+40	qsim-9	2017-07-19 19:10:52.298106	127.0.0.1	" SELECT DISTINCT  ?type
 WHERE
   { <http://dbpedia.org/resource/The_Cranberries>
               a                     ?type
   }
- "	<http://dbpedia.org/resource/The_Cranberries> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe99294_38	1.0	1.0
+ "	<http://dbpedia.org/resource/The_Cranberries> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7941_138	1.0	1.0
+41	qsim-11	2017-07-19 19:10:53.459194	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Business>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Business> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7936_113	1.0	1.0
+42	qsim-12	2017-07-19 19:10:53.465956	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Will.i.am>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Will.i.am> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7934_135	1.0	1.0
+43	qsim-13	2017-07-19 19:10:58.144186	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Root_beer>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Root_beer> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7940_95	1.0	1.0
+44	qsim-14	2017-07-19 19:10:59.227337	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Colbie_Caillat>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Colbie_Caillat> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7937_115	1.0	1.0
+45	qsim-15	2017-07-19 19:11:02.147099	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Scary_Movie>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Scary_Movie> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7938_127	1.0	1.0
+46	qsim-16	2017-07-19 19:11:02.158518	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Yogi_Bear>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Yogi_Bear> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7943_128	1.0	1.0
+47	qsim-17	2017-07-19 19:11:06.959151	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Gary_Glitter>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Gary_Glitter> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7942_102	1.0	1.0
+48	qsim-18	2017-07-19 19:11:09.959420	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Ash_Williams>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Ash_Williams> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7944_93	1.0	1.0
+49	qsim-19	2017-07-19 19:11:15.959148	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Biffy_Clyro>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Biffy_Clyro> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7945_54	1.0	1.0
+50	qsim-20	2017-07-19 19:11:16.958563	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Arson>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Arson> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7947_46	1.0	1.0
+51	qsim-21	2017-07-19 19:11:21.959025	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/American_Dialect_Society>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/American_Dialect_Society> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7946_16	1.0	1.0
+52	qsim-22	2017-07-19 19:11:22.959719	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Myst>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Myst> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7933_64	1.0	1.0
+53	qsim-23	2017-07-19 19:11:23.959455	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_Wiggles>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_Wiggles> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7935_109	1.0	1.0
+54	qsim-24	2017-07-19 19:11:24.959254	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Dewey_Redman>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Dewey_Redman> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7939_103	1.0	1.0
+55	qsim-25	2017-07-19 19:11:26.958714	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Vic_Chesnutt>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Vic_Chesnutt> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7932_138	1.0	1.0
+56	qsim-26	2017-07-19 19:11:29.959352	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Channel_V>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Channel_V> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7941_140	1.0	1.0
+57	qsim-27	2017-07-19 19:11:30.957775	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/New_Zealand>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/New_Zealand> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7934_137	1.0	1.0
+58	qsim-28	2017-07-19 19:11:33.958293	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Earth_Song>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Earth_Song> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7936_115	1.0	1.0
+59	qsim-29	2017-07-19 19:11:35.960130	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Eddi_Reader>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Eddi_Reader> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7940_97	1.0	1.0
+60	qsim-30	2017-07-19 19:11:38.957929	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Eddie_Cochran>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Eddie_Cochran> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7937_117	1.0	1.0
+61	qsim-31	2017-07-19 19:11:39.958556	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Bible>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Bible> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7938_129	1.0	1.0
+62	qsim-32	2017-07-19 19:11:39.962032	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Holiday>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Holiday> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7943_130	1.0	1.0
+63	qsim-33	2017-07-19 19:11:44.957141	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Cary_Brothers>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Cary_Brothers> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7942_104	1.0	1.0
+64	qsim-34	2017-07-19 19:11:46.957302	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Pearl_Jam>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Pearl_Jam> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7944_95	1.0	1.0
+65	qsim-35	2017-07-19 19:11:48.958561	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Channel_4>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Channel_4> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7945_56	1.0	1.0
+66	qsim-36	2017-07-19 19:11:50.958902	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Broadcasting>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Broadcasting> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7947_48	1.0	1.0
+67	qsim-38	2017-07-19 19:11:53.958399	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Voting>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Voting> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7946_18	1.0	1.0
+68	qsim-37	2017-07-19 19:11:53.961646	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Mystery_Science_Theater_3000>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Mystery_Science_Theater_3000> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7933_66	1.0	1.0
+69	qsim-39	2017-07-19 19:11:56.958606	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Ricardo_Arjona>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Ricardo_Arjona> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7935_111	1.0	1.0
+70	qsim-40	2017-07-19 19:11:56.962076	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Buddy_Clark>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Buddy_Clark> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7939_105	1.0	1.0
+71	qsim-43	2017-07-19 19:12:01.958418	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Rosh_Hashanah>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Rosh_Hashanah> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7941_142	1.0	1.0
+72	qsim-42	2017-07-19 19:12:01.961575	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Vince_McMahon>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Vince_McMahon> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7934_139	1.0	1.0
+73	qsim-41	2017-07-19 19:12:01.965113	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Get_Smart>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Get_Smart> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7932_140	1.0	1.0
+74	qsim-44	2017-07-19 19:12:02.960499	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Books_of_Chronicles>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Books_of_Chronicles> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7940_99	1.0	1.0
+75	qsim-45	2017-07-19 19:12:02.964127	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/University_of_Arizona>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/University_of_Arizona> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7936_117	1.0	1.0
+76	qsim-46	2017-07-19 19:12:04.958477	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Marina>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Marina> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7937_119	1.0	1.0
+77	qsim-47	2017-07-19 19:12:05.959652	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Fallout_3>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Fallout_3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7938_131	1.0	1.0
+78	qsim-48	2017-07-19 19:12:05.963068	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Circle_of_Life>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Circle_of_Life> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7943_132	1.0	1.0
+79	qsim-49	2017-07-19 19:12:06.958570	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Liverpool_Echo>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Liverpool_Echo> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7942_106	1.0	1.0
+80	qsim-51	2017-07-19 19:12:07.959779	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/University_of_Kansas>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/University_of_Kansas> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7944_97	1.0	1.0
+81	qsim-50	2017-07-19 19:12:07.963003	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Condom>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Condom> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7945_58	1.0	1.0
+82	qsim-52	2017-07-19 19:12:13.959617	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Josh_Wink>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Josh_Wink> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7947_50	1.0	1.0
+83	qsim-53	2017-07-19 19:12:18.958402	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/First-person_shooter>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/First-person_shooter> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7946_20	1.0	1.0
+84	qsim-54	2017-07-19 19:12:19.958774	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Simon_Fraser_University>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Simon_Fraser_University> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7933_68	1.0	1.0
+85	qsim-56	2017-07-19 19:12:30.957433	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Ezekiel>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Ezekiel> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7935_113	1.0	1.0
+86	qsim-55	2017-07-19 19:12:30.960633	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Missing_in_action>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Missing_in_action> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7939_107	1.0	1.0
+87	qsim-58	2017-07-19 19:12:31.957845	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Mos_Def>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Mos_Def> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7941_144	1.0	1.0
+88	qsim-57	2017-07-19 19:12:31.961153	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Dr._Quinn,_Medicine_Woman>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Dr._Quinn,_Medicine_Woman> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7932_142	1.0	1.0
+89	qsim-59	2017-07-19 19:12:34.957823	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Book_of_Genesis>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Book_of_Genesis> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7934_141	1.0	1.0
+90	qsim-60	2017-07-19 19:12:37.958400	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/London_Tipton>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/London_Tipton> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7936_119	1.0	1.0
+91	qsim-61	2017-07-19 19:12:40.957456	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Baby_Got_Back>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Baby_Got_Back> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7940_101	1.0	1.0
+92	qsim-62	2017-07-19 19:12:41.957198	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_Format>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_Format> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7938_133	1.0	1.0
+93	qsim-63	2017-07-19 19:12:41.960519	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Viva_Las_Vegas>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Viva_Las_Vegas> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7937_121	1.0	1.0
+94	qsim-64	2017-07-19 19:12:42.958542	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Jedward>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Jedward> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7943_134	1.0	1.0
+95	qsim-65	2017-07-19 19:12:43.957729	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/VfL_Wolfsburg>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/VfL_Wolfsburg> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7942_108	1.0	1.0
+96	qsim-66	2017-07-19 19:12:45.958906	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Gustavo_Cerati>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Gustavo_Cerati> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7944_99	1.0	1.0
+97	qsim-67	2017-07-19 19:12:46.959195	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Honor_Blackman>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Honor_Blackman> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7945_60	1.0	1.0
+98	qsim-68	2017-07-19 19:12:48.957950	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Bicycle>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Bicycle> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7947_52	1.0	1.0
+99	qsim-69	2017-07-19 19:12:50.958472	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Paris_Hilton>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Paris_Hilton> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7946_22	1.0	1.0
+100	qsim-71	2017-07-19 19:12:51.958983	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Sean_Waltman>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Sean_Waltman> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7935_115	1.0	1.0
+101	qsim-70	2017-07-19 19:12:51.962435	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Can_You_Feel_the_Love_Tonight>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Can_You_Feel_the_Love_Tonight> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7933_70	1.0	1.0
+102	qsim-73	2017-07-19 19:12:52.958610	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Sophie_Ellis-Bextor>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Sophie_Ellis-Bextor> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7932_144	1.0	1.0
+103	qsim-72	2017-07-19 19:12:52.961504	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/MGMT>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/MGMT> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7939_109	1.0	1.0
+104	qsim-75	2017-07-19 19:12:58.959102	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_A-Team>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_A-Team> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7934_143	1.0	1.0
+105	qsim-74	2017-07-19 19:12:58.962281	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Major_scale>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Major_scale> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7941_146	1.0	1.0
+106	qsim-76	2017-07-19 19:12:59.958822	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Max_Branning>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Max_Branning> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7936_121	1.0	1.0
+107	qsim-77	2017-07-19 19:13:00.958684	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Mr._Brightside>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Mr._Brightside> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7940_103	1.0	1.0
+108	qsim-78	2017-07-19 19:13:02.959283	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_Fame_Monster>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_Fame_Monster> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7937_123	1.0	1.0
+109	qsim-79	2017-07-19 19:13:03.958492	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/KFC>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/KFC> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7938_135	1.0	1.0
+110	qsim-80	2017-07-19 19:13:04.959707	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/A_Chorus_Line>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/A_Chorus_Line> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7943_136	1.0	1.0
+111	qsim-81	2017-07-19 19:13:06.958796	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Square_Pegs>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Square_Pegs> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7942_110	1.0	1.0
+112	qsim-82	2017-07-19 19:13:12.958953	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Kesha>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Kesha> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7944_101	1.0	1.0
+113	qsim-84	2017-07-19 19:13:14.959414	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Daphne_Moon>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Daphne_Moon> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7945_62	1.0	1.0
+114	qsim-83	2017-07-19 19:13:14.962619	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Killing_Me_Softly_with_His_Song>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Killing_Me_Softly_with_His_Song> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7947_54	1.0	1.0
+115	qsim-85	2017-07-19 19:13:14.966505	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Winnipeg>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Winnipeg> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7946_24	1.0	1.0
+116	qsim-86	2017-07-19 19:13:15.959103	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Tom_Petty>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Tom_Petty> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7933_72	1.0	1.0
+117	qsim-87	2017-07-19 19:13:16.958814	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/ESPN2>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/ESPN2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7935_117	1.0	1.0
+118	qsim-88	2017-07-19 19:13:17.958844	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Waylon_Jennings>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Waylon_Jennings> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7939_111	1.0	1.0
+119	qsim-89	2017-07-19 19:13:19.958906	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Don_Heck>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Don_Heck> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7941_148	1.0	1.0
+120	qsim-90	2017-07-19 19:13:19.962187	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Merle_Haggard>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Merle_Haggard> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7932_146	1.0	1.0
+121	qsim-91	2017-07-19 19:13:24.958675	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Colorado_State_University>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Colorado_State_University> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7934_145	1.0	1.0
+122	qsim-92	2017-07-19 19:13:25.959337	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Uncle_Buck>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Uncle_Buck> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7936_123	1.0	1.0
+123	qsim-93	2017-07-19 19:13:26.959214	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Lou_Donaldson>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Lou_Donaldson> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7940_105	1.0	1.0
+124	qsim-94	2017-07-19 19:13:29.958349	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Psychotherapy>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Psychotherapy> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7937_125	1.0	1.0
+125	qsim-95	2017-07-19 19:13:33.958224	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Encantadia>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Encantadia> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7938_137	1.0	1.0
+126	qsim-96	2017-07-19 19:13:36.957697	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Mick_Jagger>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Mick_Jagger> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7943_138	1.0	1.0
+127	qsim-97	2017-07-19 19:13:37.957948	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Joan_of_Arc>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Joan_of_Arc> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7942_112	1.0	1.0
+128	qsim-98	2017-07-19 19:13:40.958254	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Punk_rock>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Punk_rock> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7944_103	1.0	1.0
+129	qsim-99	2017-07-19 19:13:43.958675	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Judas_Iscariot>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Judas_Iscariot> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7945_64	1.0	1.0
+130	qsim-100	2017-07-19 19:13:45.958443	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/ESPNU>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/ESPNU> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7947_56	1.0	1.0
+131	qsim-101	2017-07-19 19:13:49.957787	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Grass_Valley,_California>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Grass_Valley,_California> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7946_26	1.0	1.0
+132	qsim-103	2017-07-19 19:13:53.958731	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Gossip_Girl>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Gossip_Girl> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7935_119	1.0	1.0
+133	qsim-102	2017-07-19 19:13:53.961952	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Cozy_Powell>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Cozy_Powell> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7933_74	1.0	1.0
+134	qsim-104	2017-07-19 19:13:55.958096	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Ichigo_Kurosaki>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Ichigo_Kurosaki> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7939_113	1.0	1.0
+135	qsim-105	2017-07-19 19:13:56.958405	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Lucky_Spencer>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Lucky_Spencer> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7932_148	1.0	1.0
+136	qsim-107	2017-07-19 19:13:59.957614	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/NBA_Jam>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/NBA_Jam> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7941_150	1.0	1.0
+137	qsim-106	2017-07-19 19:13:59.960907	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Tales_of_the_Abyss>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Tales_of_the_Abyss> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7934_147	1.0	1.0
+138	qsim-108	2017-07-19 19:14:02.957411	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Omar_Rodr%C3%ADguez-L%C3%B3pez>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Omar_Rodr%C3%ADguez-L%C3%B3pez> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7936_125	1.0	1.0
+139	qsim-109	2017-07-19 19:14:04.956719	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Julian_Cope>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Julian_Cope> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7940_107	1.0	1.0
+140	qsim-110	2017-07-19 19:14:07.957060	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_Downward_Spiral>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_Downward_Spiral> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7937_127	1.0	1.0
+141	qsim-111	2017-07-19 19:14:09.957773	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Circus>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Circus> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7938_139	1.0	1.0
+142	qsim-112	2017-07-19 19:14:10.957604	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Alfred_Hitchcock>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Alfred_Hitchcock> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7942_114	1.0	1.0
+143	qsim-113	2017-07-19 19:14:10.961192	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Warren_Ellis>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Warren_Ellis> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7943_140	1.0	1.0
+144	qsim-114	2017-07-19 19:14:13.958157	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Charley_Pride>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Charley_Pride> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7944_105	1.0	1.0
+145	qsim-115	2017-07-19 19:14:16.958526	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_700_Club>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_700_Club> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7945_66	1.0	1.0
+146	qsim-116	2017-07-19 19:14:17.959948	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Forever_the_Sickest_Kids>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Forever_the_Sickest_Kids> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7947_58	1.0	1.0
+147	qsim-117	2017-07-19 19:14:22.958658	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Scott_Pilgrim_vs._the_World>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Scott_Pilgrim_vs._the_World> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7946_28	1.0	1.0
+148	qsim-118	2017-07-19 19:14:25.958783	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Rugby_union>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Rugby_union> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7933_76	1.0	1.0
+149	qsim-121	2017-07-19 19:14:28.959575	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Cigarette>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Cigarette> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7932_150	1.0	1.0
+150	qsim-119	2017-07-19 19:14:28.963339	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Ocean>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Ocean> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7939_115	1.0	1.0
+151	qsim-120	2017-07-19 19:14:28.967929	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Tennis>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Tennis> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7935_121	1.0	1.0
+152	qsim-122	2017-07-19 19:14:35.958761	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Norfolk,_Virginia>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Norfolk,_Virginia> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7941_152	1.0	1.0
+153	qsim-123	2017-07-19 19:14:41.958376	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Hidden_camera>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Hidden_camera> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7934_149	1.0	1.0
+154	qsim-124	2017-07-19 19:14:42.957931	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Tricky>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Tricky> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7936_127	1.0	1.0
+155	qsim-125	2017-07-19 19:14:45.959345	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Robin_Hood>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Robin_Hood> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7940_109	1.0	1.0
+156	qsim-128	2017-07-19 19:14:51.958229	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Bowling_for_Soup>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Bowling_for_Soup> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7938_141	1.0	1.0
+157	qsim-127	2017-07-19 19:14:51.961483	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Cheating>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Cheating> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7937_129	1.0	1.0
+158	qsim-126	2017-07-19 19:14:51.965929	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Capitalism>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Capitalism> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7943_142	1.0	1.0
+159	qsim-129	2017-07-19 19:14:52.958405	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_Jerk>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_Jerk> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7942_116	1.0	1.0
+160	qsim-130	2017-07-19 19:14:53.958271	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/I_Will_Always_Love_You>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/I_Will_Always_Love_You> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7944_107	1.0	1.0
+161	qsim-131	2017-07-19 19:14:53.961435	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Pedro_the_Lion>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Pedro_the_Lion> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7945_68	1.0	1.0
+162	qsim-132	2017-07-19 19:14:54.958040	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Talib_Kweli>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Talib_Kweli> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7947_60	1.0	1.0
+163	qsim-133	2017-07-19 19:14:55.957129	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Portugal>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Portugal> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7946_30	1.0	1.0
+164	qsim-134	2017-07-19 19:14:56.958408	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Tangerine_Dream>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Tangerine_Dream> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7933_78	1.0	1.0
+165	qsim-135	2017-07-19 19:15:03.959595	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Bo_Bice>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Bo_Bice> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7935_123	1.0	1.0
+166	qsim-136	2017-07-19 19:15:07.958745	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_Magic_Numbers>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_Magic_Numbers> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7939_117	1.0	1.0
+167	qsim-137	2017-07-19 19:15:08.958158	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Royal_Albert_Hall>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Royal_Albert_Hall> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7932_152	1.0	1.0
+168	qsim-138	2017-07-19 19:15:10.958925	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Minneapolis>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Minneapolis> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7941_154	1.0	1.0
+169	qsim-139	2017-07-19 19:15:11.958651	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Ghost_in_the_Shell:_Stand_Alone_Complex>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Ghost_in_the_Shell:_Stand_Alone_Complex> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7934_151	1.0	1.0
+170	qsim-140	2017-07-19 19:15:13.957740	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/TaleSpin>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/TaleSpin> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7936_129	1.0	1.0
+171	qsim-141	2017-07-19 19:15:17.957142	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Godsmack>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Godsmack> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7940_111	1.0	1.0
+172	qsim-142	2017-07-19 19:15:17.960580	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Cornershop>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Cornershop> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7938_143	1.0	1.0
+173	qsim-143	2017-07-19 19:15:18.958755	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_New_School>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_New_School> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7937_131	1.0	1.0
+174	qsim-144	2017-07-19 19:15:19.958335	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Singapore>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Singapore> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7943_144	1.0	1.0
+175	qsim-145	2017-07-19 19:15:21.959654	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Technology>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Technology> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7942_118	1.0	1.0
+176	qsim-146	2017-07-19 19:15:21.963544	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Anne_Frank>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Anne_Frank> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7944_109	1.0	1.0
+177	qsim-147	2017-07-19 19:15:22.958976	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/New_Found_Glory>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/New_Found_Glory> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7945_70	1.0	1.0
+178	qsim-148	2017-07-19 19:15:23.959027	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/University_of_North_Carolina_at_Chapel_Hill>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/University_of_North_Carolina_at_Chapel_Hill> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7947_62	1.0	1.0
+179	qsim-150	2017-07-19 19:15:24.958401	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_Haunted>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_Haunted> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7946_32	1.0	1.0
+180	qsim-149	2017-07-19 19:15:24.961709	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_Corner>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_Corner> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7933_80	1.0	1.0
+181	qsim-152	2017-07-19 19:15:25.959210	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Ocean_Colour_Scene>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Ocean_Colour_Scene> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7939_119	1.0	1.0
+182	qsim-151	2017-07-19 19:15:25.963339	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/BEC_Recordings>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/BEC_Recordings> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7935_125	1.0	1.0
+183	qsim-153	2017-07-19 19:15:26.959885	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/College_basketball>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/College_basketball> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7932_154	1.0	1.0
+184	qsim-154	2017-07-19 19:15:27.958563	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Theme_music>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Theme_music> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7941_156	1.0	1.0
+185	qsim-155	2017-07-19 19:15:28.959943	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Stock_market>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Stock_market> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7934_153	1.0	1.0
+186	qsim-157	2017-07-19 19:15:28.963546	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Christian_rock>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Christian_rock> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7940_113	1.0	1.0
+187	qsim-156	2017-07-19 19:15:28.967366	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Massive_Attack>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Massive_Attack> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7936_131	1.0	1.0
+188	qsim-158	2017-07-19 19:15:29.959508	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Adam_Sandler>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Adam_Sandler> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7938_145	1.0	1.0
+189	qsim-159	2017-07-19 19:15:30.959160	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Elvis_Costello>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Elvis_Costello> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7937_133	1.0	1.0
+190	qsim-160	2017-07-19 19:15:31.958905	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Sean_Kingston>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Sean_Kingston> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7943_146	1.0	1.0
+191	qsim-161	2017-07-19 19:15:32.959912	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Rush_Limbaugh>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Rush_Limbaugh> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7942_120	1.0	1.0
+192	qsim-162	2017-07-19 19:15:33.960065	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Fantastic_Four:_Rise_of_the_Silver_Surfer>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Fantastic_Four:_Rise_of_the_Silver_Surfer> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7944_111	1.0	1.0
+193	qsim-163	2017-07-19 19:15:34.959495	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Percussion_instrument>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Percussion_instrument> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7945_72	1.0	1.0
+194	qsim-164	2017-07-19 19:15:36.959133	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Sweet_Caroline>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Sweet_Caroline> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7947_64	1.0	1.0
+195	qsim-166	2017-07-19 19:15:38.959121	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Comic_Relief>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Comic_Relief> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7946_34	1.0	1.0
+196	qsim-165	2017-07-19 19:15:38.962562	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Guitar_Center>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Guitar_Center> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7933_82	1.0	1.0
+197	qsim-167	2017-07-19 19:15:39.958520	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Wigan>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Wigan> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7935_127	1.0	1.0
+198	qsim-168	2017-07-19 19:15:40.959317	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/University_of_Chicago>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/University_of_Chicago> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7939_121	1.0	1.0
+199	qsim-169	2017-07-19 19:15:43.959188	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Christmas_and_holiday_season>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Christmas_and_holiday_season> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7932_156	1.0	1.0
+200	qsim-170	2017-07-19 19:15:44.959916	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Murder>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Murder> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7941_158	1.0	1.0
+201	qsim-171	2017-07-19 19:15:47.959074	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Serial_Mom>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Serial_Mom> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7934_155	1.0	1.0
+202	qsim-172	2017-07-19 19:15:49.958997	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Kevin_Smith>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Kevin_Smith> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7936_133	1.0	1.0
+203	qsim-173	2017-07-19 19:15:50.958639	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Morgan_State_University>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Morgan_State_University> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7940_115	1.0	1.0
+204	qsim-174	2017-07-19 19:15:51.961282	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Frank_Welker>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Frank_Welker> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7938_147	1.0	1.0
+205	qsim-175	2017-07-19 19:15:56.958323	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/DJ_Quik>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/DJ_Quik> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7937_135	1.0	1.0
+206	qsim-176	2017-07-19 19:15:59.958164	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Henry_Creamer>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Henry_Creamer> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7943_148	1.0	1.0
+207	qsim-177	2017-07-19 19:16:01.959222	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Fat_Joe>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Fat_Joe> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7942_122	1.0	1.0
+208	qsim-178	2017-07-19 19:16:01.963153	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Wicked:_The_Life_and_Times_of_the_Wicked_Witch_of_the_West>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Wicked:_The_Life_and_Times_of_the_Wicked_Witch_of_the_West> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7944_113	1.0	1.0
+209	qsim-179	2017-07-19 19:16:15.960603	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Abraham_Lincoln>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Abraham_Lincoln> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7945_74	1.0	1.0
+210	qsim-180	2017-07-19 19:16:16.958944	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Hillary_Lindsey>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Hillary_Lindsey> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7947_66	1.0	1.0
+211	qsim-181	2017-07-19 19:16:21.960317	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Tom_Snyder>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Tom_Snyder> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7946_36	1.0	1.0
+212	qsim-182	2017-07-19 19:16:23.959209	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Watermelon>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Watermelon> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7933_84	1.0	1.0
+213	qsim-183	2017-07-19 19:16:24.959804	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Tainted_Love>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Tainted_Love> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7935_129	1.0	1.0
+214	qsim-185	2017-07-19 19:16:27.959774	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Tampa_Bay_Rays>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Tampa_Bay_Rays> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7932_158	1.0	1.0
+215	qsim-184	2017-07-19 19:16:27.963642	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Grady_Little>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Grady_Little> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7939_123	1.0	1.0
+216	qsim-186	2017-07-19 19:16:28.962261	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Netflix>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Netflix> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7941_160	1.0	1.0
+217	qsim-187	2017-07-19 19:16:29.961163	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_Open_Championship>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_Open_Championship> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7934_157	1.0	1.0
+218	qsim-188	2017-07-19 19:16:33.960678	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Hurts>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Hurts> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7936_135	1.0	1.0
+219	qsim-189	2017-07-19 19:16:34.959959	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_Black_Keys>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_Black_Keys> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7940_117	1.0	1.0
+220	qsim-190	2017-07-19 19:16:43.957243	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Scottie_Pippen>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Scottie_Pippen> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7938_149	1.0	1.0
+221	qsim-191	2017-07-19 19:16:49.959888	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Milla_Jovovich>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Milla_Jovovich> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7937_137	1.0	1.0
+222	qsim-192	2017-07-19 19:16:50.958904	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Stupid_Girls>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Stupid_Girls> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7943_150	1.0	1.0
+223	qsim-194	2017-07-19 19:16:52.957878	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_Awful_Truth>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_Awful_Truth> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7942_124	1.0	1.0
+224	qsim-193	2017-07-19 19:16:52.961689	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Jedi_Mind_Tricks>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Jedi_Mind_Tricks> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7944_115	1.0	1.0
+225	qsim-195	2017-07-19 19:16:53.959191	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Detroit>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Detroit> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7945_76	1.0	1.0
+226	qsim-196	2017-07-19 19:16:56.957764	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_Andy_Griffith_Show>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_Andy_Griffith_Show> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7947_68	1.0	1.0
+227	qsim-197	2017-07-19 19:16:59.957806	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Health>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Health> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7946_38	1.0	1.0
+228	qsim-198	2017-07-19 19:17:02.959346	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Stadium_Arcadium>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Stadium_Arcadium> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7933_86	1.0	1.0
+229	qsim-199	2017-07-19 19:17:05.958170	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Kata>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Kata> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7935_131	1.0	1.0
+230	qsim-200	2017-07-19 19:17:07.957854	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Miami>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Miami> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7939_125	1.0	1.0
+231	qsim-202	2017-07-19 19:17:09.957764	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/London_Eye>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/London_Eye> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7932_160	1.0	1.0
+232	qsim-201	2017-07-19 19:17:09.961711	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Keyboard_instrument>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Keyboard_instrument> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7941_162	1.0	1.0
+233	qsim-203	2017-07-19 19:17:10.957215	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Tom_Mix>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Tom_Mix> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7934_159	1.0	1.0
+234	qsim-204	2017-07-19 19:17:15.958744	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/William_Law>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/William_Law> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7936_137	1.0	1.0
+235	qsim-205	2017-07-19 19:17:17.959101	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/India.Arie>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/India.Arie> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7940_119	1.0	1.0
+236	qsim-207	2017-07-19 19:17:17.962472	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Prose_Edda>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Prose_Edda> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7938_151	1.0	1.0
+237	qsim-208	2017-07-19 19:17:17.966909	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Natalie_Cole>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Natalie_Cole> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7937_139	1.0	1.0
+238	qsim-206	2017-07-19 19:17:17.971345	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_Black_Parade>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_Black_Parade> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7943_152	1.0	1.0
+239	qsim-209	2017-07-19 19:17:18.958172	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Victorian_era>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Victorian_era> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7942_126	1.0	1.0
+240	qsim-210	2017-07-19 19:17:19.959436	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Lisa_Lisa_and_Cult_Jam>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Lisa_Lisa_and_Cult_Jam> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7944_117	1.0	1.0
+241	qsim-211	2017-07-19 19:17:20.957882	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Electric_Light_Orchestra>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Electric_Light_Orchestra> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7945_78	1.0	1.0
+242	qsim-212	2017-07-19 19:17:23.958384	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Urban_Hymns>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Urban_Hymns> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7947_70	1.0	1.0
+243	qsim-213	2017-07-19 19:17:25.958999	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_Sopranos>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_Sopranos> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7946_40	1.0	1.0
+244	qsim-215	2017-07-19 19:17:26.959605	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Huey_Lewis_and_the_News>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Huey_Lewis_and_the_News> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7935_133	1.0	1.0
+245	qsim-216	2017-07-19 19:17:26.964008	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Gucci_Mane>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Gucci_Mane> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7933_88	1.0	1.0
+246	qsim-217	2017-07-19 19:17:26.968956	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Stevie_Nicks>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Stevie_Nicks> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7939_127	1.0	1.0
+247	qsim-214	2017-07-19 19:17:26.973138	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Tegan_and_Sara>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Tegan_and_Sara> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7932_162	1.0	1.0
+248	qsim-218	2017-07-19 19:17:29.958443	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Sex_and_the_City>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Sex_and_the_City> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7941_164	1.0	1.0
+249	qsim-219	2017-07-19 19:17:30.958548	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Ron_Jeremy>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Ron_Jeremy> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7934_161	1.0	1.0
+250	qsim-220	2017-07-19 19:17:31.959496	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Betty_Cooper>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Betty_Cooper> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7936_139	1.0	1.0
+251	qsim-221	2017-07-19 19:17:32.958867	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Brad_Pitt>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Brad_Pitt> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7940_121	1.0	1.0
+252	qsim-222	2017-07-19 19:17:34.958531	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Silver_Surfer>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Silver_Surfer> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7938_153	1.0	1.0
+253	qsim-224	2017-07-19 19:17:37.959656	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Manchester_United_F.C.>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Manchester_United_F.C.> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7937_141	1.0	1.0
+254	qsim-223	2017-07-19 19:17:37.963081	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Morning_sickness>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Morning_sickness> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7943_154	1.0	1.0
+255	qsim-225	2017-07-19 19:17:40.958791	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/45_Grave>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/45_Grave> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7942_128	1.0	1.0
+256	qsim-226	2017-07-19 19:17:40.962521	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Constantines>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Constantines> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7944_119	1.0	1.0
+257	qsim-227	2017-07-19 19:17:41.958676	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Kidz_Bop>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Kidz_Bop> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7945_80	1.0	1.0
+258	qsim-228	2017-07-19 19:17:46.959221	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Super_Smash_Bros._Brawl>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Super_Smash_Bros._Brawl> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7947_72	1.0	1.0
+259	qsim-230	2017-07-19 19:17:48.958871	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Iron_Cross>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Iron_Cross> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7946_42	1.0	1.0
+260	qsim-229	2017-07-19 19:17:48.962270	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/ABC_Family>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/ABC_Family> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7933_90	1.0	1.0
+261	qsim-232	2017-07-19 19:17:49.959034	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Spider>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Spider> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7932_164	1.0	1.0
+262	qsim-231	2017-07-19 19:17:49.962672	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_Script>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_Script> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7935_135	1.0	1.0
+263	qsim-233	2017-07-19 19:17:49.966876	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Julie_Benz>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Julie_Benz> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7939_129	1.0	1.0
+264	qsim-234	2017-07-19 19:17:52.958036	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Cascada>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Cascada> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7941_166	1.0	1.0
+265	qsim-235	2017-07-19 19:17:53.958670	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Popcorn>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Popcorn> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7934_163	1.0	1.0
+266	qsim-236	2017-07-19 19:17:55.958861	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Great_Expectations>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Great_Expectations> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7936_141	1.0	1.0
+267	qsim-237	2017-07-19 19:17:57.959575	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Fashion_design>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Fashion_design> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7940_123	1.0	1.0
+268	qsim-238	2017-07-19 19:18:00.958200	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Kitty_Wells>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Kitty_Wells> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7938_155	1.0	1.0
+269	qsim-240	2017-07-19 19:18:01.960086	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Robert_John_%22Mutt%22_Lange>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Robert_John_%22Mutt%22_Lange> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7937_143	1.0	1.0
+270	qsim-239	2017-07-19 19:18:01.963620	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Tha_Carter_III>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Tha_Carter_III> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7943_156	1.0	1.0
+271	qsim-241	2017-07-19 19:18:04.958790	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Tina_Arena>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Tina_Arena> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7942_130	1.0	1.0
+272	qsim-242	2017-07-19 19:18:05.959221	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Cougar_Town>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Cougar_Town> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7944_121	1.0	1.0
+273	qsim-243	2017-07-19 19:18:06.957689	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Sweet_Home_Alabama>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Sweet_Home_Alabama> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7945_82	1.0	1.0
+274	qsim-244	2017-07-19 19:18:07.958354	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Christian_music>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Christian_music> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7947_74	1.0	1.0
+275	qsim-245	2017-07-19 19:18:08.959268	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Ludwig_van_Beethoven>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Ludwig_van_Beethoven> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7946_44	1.0	1.0
+276	qsim-246	2017-07-19 19:18:10.959574	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Motel>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Motel> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7933_92	1.0	1.0
+277	qsim-247	2017-07-19 19:18:14.959467	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Hank_Williams>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Hank_Williams> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7935_137	1.0	1.0
+278	qsim-248	2017-07-19 19:18:17.958222	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Psychopathy>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Psychopathy> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7939_131	1.0	1.0
+279	qsim-249	2017-07-19 19:18:18.958672	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Monty_Python>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Monty_Python> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7932_166	1.0	1.0
+280	qsim-250	2017-07-19 19:18:20.959551	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Cupcake>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Cupcake> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7941_168	1.0	1.0
+281	qsim-251	2017-07-19 19:18:22.958343	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Cricket>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Cricket> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7934_165	1.0	1.0
+282	qsim-252	2017-07-19 19:18:38.957892	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Pregnancy>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Pregnancy> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7936_143	1.0	1.0
+283	qsim-253	2017-07-19 19:18:41.958549	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Funkmaster_Flex>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Funkmaster_Flex> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7940_125	1.0	1.0
+284	qsim-254	2017-07-19 19:18:42.960144	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/American_English>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/American_English> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7938_157	1.0	1.0
+285	qsim-255	2017-07-19 19:18:43.959300	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Obesity>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Obesity> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7937_145	1.0	1.0
+286	qsim-256	2017-07-19 19:18:46.958173	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/James_Franco>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/James_Franco> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7943_158	1.0	1.0
+287	qsim-257	2017-07-19 19:18:47.957237	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Chinese_New_Year>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Chinese_New_Year> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7942_132	1.0	1.0
+288	qsim-258	2017-07-19 19:18:51.959784	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Beavis_and_Butt-head>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Beavis_and_Butt-head> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7944_123	1.0	1.0
+289	qsim-259	2017-07-19 19:18:53.958036	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Vomiting>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Vomiting> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7945_84	1.0	1.0
+290	qsim-260	2017-07-19 19:18:55.956907	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Con_Air>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Con_Air> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7947_76	1.0	1.0
+291	qsim-261	2017-07-19 19:18:56.957591	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Kris_Allen>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Kris_Allen> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7946_46	1.0	1.0
+292	qsim-262	2017-07-19 19:18:57.957534	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Macaroni_and_cheese>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Macaroni_and_cheese> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7933_94	1.0	1.0
+293	qsim-263	2017-07-19 19:18:58.957115	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Download_Festival>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Download_Festival> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7935_139	1.0	1.0
+294	qsim-264	2017-07-19 19:18:58.960437	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Joey_Yung>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Joey_Yung> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7939_133	1.0	1.0
+295	qsim-265	2017-07-19 19:18:59.958198	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Curb_Records>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Curb_Records> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7932_168	1.0	1.0
+296	qsim-266	2017-07-19 19:19:00.958413	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_Living_End>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_Living_End> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7941_170	1.0	1.0
+297	qsim-267	2017-07-19 19:19:01.958025	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Local_H>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Local_H> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7936_145	1.0	1.0
+298	qsim-268	2017-07-19 19:19:01.961165	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Cars_2>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Cars_2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7934_167	1.0	1.0
+299	qsim-269	2017-07-19 19:19:03.958546	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Middle_Ages>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Middle_Ages> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7940_127	1.0	1.0
+300	qsim-272	2017-07-19 19:19:04.959650	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Week>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Week> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7943_160	1.0	1.0
+301	qsim-271	2017-07-19 19:19:04.962648	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_Onion>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_Onion> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7937_147	1.0	1.0
+302	qsim-270	2017-07-19 19:19:04.966334	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/28_Days>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/28_Days> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7938_159	1.0	1.0
+303	qsim-273	2017-07-19 19:19:08.958207	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Disneyland>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Disneyland> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7942_134	1.0	1.0
+304	qsim-274	2017-07-19 19:19:09.960135	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Absolutely_Fabulous>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Absolutely_Fabulous> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7944_125	1.0	1.0
+305	qsim-275	2017-07-19 19:19:11.959241	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Korean_language>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Korean_language> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7945_86	1.0	1.0
+306	qsim-276	2017-07-19 19:19:15.959732	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Marques_Houston>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Marques_Houston> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7947_78	1.0	1.0
+307	qsim-278	2017-07-19 19:19:16.958214	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Forbes_Field>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Forbes_Field> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7946_48	1.0	1.0
+308	qsim-277	2017-07-19 19:19:16.961819	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Dani_California>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Dani_California> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7933_96	1.0	1.0
+309	qsim-279	2017-07-19 19:19:18.960706	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Gwen_Stacy>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Gwen_Stacy> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7935_141	1.0	1.0
+310	qsim-280	2017-07-19 19:19:19.959738	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Iran_hostage_crisis>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Iran_hostage_crisis> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7939_135	1.0	1.0
+311	qsim-282	2017-07-19 19:19:19.963054	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Maroon_5>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Maroon_5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7941_172	1.0	1.0
+312	qsim-281	2017-07-19 19:19:19.967291	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Stockwell_Day>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Stockwell_Day> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7932_170	1.0	1.0
+313	qsim-283	2017-07-19 19:19:22.959975	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Matthew_Broderick>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Matthew_Broderick> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7934_169	1.0	1.0
+314	qsim-284	2017-07-19 19:19:23.957996	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Nelson_Riddle>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Nelson_Riddle> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7936_147	1.0	1.0
+315	qsim-285	2017-07-19 19:19:25.959463	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_Thrills>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_Thrills> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7940_129	1.0	1.0
+316	qsim-286	2017-07-19 19:19:26.958318	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Rebel_Rebel>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Rebel_Rebel> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7938_161	1.0	1.0
+317	qsim-287	2017-07-19 19:19:27.959612	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Joss_Stone>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Joss_Stone> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7937_149	1.0	1.0
+318	qsim-288	2017-07-19 19:19:27.963658	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Being_Erica>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Being_Erica> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7943_162	1.0	1.0
+319	qsim-289	2017-07-19 19:19:28.960162	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Friday>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Friday> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7942_136	1.0	1.0
+320	qsim-290	2017-07-19 19:19:29.958334	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Mumford_&_Sons>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Mumford_&_Sons> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7944_127	1.0	1.0
+321	qsim-291	2017-07-19 19:19:30.961516	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Ne-Yo>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Ne-Yo> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7945_88	1.0	1.0
+322	qsim-292	2017-07-19 19:19:35.958220	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Mike_Tyson>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Mike_Tyson> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7947_80	1.0	1.0
+323	qsim-293	2017-07-19 19:19:36.958840	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Jack_Ingram>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Jack_Ingram> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7946_50	1.0	1.0
+324	qsim-294	2017-07-19 19:19:37.959202	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Tiny_Toon_Adventures>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Tiny_Toon_Adventures> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7933_98	1.0	1.0
+325	qsim-295	2017-07-19 19:19:46.958996	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Softball>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Softball> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7935_143	1.0	1.0
+326	qsim-296	2017-07-19 19:19:51.958003	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Fun,_Fun,_Fun>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Fun,_Fun,_Fun> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7939_137	1.0	1.0
+327	qsim-297	2017-07-19 19:19:52.959540	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Nate_Robinson>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Nate_Robinson> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7932_172	1.0	1.0
+328	qsim-298	2017-07-19 19:19:55.958159	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/The_Ting_Tings>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/The_Ting_Tings> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7941_174	1.0	1.0
+329	qsim-299	2017-07-19 19:19:59.959260	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Nadine_Coyle>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Nadine_Coyle> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7934_171	1.0	1.0
+330	qsim-300	2017-07-19 19:20:02.958535	127.0.0.1	" SELECT DISTINCT  ?type
+WHERE
+  { <http://dbpedia.org/resource/Beatsteaks>
+              a                     ?type
+  }
+ "	<http://dbpedia.org/resource/Beatsteaks> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?oe7936_149	1.0	1.0
+0		2017-07-19 19:22:32.297758	127.0.0.1		?se7937_150 <http://dbpedia.org/ontology/starring> ?oe7937_150	0	0
+0		2017-07-19 19:22:32.312022	127.0.0.1		?se7940_131 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7940_131	0	0
+0		2017-07-19 19:22:32.331613	127.0.0.1		?se7942_137 <http://dbpedia.org/ontology/director> ?oe7942_137	0	0
+0		2017-07-19 19:22:32.354414	127.0.0.1		?se7943_163 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7943_163	0	0
+0		2017-07-19 19:22:32.372094	127.0.0.1		<http://dbpedia.org/resource/12_Monkeys> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7942_138	0	0
+0		2017-07-19 19:22:32.375182	127.0.0.1		<http://dbpedia.org/resource/A_River_Runs_Through_It_(film)> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7943_164	0	0
+0		2017-07-19 19:22:32.377123	127.0.0.1		<http://dbpedia.org/resource/Across_the_Tracks> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7938_164	0	0
+0		2017-07-19 19:22:32.379040	127.0.0.1		<http://dbpedia.org/resource/Babel_(film)> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7937_152	0	0
+0		2017-07-19 19:22:32.393331	127.0.0.1		"<http://dbpedia.org/resource/Across_the_Tracks> <http://dbpedia.org/ontology/director> ?oe7943_165.
+?oe7943_165 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7937_153"	0	0
+0		2017-07-19 19:22:32.395746	127.0.0.1		"<http://dbpedia.org/resource/Babel_(film)> <http://dbpedia.org/ontology/director> ?oe7938_165.
+?oe7938_165 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7942_140"	0	0
+0		2017-07-19 19:22:32.398029	127.0.0.1		"<http://dbpedia.org/resource/A_River_Runs_Through_It_(film)> <http://dbpedia.org/ontology/director> ?oe7942_139.
+?oe7942_139 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7940_134"	0	0
+0		2017-07-19 19:22:32.399945	127.0.0.1		"<http://dbpedia.org/resource/12_Monkeys> <http://dbpedia.org/ontology/director> ?oe7940_133.
+?oe7940_133 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7943_166"	0	0
+0		2017-07-19 19:22:32.418194	127.0.0.1		<http://dbpedia.org/resource/Burn_After_Reading> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7938_166	0	0
+0		2017-07-19 19:22:32.421274	127.0.0.1		<http://dbpedia.org/resource/Cool_World> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7937_154	0	0
+0		2017-07-19 19:22:32.422606	127.0.0.1		<http://dbpedia.org/resource/Cutting_Class> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7942_141	0	0
+0		2017-07-19 19:22:32.423810	127.0.0.1		<http://dbpedia.org/resource/Fight_Club> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7943_167	0	0
+0		2017-07-19 19:22:32.431447	127.0.0.1		"<http://dbpedia.org/resource/Burn_After_Reading> <http://dbpedia.org/ontology/director> ?oe7940_135.
+?oe7940_135 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7943_168"	0	0
+0		2017-07-19 19:22:32.434198	127.0.0.1		"<http://dbpedia.org/resource/Cool_World> <http://dbpedia.org/ontology/director> ?oe7938_167.
+?oe7938_167 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7940_136"	0	0
+0		2017-07-19 19:22:32.438150	127.0.0.1		"<http://dbpedia.org/resource/Fight_Club> <http://dbpedia.org/ontology/director> ?oe7942_142.
+?oe7942_142 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7938_168"	0	0
+0		2017-07-19 19:22:32.441267	127.0.0.1		"<http://dbpedia.org/resource/Cutting_Class> <http://dbpedia.org/ontology/director> ?oe7937_155.
+?oe7937_155 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7942_143"	0	0
+0		2017-07-19 19:22:32.456534	127.0.0.1		<http://dbpedia.org/resource/Happy_Feet_Two> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7937_156	0	0
+0		2017-07-19 19:22:32.458407	127.0.0.1		<http://dbpedia.org/resource/Inglourious_Basterds> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7943_169	0	0
+0		2017-07-19 19:22:32.467879	127.0.0.1		"<http://dbpedia.org/resource/Happy_Feet_Two> <http://dbpedia.org/ontology/director> ?oe7940_137.
+?oe7940_137 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7943_170"	0	0
+0		2017-07-19 19:22:32.469170	127.0.0.1		"<http://dbpedia.org/resource/Inglourious_Basterds> <http://dbpedia.org/ontology/director> ?oe7938_169.
+?oe7938_169 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7940_138"	0	0
+0		2017-07-19 19:22:32.472596	127.0.0.1		<http://dbpedia.org/resource/Interview_with_the_Vampire:_The_Vampire_Chronicles> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7942_144	0	0
+0		2017-07-19 19:22:32.476244	127.0.0.1		<http://dbpedia.org/resource/Johnny_Suede> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7937_157	0	0
+0		2017-07-19 19:22:32.484542	127.0.0.1		"<http://dbpedia.org/resource/Interview_with_the_Vampire:_The_Vampire_Chronicles> <http://dbpedia.org/ontology/director> ?oe7938_170.
+?oe7938_170 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7937_158"	0	0
+0		2017-07-19 19:22:32.489582	127.0.0.1		"<http://dbpedia.org/resource/Johnny_Suede> <http://dbpedia.org/ontology/director> ?oe7942_145.
+?oe7942_145 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7938_171"	0	0
+0		2017-07-19 19:22:32.495479	127.0.0.1		<http://dbpedia.org/resource/Kalifornia> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7943_171	0	0
+0		2017-07-19 19:22:32.498596	127.0.0.1		<http://dbpedia.org/resource/Killing_Them_Softly> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7940_139	0	0
+0		2017-07-19 19:22:32.507451	127.0.0.1		"<http://dbpedia.org/resource/Kalifornia> <http://dbpedia.org/ontology/director> ?oe7942_146.
+?oe7942_146 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7940_140"	0	0
+0		2017-07-19 19:22:32.509256	127.0.0.1		"<http://dbpedia.org/resource/Killing_Them_Softly> <http://dbpedia.org/ontology/director> ?oe7937_159.
+?oe7937_159 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7938_172"	0	0
+0		2017-07-19 19:22:32.513659	127.0.0.1		<http://dbpedia.org/resource/Legends_of_the_Fall> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7943_172	0	0
+0		2017-07-19 19:22:32.518826	127.0.0.1		<http://dbpedia.org/resource/Meet_Joe_Black> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7942_147	0	0
+0		2017-07-19 19:22:32.523669	127.0.0.1		"<http://dbpedia.org/resource/Legends_of_the_Fall> <http://dbpedia.org/ontology/director> ?oe7937_160.
+?oe7937_160 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7942_148"	0	0
+0		2017-07-19 19:22:32.526703	127.0.0.1		"<http://dbpedia.org/resource/Meet_Joe_Black> <http://dbpedia.org/ontology/director> ?oe7943_173.
+?oe7943_173 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7937_161"	0	0
+0		2017-07-19 19:22:32.531891	127.0.0.1		<http://dbpedia.org/resource/Moneyball_(film)> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7938_173	0	0
+0		2017-07-19 19:22:32.532276	127.0.0.1		<http://dbpedia.org/resource/Megamind> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7940_141	0	0
+0		2017-07-19 19:22:32.537317	127.0.0.1		"<http://dbpedia.org/resource/Moneyball_(film)> <http://dbpedia.org/ontology/director> ?oe7943_174.
+?oe7943_174 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7943_175"	0	0
+0		2017-07-19 19:22:32.538582	127.0.0.1		"<http://dbpedia.org/resource/Megamind> <http://dbpedia.org/ontology/director> ?oe7938_174.
+?oe7938_174 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7937_162"	0	0
+0		2017-07-19 19:22:32.544261	127.0.0.1		<http://dbpedia.org/resource/Mr._&_Mrs._Smith_(2005_film)> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7940_142	0	0
+0		2017-07-19 19:22:32.549294	127.0.0.1		<http://dbpedia.org/resource/Ocean's_Eleven_(2001_film)> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7942_149	0	0
+0		2017-07-19 19:22:32.552889	127.0.0.1		"<http://dbpedia.org/resource/Mr._&_Mrs._Smith_(2005_film)> <http://dbpedia.org/ontology/director> ?oe7938_175.
+?oe7938_175 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7942_150"	0	0
+0		2017-07-19 19:22:32.557483	127.0.0.1		"<http://dbpedia.org/resource/Ocean's_Eleven_(2001_film)> <http://dbpedia.org/ontology/director> ?oe7940_143.
+?oe7940_143 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7938_176"	0	0
+0		2017-07-19 19:22:32.561802	127.0.0.1		<http://dbpedia.org/resource/Ocean's_Thirteen> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7937_163	0	0
+0		2017-07-19 19:22:32.565157	127.0.0.1		<http://dbpedia.org/resource/Ocean's_Twelve> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7943_176	0	0
+0		2017-07-19 19:22:32.570351	127.0.0.1		<http://dbpedia.org/resource/Ocean's_Thirteen> <http://dbpedia.org/ontology/director> ?oe7940_144	0	0
+0		2017-07-19 19:22:32.572388	127.0.0.1		<http://dbpedia.org/resource/Ocean's_Twelve> <http://dbpedia.org/ontology/director> ?oe7942_151	0	0
+0		2017-07-19 19:22:32.578237	127.0.0.1		<http://dbpedia.org/resource/Seven_(film)> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7937_164	0	0
+0		2017-07-19 19:22:32.580964	127.0.0.1		<http://dbpedia.org/resource/Seven_Years_in_Tibet_(1997_film)> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7938_177	0	0
+0		2017-07-19 19:22:32.589461	127.0.0.1		<http://dbpedia.org/resource/Seven_(film)> <http://dbpedia.org/ontology/director> ?oe7943_177	0	0
+0		2017-07-19 19:22:32.590134	127.0.0.1		"<http://dbpedia.org/resource/Seven_Years_in_Tibet_(1997_film)> <http://dbpedia.org/ontology/director> ?oe7940_145.
+?oe7940_145 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7940_146"	0	0
+0		2017-07-19 19:22:32.592850	127.0.0.1		<http://dbpedia.org/resource/Sinbad:_Legend_of_the_Seven_Seas> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7942_152	0	0
+0		2017-07-19 19:22:32.593980	127.0.0.1		<http://dbpedia.org/resource/Sleepers_(film)> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7937_165	0	0
+0		2017-07-19 19:22:32.602962	127.0.0.1		"<http://dbpedia.org/resource/Sinbad:_Legend_of_the_Seven_Seas> <http://dbpedia.org/ontology/director> ?oe7938_178.
+?oe7938_178 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7940_147"	0	0
+0		2017-07-19 19:22:32.606459	127.0.0.1		"<http://dbpedia.org/resource/Sleepers_(film)> <http://dbpedia.org/ontology/director> ?oe7943_178.
+?oe7943_178 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7938_179"	0	0
+0		2017-07-19 19:22:32.608406	127.0.0.1		<http://dbpedia.org/resource/Snatch_(film)> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7942_153	0	0
+0		2017-07-19 19:22:32.618735	127.0.0.1		"<http://dbpedia.org/resource/Snatch_(film)> <http://dbpedia.org/ontology/director> ?oe7937_166.
+?oe7937_166 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7942_154"	0	0
+0		2017-07-19 19:22:32.619577	127.0.0.1		<http://dbpedia.org/resource/Spy_Game> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7943_179	0	0
+0		2017-07-19 19:22:32.624220	127.0.0.1		"<http://dbpedia.org/resource/Spy_Game> <http://dbpedia.org/ontology/director> ?oe7937_167.
+?oe7937_167 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7938_181"	0	0
+0		2017-07-19 19:22:32.625999	127.0.0.1		<http://dbpedia.org/resource/The_Assassination_of_Jesse_James_by_the_Coward_Robert_Ford> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7938_180	0	0
+0		2017-07-19 19:22:32.628362	127.0.0.1		<http://dbpedia.org/resource/The_Curious_Case_of_Benjamin_Button_(film)> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7940_148	0	0
+0		2017-07-19 19:22:32.631988	127.0.0.1		<http://dbpedia.org/resource/The_Curious_Case_of_Benjamin_Button_(film)> <http://dbpedia.org/ontology/director> ?oe7937_168	0	0
+0		2017-07-19 19:22:32.633539	127.0.0.1		<http://dbpedia.org/resource/The_Dark_Side_of_the_Sun_(film)> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7943_180	0	0
+0		2017-07-19 19:22:32.637642	127.0.0.1		<http://dbpedia.org/resource/The_Assassination_of_Jesse_James_by_the_Coward_Robert_Ford> <http://dbpedia.org/ontology/director> ?oe7942_155	0	0
+0		2017-07-19 19:22:32.640199	127.0.0.1		"<http://dbpedia.org/resource/The_Dark_Side_of_the_Sun_(film)> <http://dbpedia.org/ontology/director> ?oe7940_149.
+?oe7940_149 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7938_182"	0	0
+0		2017-07-19 19:22:32.644695	127.0.0.1		<http://dbpedia.org/resource/The_Devil's_Own> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7937_169	0	0
+0		2017-07-19 19:22:32.646265	127.0.0.1		<http://dbpedia.org/resource/The_Mexican> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7942_156	0	0
+0		2017-07-19 19:22:32.648154	127.0.0.1		<http://dbpedia.org/resource/The_Favor> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7943_181	0	0
+0		2017-07-19 19:22:32.653021	127.0.0.1		"<http://dbpedia.org/resource/The_Devil's_Own> <http://dbpedia.org/ontology/director> ?oe7940_150.
+?oe7940_150 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7938_183"	0	0
+0		2017-07-19 19:22:32.660509	127.0.0.1		"<http://dbpedia.org/resource/The_Mexican> <http://dbpedia.org/ontology/director> ?oe7937_170.
+?oe7937_170 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7940_151"	0	0
+0		2017-07-19 19:22:32.663020	127.0.0.1		"<http://dbpedia.org/resource/The_Favor> <http://dbpedia.org/ontology/director> ?oe7942_157.
+?oe7942_157 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7937_171"	0	0
+0		2017-07-19 19:22:32.665167	127.0.0.1		<http://dbpedia.org/resource/The_Tiger_(2014_film)> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7943_182	0	0
+0		2017-07-19 19:22:32.674285	127.0.0.1		"<http://dbpedia.org/resource/The_Tiger_(2014_film)> <http://dbpedia.org/ontology/director> ?oe7942_158.
+?oe7942_158 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7938_184"	0	0
+0		2017-07-19 19:22:32.677062	127.0.0.1		<http://dbpedia.org/resource/The_Tree_of_Life_(film)> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7943_183	0	0
+0		2017-07-19 19:22:32.681237	127.0.0.1		<http://dbpedia.org/resource/Troy_(film)> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7937_172	0	0
+0		2017-07-19 19:22:32.682649	127.0.0.1		<http://dbpedia.org/resource/Too_Young_to_Die%3F> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7940_152	0	0
+0		2017-07-19 19:22:32.683967	127.0.0.1		"<http://dbpedia.org/resource/The_Tree_of_Life_(film)> <http://dbpedia.org/ontology/director> ?oe7942_159.
+?oe7942_159 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7940_153"	0	0
+0		2017-07-19 19:22:32.687422	127.0.0.1		"<http://dbpedia.org/resource/Troy_(film)> <http://dbpedia.org/ontology/director> ?oe7943_184.
+?oe7943_184 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7942_160"	0	0
+0		2017-07-19 19:22:32.689026	127.0.0.1		"<http://dbpedia.org/resource/Too_Young_to_Die%3F> <http://dbpedia.org/ontology/director> ?oe7938_185.
+?oe7938_185 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7943_185"	0	0
+0		2017-07-19 19:22:32.690885	127.0.0.1		<http://dbpedia.org/resource/True_Romance> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7937_173	0	0
+0		2017-07-19 19:22:32.697718	127.0.0.1		<http://dbpedia.org/resource/True_Romance> <http://dbpedia.org/ontology/director> ?oe7938_186	0	0
+0		2017-07-19 19:22:32.701309	127.0.0.1		<http://dbpedia.org/resource/World_War_Z_(film)> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7937_174	0	0
+0		2017-07-19 19:22:32.703900	127.0.0.1		"<http://dbpedia.org/resource/World_War_Z_(film)> <http://dbpedia.org/ontology/director> ?oe7940_154.
+?oe7940_154 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7942_161"	0	0
+0		2017-07-19 19:22:33.556860	127.0.0.1		?se7945_89 <http://data.linkeddatafragments.org/.well-known/genid/ugent-biblio/classification> ?oe7945_89	0	0
+0		2017-07-19 19:22:33.558501	127.0.0.1		"?se7947_81 <http://xmlns.com/foaf/0.1/name> ""Anne De Paepe"""	0	0
+0		2017-07-19 19:22:33.560139	127.0.0.1		?se7946_51 <http://purl.org/dc/terms/creator> ?oe7946_51	0	0
+0		2017-07-19 19:22:34.295710	127.0.0.1		?se7933_100 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Airport>	0	0
+0		2017-07-19 19:22:35.380812	127.0.0.1		?se7934_172 <http://dbpedia.org/ontology/populationTotal> ?oe7934_172	0	0
+0		2017-07-19 19:22:35.690001	127.0.0.1		"?se7941_196 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/class/yago/AncientCities>.
+?se7941_196 <http://dbpedia.org/ontology/populationTotal> ?oe7940_180.
+?se7941_196 <http://dbpedia.org/ontology/populationMetro> ?oe7938_205"	0	0
+0		2017-07-19 19:22:36.587420	127.0.0.1		?se7944_130 <http://dbpedia.org/ontology/birthPlace> ?oe7944_130	0	0
+0		2017-07-19 19:22:36.611726	127.0.0.1		?se7943_186 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7943_186	0	0
+0		2017-07-19 19:22:36.634600	127.0.0.1		?se7942_162 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.673773	127.0.0.1		<http://dbpedia.org/resource/Albert_Joseph_Moore> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.674233	127.0.0.1		<http://dbpedia.org/resource/Albert_Meysey-Thompson> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.674535	127.0.0.1		<http://dbpedia.org/resource/Alcuin> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.674797	127.0.0.1		<http://dbpedia.org/resource/Alan_Webb_(actor)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.675064	127.0.0.1		<http://dbpedia.org/resource/Albert_Joseph_Moore> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7943_189	0	0
+0		2017-07-19 19:22:36.677385	127.0.0.1		<http://dbpedia.org/resource/Alf_Patrick> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.677839	127.0.0.1		<http://dbpedia.org/resource/Andrew_Martin_(novelist)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.678584	127.0.0.1		<http://dbpedia.org/resource/Arthur_Ingram> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.679819	127.0.0.1		<http://dbpedia.org/resource/Albert_Joseph_Moore> <http://dbpedia.org/property/dateOfDeath> ?oe7945_90	0	0
+0		2017-07-19 19:22:36.681797	127.0.0.1		<http://dbpedia.org/resource/Andrew_Martin_(novelist)> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7942_166	0	0
+0		2017-07-19 19:22:36.683798	127.0.0.1		<http://dbpedia.org/resource/Andy_Smith_(speedway_rider)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.685249	127.0.0.1		<http://dbpedia.org/resource/Barry_Tait> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.689603	127.0.0.1		<http://dbpedia.org/resource/Andrew_Martin_(novelist)> <http://dbpedia.org/property/dateOfDeath> ?oe7943_191	0	0
+0		2017-07-19 19:22:36.694109	127.0.0.1		<http://dbpedia.org/resource/Bertram_Best-Dunkley> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.695501	127.0.0.1		<http://dbpedia.org/resource/Beilby_Porteus> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.697257	127.0.0.1		<http://dbpedia.org/resource/Basil_Watts> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.698232	127.0.0.1		<http://dbpedia.org/resource/Bobby_Mimms> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.705680	127.0.0.1		<http://dbpedia.org/resource/Bobby_Scaife> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.706481	127.0.0.1		<http://dbpedia.org/resource/Brian_Kelly_(chess_player)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.707772	127.0.0.1		<http://dbpedia.org/resource/Caroline_Hill> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.709089	127.0.0.1		<http://dbpedia.org/resource/Brian_Pollard_(footballer)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.715804	127.0.0.1		<http://dbpedia.org/resource/Charles_Francis_Hansom> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.717728	127.0.0.1		<http://dbpedia.org/resource/Cecil_Blacker> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.723926	127.0.0.1		<http://dbpedia.org/resource/Charles_Cecil> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.724372	127.0.0.1		<http://dbpedia.org/resource/Caroline_John> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.724691	127.0.0.1		<http://dbpedia.org/resource/Charles_Prest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.726361	127.0.0.1		<http://dbpedia.org/resource/Charles_Petre_Eyre> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.727552	127.0.0.1		<http://dbpedia.org/resource/Charles_Hall_(cricketer)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.729470	127.0.0.1		<http://dbpedia.org/resource/Charles_Padel> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.734000	127.0.0.1		<http://dbpedia.org/resource/Christopher_Gale> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.735198	127.0.0.1		<http://dbpedia.org/resource/Charlie_Taylor_(footballer_born_1993)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.736665	127.0.0.1		<http://dbpedia.org/resource/Chris_Tate_(footballer)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.739760	127.0.0.1		<http://dbpedia.org/resource/Christopher_Levett> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.741478	127.0.0.1		<http://dbpedia.org/resource/Cliff_Calvert> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.743307	127.0.0.1		<http://dbpedia.org/resource/Cliff_Mason> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.744813	127.0.0.1		<http://dbpedia.org/resource/Craig_Smith_(rugby_union)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.747245	127.0.0.1		<http://dbpedia.org/resource/Christopher_Sanderson> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.751300	127.0.0.1		<http://dbpedia.org/resource/David_Bradley_(actor)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.751900	127.0.0.1		<http://dbpedia.org/resource/Danny_Allan> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.761108	127.0.0.1		<http://dbpedia.org/resource/David_Brown_(footballer_born_1989)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.761564	127.0.0.1		<http://dbpedia.org/resource/David_Alleyne> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.761926	127.0.0.1		<http://dbpedia.org/resource/David_Davis_(British_politician)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.766542	127.0.0.1		<http://dbpedia.org/resource/Eddie_Robson> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.770870	127.0.0.1		<http://dbpedia.org/resource/Dustin_Gee> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.771459	127.0.0.1		<http://dbpedia.org/resource/David_Reed_(comedian)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.771984	127.0.0.1		<http://dbpedia.org/resource/Edward_Oldcorne> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.772607	127.0.0.1		<http://dbpedia.org/resource/Eddie_Robson> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7944_141	0	0
+0		2017-07-19 19:22:36.776150	127.0.0.1		<http://dbpedia.org/resource/David_Reed_(comedian)> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7945_96	0	0
+0		2017-07-19 19:22:36.782759	127.0.0.1		<http://dbpedia.org/resource/Dustin_Gee> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7937_189	0	0
+0		2017-07-19 19:22:36.783370	127.0.0.1		<http://dbpedia.org/resource/David_Reed_(comedian)> <http://dbpedia.org/property/dateOfDeath> ?oe7942_174	0	0
+0		2017-07-19 19:22:36.783684	127.0.0.1		<http://dbpedia.org/resource/Faith_Brook> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.783904	127.0.0.1		<http://dbpedia.org/resource/Forrest_Browne> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.784582	127.0.0.1		<http://dbpedia.org/resource/Dustin_Gee> <http://dbpedia.org/property/dateOfDeath> ?oe7942_175	0	0
+0		2017-07-19 19:22:36.788162	127.0.0.1		<http://dbpedia.org/resource/Francis_Matthews_(actor)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.789964	127.0.0.1		<http://dbpedia.org/resource/Frankie_Howerd> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.791436	127.0.0.1		<http://dbpedia.org/resource/Eddie_Robson> <http://dbpedia.org/property/dateOfDeath> ?oe7943_200	0	0
+0		2017-07-19 19:22:36.800814	127.0.0.1		<http://dbpedia.org/resource/G%C3%A9rard_Jones> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.802053	127.0.0.1		<http://dbpedia.org/resource/Frederick_Dudley_Travers> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.804007	127.0.0.1		<http://dbpedia.org/resource/Gary_Ford> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.805484	127.0.0.1		<http://dbpedia.org/resource/Gary_Swann> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.807139	127.0.0.1		<http://dbpedia.org/resource/Geoffrey_Allard> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.809069	127.0.0.1		<http://dbpedia.org/resource/George_Lee_(footballer)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.812258	127.0.0.1		<http://dbpedia.org/resource/George_Leeman> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.812840	127.0.0.1		<http://dbpedia.org/resource/Giles_Shaw> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.818889	127.0.0.1		<http://dbpedia.org/resource/Guy_Fawkes> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.819318	127.0.0.1		<http://dbpedia.org/resource/Guy_Mowbray> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.821202	127.0.0.1		<http://dbpedia.org/resource/Helen_Grime> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.822765	127.0.0.1		<http://dbpedia.org/resource/Henry_Badger> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.825718	127.0.0.1		<http://dbpedia.org/resource/Henry_Scott_Tuke> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.826343	127.0.0.1		<http://dbpedia.org/resource/Harriet_Parr> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.828303	127.0.0.1		<http://dbpedia.org/resource/Henry_Scott_Tuke> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7943_203	0	0
+0		2017-07-19 19:22:36.832654	127.0.0.1		<http://dbpedia.org/resource/Howard_Clewes> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.834930	127.0.0.1		<http://dbpedia.org/resource/Iain_Dunn> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.836961	127.0.0.1		<http://dbpedia.org/resource/Ian_Kelsey> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.840226	127.0.0.1		<http://dbpedia.org/resource/Henry_Scott_Tuke> <http://dbpedia.org/property/dateOfDeath> ?oe7945_101	0	0
+0		2017-07-19 19:22:36.840867	127.0.0.1		<http://dbpedia.org/resource/Irshad_Ashraf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.842304	127.0.0.1		<http://dbpedia.org/resource/James_Chalmers_(actor)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.844464	127.0.0.1		<http://dbpedia.org/resource/James_Thompson_(racing_driver)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.849090	127.0.0.1		<http://dbpedia.org/resource/James_Hack_Tuke> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.851878	127.0.0.1		<http://dbpedia.org/resource/Jen_Pringle> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.853317	127.0.0.1		<http://dbpedia.org/resource/John_Barry_(composer)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.855235	127.0.0.1		<http://dbpedia.org/resource/John_Earle_(bishop)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.856954	127.0.0.1		<http://dbpedia.org/resource/John_Andrews_(footballer)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.859529	127.0.0.1		<http://dbpedia.org/resource/John_Flaxman> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.865133	127.0.0.1		<http://dbpedia.org/resource/John_Barry_(composer)> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7945_103	0	0
+0		2017-07-19 19:22:36.865767	127.0.0.1		<http://dbpedia.org/resource/John_Flaxman> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7942_182	0	0
+0		2017-07-19 19:22:36.866347	127.0.0.1		<http://dbpedia.org/resource/John_Gray_(Australian_politician)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.868988	127.0.0.1		<http://dbpedia.org/resource/John_Barry_(composer)> <http://dbpedia.org/property/dateOfDeath> ?oe7943_206	0	0
+0		2017-07-19 19:22:36.870422	127.0.0.1		<http://dbpedia.org/resource/John_Hawksby> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.872519	127.0.0.1		<http://dbpedia.org/resource/John_Hicks_(cricketer)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.877576	127.0.0.1		<http://dbpedia.org/resource/John_Flaxman> <http://dbpedia.org/property/dateOfDeath> ?oe7942_183	0	0
+0		2017-07-19 19:22:36.881729	127.0.0.1		<http://dbpedia.org/resource/John_Lawson_(footballer)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.881984	127.0.0.1		<http://dbpedia.org/resource/John_Snow_(physician)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.882323	127.0.0.1		<http://dbpedia.org/resource/Joseph_Hansom> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.883291	127.0.0.1		<http://dbpedia.org/resource/Joseph_Sullivan_(cricketer)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.885060	127.0.0.1		<http://dbpedia.org/resource/Joseph_Rowntree_(philanthropist)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.888133	127.0.0.1		<http://dbpedia.org/resource/Judi_Dench> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.888731	127.0.0.1		<http://dbpedia.org/resource/Karl_J._Friston> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.890431	127.0.0.1		<http://dbpedia.org/resource/Laura_Sayers> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.893579	127.0.0.1		<http://dbpedia.org/resource/Keith_Drinkel> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.896333	127.0.0.1		<http://dbpedia.org/resource/Lee_Grant_(footballer_born_1985)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.897266	127.0.0.1		<http://dbpedia.org/resource/Lucy_Staniforth> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.897860	127.0.0.1		<http://dbpedia.org/resource/Lydia_Waters> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.899767	127.0.0.1		<http://dbpedia.org/resource/Lyndon_Brook> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.914404	127.0.0.1		<http://dbpedia.org/resource/Marc_Thompson_(footballer)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.930647	127.0.0.1		<http://dbpedia.org/resource/Margaret_Clitherow> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.930971	127.0.0.1		<http://dbpedia.org/resource/Mark_Simpson_(journalist)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.931525	127.0.0.1		<http://dbpedia.org/resource/Martin_Fowler_(footballer)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.931871	127.0.0.1		<http://dbpedia.org/resource/Mark_Addy> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.932187	127.0.0.1		<http://dbpedia.org/resource/Martin_Garratt> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.932506	127.0.0.1		<http://dbpedia.org/resource/Mark_Simpson_(journalist)> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7944_154	0	0
+0		2017-07-19 19:22:36.933169	127.0.0.1		<http://dbpedia.org/resource/Martin_Reagan> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.936831	127.0.0.1		<http://dbpedia.org/resource/Mark_Simpson_(journalist)> <http://dbpedia.org/property/dateOfDeath> ?oe7937_202	0	0
+0		2017-07-19 19:22:36.937221	127.0.0.1		<http://dbpedia.org/resource/Matthew_Kilgallon> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.937557	127.0.0.1		<http://dbpedia.org/resource/Michael_Woods_(footballer)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.937875	127.0.0.1		<http://dbpedia.org/resource/Martin_Rees,_Baron_Rees_of_Ludlow> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.938195	127.0.0.1		<http://dbpedia.org/resource/Mike_Johnson_(footballer_born_1933)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.938548	127.0.0.1		<http://dbpedia.org/resource/Neil_Grayson> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.940115	127.0.0.1		<http://dbpedia.org/resource/Neil_Woods> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.941635	127.0.0.1		<http://dbpedia.org/resource/Nicholas_Bingham> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.944121	127.0.0.1		<http://dbpedia.org/resource/Nicholas_Carlisle> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.945528	127.0.0.1		<http://dbpedia.org/resource/Nick_Culkin> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.948099	127.0.0.1		<http://dbpedia.org/resource/Nick_Hendry> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.949609	127.0.0.1		<http://dbpedia.org/resource/Nick_Thornicroft> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.952664	127.0.0.1		<http://dbpedia.org/resource/Oli_Denton> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.954337	127.0.0.1		<http://dbpedia.org/resource/Patrick_Waddington> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.959097	127.0.0.1		<http://dbpedia.org/resource/Paul_Banks_(Shed_Seven)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.959793	127.0.0.1		<http://dbpedia.org/resource/Paul_Cooper_(speedway_rider)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.960910	127.0.0.1		<http://dbpedia.org/resource/Paul_Gibb> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.962594	127.0.0.1		<http://dbpedia.org/resource/Pawe%C5%82_Abbott> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.964687	127.0.0.1		<http://dbpedia.org/resource/Paul_Banks_(Shed_Seven)> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7943_214	0	0
+0		2017-07-19 19:22:36.966732	127.0.0.1		<http://dbpedia.org/resource/Paul_Banks_(Shed_Seven)> <http://dbpedia.org/property/dateOfDeath> ?oe7945_113	0	0
+0		2017-07-19 19:22:36.969482	127.0.0.1		<http://dbpedia.org/resource/Peter_Fox_(rugby_league_born_1984)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.970218	127.0.0.1		<http://dbpedia.org/resource/Peter_Gedge> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.973002	127.0.0.1		<http://dbpedia.org/resource/Peter_Harrison> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.973356	127.0.0.1		<http://dbpedia.org/resource/Peter_John_Allan> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.975265	127.0.0.1		<http://dbpedia.org/resource/Peter_Woodthorpe> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.976447	127.0.0.1		<http://dbpedia.org/resource/Peter_John_Allan> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7945_114	0	0
+0		2017-07-19 19:22:36.978325	127.0.0.1		<http://dbpedia.org/resource/Phil_Clifton> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.980329	127.0.0.1		<http://dbpedia.org/resource/Philippa_Tomson> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.982194	127.0.0.1		<http://dbpedia.org/resource/Peter_John_Allan> <http://dbpedia.org/property/dateOfDeath> ?oe7944_160	0	0
+0		2017-07-19 19:22:36.984097	127.0.0.1		<http://dbpedia.org/resource/Ray_Batten> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.985778	127.0.0.1		<http://dbpedia.org/resource/Reg_Baines> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.990499	127.0.0.1		<http://dbpedia.org/resource/Reginald_Beckwith> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.992587	127.0.0.1		<http://dbpedia.org/resource/Reg_Stockill> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.994544	127.0.0.1		<http://dbpedia.org/resource/Rhoderick_McGrigor> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.996359	127.0.0.1		<http://dbpedia.org/resource/Reginald_Kell> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:36.998497	127.0.0.1		<http://dbpedia.org/resource/Rob_Webber> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.000358	127.0.0.1		<http://dbpedia.org/resource/Richard_Atcherley> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.000652	127.0.0.1		<http://dbpedia.org/resource/Robbie_Haw> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.001949	127.0.0.1		<http://dbpedia.org/resource/Richard_Hotham> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.006184	127.0.0.1		<http://dbpedia.org/resource/Ross_Greenwood_(footballer)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.007701	127.0.0.1		<http://dbpedia.org/resource/Ronald_William_Turner> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.009558	127.0.0.1		<http://dbpedia.org/resource/Russell_Howarth> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.011357	127.0.0.1		<http://dbpedia.org/resource/Roger_Kohn> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.013463	127.0.0.1		<http://dbpedia.org/resource/Samuel_S._Lewis> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.015151	127.0.0.1		<http://dbpedia.org/resource/Seebohm_Rowntree> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.019289	127.0.0.1		<http://dbpedia.org/resource/Sean_Wilson_(speedway_rider)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.021046	127.0.0.1		<http://dbpedia.org/resource/Sam_Forrest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.023085	127.0.0.1		<http://dbpedia.org/resource/Seebohm_Rowntree> <http://www.w3.org/2000/01/rdf-schema#label> ?oe7944_163	0	0
+0		2017-07-19 19:22:37.027587	127.0.0.1		<http://dbpedia.org/resource/Silvanus_P._Thompson> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.027937	127.0.0.1		<http://dbpedia.org/resource/Simon_Heslop> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.028253	127.0.0.1		<http://dbpedia.org/resource/Simon_Dyson> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.029639	127.0.0.1		<http://dbpedia.org/resource/Seebohm_Rowntree> <http://dbpedia.org/property/dateOfDeath> ?oe7945_118	0	0
+0		2017-07-19 19:22:37.031343	127.0.0.1		<http://dbpedia.org/resource/Simon_Line> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.033366	127.0.0.1		<http://dbpedia.org/resource/Sir_James_Sanderson,_1st_Baronet> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.034965	127.0.0.1		<http://dbpedia.org/resource/Stephen_Coverdale> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.037317	127.0.0.1		<http://dbpedia.org/resource/St._John_Ellis> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.038180	127.0.0.1		<http://dbpedia.org/resource/Steve_Ince> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.041410	127.0.0.1		<http://dbpedia.org/resource/Steve_Tutill> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.044033	127.0.0.1		<http://dbpedia.org/resource/Steven_Taylor_(cricketer)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.045600	127.0.0.1		<http://dbpedia.org/resource/Steven_Wakeling> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.047082	127.0.0.1		<http://dbpedia.org/resource/Steve_McClaren> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.050381	127.0.0.1		<http://dbpedia.org/resource/T.D._Richardson> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.053452	127.0.0.1		<http://dbpedia.org/resource/Sue_Doughty> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.053848	127.0.0.1		<http://dbpedia.org/resource/Thomas_Nelstrop> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.055800	127.0.0.1		<http://dbpedia.org/resource/Thomas_Mason_(politician)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.057784	127.0.0.1		<http://dbpedia.org/resource/Tim_Walton_(cricketer,_born_1972)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.059923	127.0.0.1		<http://dbpedia.org/resource/Thomas_Turton> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.061773	127.0.0.1		<http://dbpedia.org/resource/Thomas_Pride_(cricketer)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.063623	127.0.0.1		<http://dbpedia.org/resource/Thomas_Wilkinson_(VC_1855)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.065448	127.0.0.1		<http://dbpedia.org/resource/Tom_Bartram> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.067473	127.0.0.1		<http://dbpedia.org/resource/Vince_Cable> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.069262	127.0.0.1		<http://dbpedia.org/resource/Twinnie_Lee_Moore> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.076126	127.0.0.1		<http://dbpedia.org/resource/Tom_Denton> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.078922	127.0.0.1		<http://dbpedia.org/resource/W._H._Auden> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.079474	127.0.0.1		<http://dbpedia.org/resource/Walter_Camidge> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.082957	127.0.0.1		<http://dbpedia.org/resource/William_Doughty_(painter)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.085282	127.0.0.1		<http://dbpedia.org/resource/William_Blanchard_(comedian)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.087308	127.0.0.1		<http://dbpedia.org/resource/William_Parsons,_3rd_Earl_of_Rosse> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.097748	127.0.0.1		<http://dbpedia.org/resource/William_Piers_(constable)> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.100552	127.0.0.1		<http://dbpedia.org/resource/William_Prest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.103538	127.0.0.1		<http://dbpedia.org/resource/William_Hepworth_Thompson> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0
+0		2017-07-19 19:22:37.126077	127.0.0.1		?se7942_205 <http://www.w3.org/2000/01/rdf-schema#label> ?oe7942_205	0	0
+0		2017-07-19 19:22:37.166571	127.0.0.1		?se7944_170 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist>	0	0

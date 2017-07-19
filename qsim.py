@@ -35,6 +35,7 @@ import argparse
 
 from lxml import etree  # http://lxml.de/index.html#documentation
 # from lib.bgp import *
+from lib.QueryManager import *
 
 #==================================================	
 
@@ -44,7 +45,7 @@ TPF_SERVEUR_PORT = 5000
 TPF_SERVEUR_DATASET = 'lift' # default dataset
 TPF_CLIENT = '/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client'
 TPF_CLIENT_REDO = 3 # Number of client execution in case of fails
-TPF_CLIENT_TEMPO = 1 # sleep duration if client fails
+TPF_CLIENT_TEMPO = 0.01 # sleep duration if client fails
 SWEEP_SERVEUR_HOST = 'http://127.0.0.1'
 SWEEP_SERVEUR_PORT = 5002
 
@@ -102,6 +103,7 @@ def play(file,nb_processes, server,client,timeout, dataset, nbq,offset,doValid, 
 def run(inq, server, client, timeout, dataset, host, port, doPR):
     sp = TPFEP(service = server, dataset = dataset)#, clientParams= '-s '+host+':'+str(port)  ) #'http://localhost:5000/lift') 
     sp.setEngine(client) #'/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client')
+    qm = QueryManager(modeStat = False)
     if timeout: sp.setTimeout(timeout)
     mss = inq.get()
     while mss is not None:
@@ -109,21 +111,32 @@ def run(inq, server, client, timeout, dataset, host, port, doPR):
         duration = max(dt.timedelta.resolution, d-dt.datetime.now())
         print('(%d)'%nbe,'Sleep:',duration.total_seconds(),' second(s)')
         time.sleep(duration.total_seconds())
-        print('(%d)'%nbe,'Query:',query)
-        no = 'qsim-'+str(nbe)
-        mess = '<query time="'+date2str(dt.datetime.now())+'" no="'+no+'"><![CDATA['+query+']]></query>'
-        if doPR:
-            url = host+':'+str(port)+'/query'
-            print('on:',url)
-            try:
-                s = http.post(url,data={'data':mess, 'no':no})
-                print('(%d)'%nbe,'Request posted : ',s.json()['result'])
-            except Exception as e:
-                print('Exception',e)
 
         try:
-            for i in range(TPF_CLIENT_REDO): # We try the query 3 times beause of TPF Client problems 
+            (bgp,nquery) = qm.extractBGP(query)
+            query = nquery
+        except Exception as e:
+            print(e)
+            pass
+
+        print('(%d)'%nbe,'Query:',query)
+        no = 'qsim-'+str(nbe)
+
+        try:
+            for i in range(TPF_CLIENT_REDO): # We try the query TPF_CLIENT_REDO times beause of TPF Client problems 
                 try:
+
+                    mess = '<query time="'+date2str(dt.datetime.now())+'" no="'+no+'"><![CDATA['+query+']]></query>'
+                    if doPR:
+                        url = host+':'+str(port)+'/query'
+                        print('on:',url)
+                        try:
+                            s = http.post(url,data={'data':mess, 'no':no})
+                            print('(%d)'%nbe,'Request posted : ',s.json()['result'])
+                        except Exception as e:
+                            print('Exception',e)
+
+
                     rep = sp.query(query)
                     # print('(%d)'%nbe,':',rep)
                     if rep == []:
@@ -132,25 +145,27 @@ def run(inq, server, client, timeout, dataset, host, port, doPR):
                        s = http.post(url,data={'data':mess,'errtype':'Empty', 'no':no})
                     else: 
                         print('(%d)'%nbe,': [...]')#,rep)
+
                     break
+
                 except TPFClientError as e :
                     print('(%d)'%nbe,'Exception TPFClientError (%d) : %s'%(i+1,e.__str__()))
+                    if doPR:
+                        url = host+':'+str(port)+'/inform'
+                        s = http.post(url,data={'data':mess,'errtype':'CltErr', 'no':no})
+                        print('(%d)'%nbe,'Request cancelled : ',s.json()['result']) 
                     if i>TPF_CLIENT_REDO/2:
                         time.sleep(TPF_CLIENT_TEMPO)
-                    elif i==TPF_CLIENT_REDO-1:
-                        if doPR:
-                            url = host+':'+str(port)+'/inform'
-                            s = http.post(url,data={'data':mess,'errtype':'CltErr', 'no':no})
-                            print('(%d)'%nbe,'Request cancelled : ',s.json()['result']) 
+
                 except TimeOut as e :
                     print('(%d)'%nbe,'Timeout (%d) :'%(i+1),e)
+                    if doPR:
+                        url = host+':'+str(port)+'/inform'
+                        s = http.post(url,data={'data':mess,'errtype':'TO', 'no':no})
+                        print('(%d)'%nbe,'Request cancelled : ',s.json()['result'])  
                     if i>TPF_CLIENT_REDO/2:
                         time.sleep(TPF_CLIENT_TEMPO)
-                    elif i==TPF_CLIENT_REDO-1:
-                        if doPR:
-                            url = host+':'+str(port)+'/inform'
-                            s = http.post(url,data={'data':mess,'errtype':'TO', 'no':no})
-                            print('(%d)'%nbe,'Request cancelled : ',s.json()['result'])  
+
 
         except QueryBadFormed as e:
             print('(%d)'%nbe,'Query Bad Formed :',e)

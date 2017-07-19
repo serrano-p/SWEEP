@@ -246,50 +246,97 @@ def processQuery():
         print('"query" not implemented for HTTP GET')
         return jsonify(result=False)
 
-@app.route('/entry', methods=['post','get'])
-def processEntry():
-    if request.method == 'POST':
-        ip = request.remote_addr
-        data = request.form['data']
-        # print('Receiving entry:',data)
-        try:
-            tree = etree.parse(StringIO(data), ctx.parser)
-            entry = tree.getroot()
-            client = entry.get('client')
-            if client is None:
-                entry.set('client',str(ip) )
-            elif client in ["undefined","", "undefine"]:
-                entry.set('client',str(ip) )
-            elif "::ffff:" in client:
-                entry.set('client', client[7:])
-            ctx.nbEntries += 1
-            ctx.sweep.put(entry)  
-            return jsonify(result=True)             
-        except Exception as e:
-            print('Exception',e)
-            print('About:',data)
-            return jsonify(result=False)       
-    else:
-        print('"entry" not implemented for HTTP GET')
-        return jsonify(result=False)
+# @app.route('/entry', methods=['post','get'])
+# def processEntry():
+#     if request.method == 'POST':
+#         ip = request.remote_addr
+#         data = request.form['data']
+#         # print('Receiving entry:',data)
+#         try:
+#             tree = etree.parse(StringIO(data), ctx.parser)
+#             entry = tree.getroot()
+#             client = entry.get('client')
+#             if client is None:
+#                 entry.set('client',str(ip) )
+#             elif client in ["undefined","", "undefine"]:
+#                 entry.set('client',str(ip) )
+#             elif "::ffff:" in client:
+#                 entry.set('client', client[7:])
+#             ctx.nbEntries += 1
+#             ctx.sweep.put(entry)  
+#             return jsonify(result=True)             
+#         except Exception as e:
+#             print('Exception',e)
+#             print('About:',data)
+#             return jsonify(result=False)       
+#     else:
+#         print('"entry" not implemented for HTTP GET')
+#         return jsonify(result=False)
+
+# @app.route('/data', methods=['post','get'])
+# def processData():
+#     if request.method == 'POST':
+#         data = request.form['data']
+#         # print('Receiving data:',data)
+#         try:
+#             tree = etree.parse(StringIO(data), ctx.parser)
+#             ctx.sweep.put(tree.getroot()) 
+#             return jsonify(result=True)              
+#         except Exception as e:
+#             print('Exception',e)
+#             print('About:',data)
+#             return jsonify(result=False)       
+#     else:
+#         print('"data" not implemented for HTTP GET')
+#         return jsonify(result=False)
+
+# @app.route('/end', methods=['post','get'])
+# def processEnd():
+#     if request.method == 'POST':
+#         i = request.form['data']
+#         try:
+#             ctx.sweep.putEnd(i) 
+#             return jsonify(result=True)              
+#         except Exception as e:
+#             print('Exception',e)
+#             print('About:',data)
+#             return jsonify(result=False)       
+#     else:
+#         print('"end" not implemented for HTTP GET')
+#         return jsonify(result=False)
 
 @app.route('/data', methods=['post','get'])
-@app.route('/end', methods=['post','get'])
 def processData():
     if request.method == 'POST':
         data = request.form['data']
         # print('Receiving data:',data)
         try:
             tree = etree.parse(StringIO(data), ctx.parser)
-            ctx.sweep.put(tree.getroot()) 
+            for e in tree.getroot():
+                if e.tag == 'entry':
+                    entry = e
+                    client = entry.get('client')
+                    if client is None:
+                        entry.set('client',str(ip) )
+                    elif client in ["undefined","", "undefine"]:
+                        entry.set('client',str(ip) )
+                    elif "::ffff:" in client:
+                        entry.set('client', client[7:])
+                    ctx.nbEntries += 1
+                    ctx.sweep.put(entry)  
+                elif e.tag == 'data-triple-N3':
+                    ctx.sweep.put(e)
+                else:
+                    pass
             return jsonify(result=True)              
         except Exception as e:
             print('Exception',e)
             print('About:',data)
             return jsonify(result=False)       
     else:
-        print('"data/end" not implemented for HTTP GET')
+        print('"data" not implemented for HTTP GET')
         return jsonify(result=False)
+
 
 #==================================================
 
