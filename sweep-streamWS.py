@@ -148,13 +148,13 @@ def sweep():
     for (i,idQ, t,ip,query,bgp,precision,recall) in ctx.sweep.memory[-1*ctx.nlast:] :
         if i==0:
             rep +='<tr><td>'+bgp.client+'</td><td>'+str(bgp.time)+'</td><td>'
-            for (s,p,o) in simplifyVars([tp for (tp,sm,pm,om) in bgp.tp_set]):
+            for (s,p,o) in simplifyVars([tp for (itp,tp,sm,pm,om) in bgp.tp_set]):
                 rep += html.escape(toStr(s,p,o))+' . <br/>'
             rep += '</td><td>No query assigned</td><td></td><td></td><td></td></tr>'
         else:
             rep +='<tr><td>'+ip+'</td><td>'+str(t)+'</td><td>'
             if bgp is not None:
-                for (s,p,o) in simplifyVars([tp for (tp,sm,pm,om) in bgp.tp_set]):
+                for (s,p,o) in simplifyVars([tp for (itp,tp,sm,pm,om) in bgp.tp_set]):
                     rep += html.escape(toStr(s,p,o))+' . <br/>'
             else:
                 rep += 'No BGP assigned !'
@@ -326,6 +326,8 @@ def processData():
                     ctx.sweep.put(entry)  
                 elif e.tag == 'data-triple-N3':
                     ctx.sweep.put(e)
+                elif e.tag == 'meta-triple-N3':
+                    pass
                 else:
                     pass
             return jsonify(result=True)              

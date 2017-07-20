@@ -44,7 +44,7 @@ class BGP:
 
     def toString(self):
         rep = ''
-        for ((s,p,o),sm,pm,om) in self.tp_set:
+        for (itp,(s,p,o),sm,pm,om) in self.tp_set:
                 rep += toStr(s,p,o) + " . "
         return rep
 
@@ -78,7 +78,7 @@ SWEEP_ENTRY_TIMEOUT = 0.8 # percentage of the gap
 SWEEP_PURGE_TIMEOUT = 0.1 # percentage of the gap
 
 SWEEP_DEBUG_BGP_BUILD = False
-SWEEP_DEBUB_PR = True
+SWEEP_DEBUB_PR = False
 
 #==================================================
 
@@ -217,21 +217,32 @@ def processBGPDiscover(in_queue, out_queue, val_queue, ctx):
             else :
                 (s,p,o,time,client,sm,pm,om) = val
                 currentTime = now()
-                if SWEEP_DEBUG_BGP_BUILD : print('Etude de :',toStr(s,p,o))
+                if SWEEP_DEBUG_BGP_BUILD :
+                    print('==============================================') 
+                    print('==============================================') 
+                    print(id,' : Etude de :',toStr(s,p,o))
+                    print('|sm:',sm)
+                    print('|pm:',pm)
+                    print('|om:',om)
                 if not(isinstance(s,Variable) and isinstance(p,Variable) and isinstance(o,Variable) ):
                     h = hash(toStr(s,p,o))
                     #print(currentTime)
                     trouve = False
                     for (i,bgp) in enumerate(BGP_list):
                         # Si c'est le même client, dans le gap et un TP identique n'a pas déjà été utilisé pour ce BGP
-                        if SWEEP_DEBUG_BGP_BUILD : print('\t Etude avec BGP ',i)
+                        if SWEEP_DEBUG_BGP_BUILD : 
+                            print('-----------------------------------')
+                            print('\t Etude avec BGP ',i)
+                            bgp.print('\t\t\t')
                         if (client == bgp.client) and (time - bgp.time <= gap) and (h not in bgp.input_set): 
                             ref_couv = 0
                             # on regarde si une constante du sujet et ou de l'objet est une injection
                             for tp in  bgp.tp_set:
-                                ( (bs, bp, bo), bsm, bpm, bom) = tp
+                                (bid, (bs, bp, bo), bsm, bpm, bom) = tp
                                 if SWEEP_DEBUG_BGP_BUILD : 
-                                    print('\t\t Comparaison avec :',toStr(bs,bp,bo))
+                                    print('_____')
+                                    print('\t\t Comparaison de :',toStr(s,p,o))
+                                    print('\t\t avec le TP :',toStr(bs,bp,bo))
                                     print('\t\tbsm:',bsm) ; print('\t\tbpm:',bpm); print('\t\tbom:',bom)
 
                                 #On recherche les mappings possibles : s-s, s-p, s-o, etc.
@@ -271,18 +282,45 @@ def processBGPDiscover(in_queue, out_queue, val_queue, ctx):
                                 if SWEEP_DEBUG_BGP_BUILD : print('\t\t |-> ',toStr(s2,p2,o2) )
                                 inTP = False
                                 # peut-être que un TP similaire a déjà été utilisé pour une autre valeur... alors pas la peine de le doubler
-                                for  ( (b2s, b2p, b2o), b2sm, b2pm, b2om) in  bgp.tp_set:
+                                for  (bid, (b2s, b2p, b2o), b2sm, b2pm, b2om) in  bgp.tp_set:
+
                                     (inTP,m) = egal((s2, p2, o2) ,(b2s, b2p, b2o)) 
-                                    if inTP: break
+                                    # inTP = s2==b2s and p2==b2p and o2==b2o
+                                    if inTP:
+                                        # Il sont vraiment identiques si les variables de jointure sont les mêmes !
+                                        # print('comp:')
+                                        # print(id, s2, p2, o2)
+                                        # print(bid,b2s,b2p, b2o)
+                                        ok = True
+                                        for j in [s,p,o]:
+                                            if isinstance(ref_d[j],Variable):
+                                                # print(j, '/',ref_d[j],' vs. ', m[ref_d[j]])
+                                                ok = ok and ( ( (j==ref_d[j]) and (str(bid).replace("-","_") in str(m[ref_d[j]]) )  ) 
+                                                              or (ref_d[j]==m[ref_d[j]]) 
+                                                            )
+                                                # print(ok)
+                                        # print('to conclude:',ok)
+
+                                    if inTP and ok : 
+                                        #Il faut ajouter les mappings !
+                                        if SWEEP_DEBUG_BGP_BUILD : 
+                                            print('\t Déjà présent avec ',toStr(b2s, b2p, b2o))
+                                            print('\t MàJ des mappings')
+                                            print('\t\t ',b2sm,'+',sm)
+                                            print('\t\t ',b2pm,'+',pm)
+                                            print('\t\t ',b2om,'+',om)
+                                        b2sm.update(sm)
+                                        b2pm.update(pm)
+                                        b2om.update(om)
+                                        break
                                 if not(inTP):
                                     if (s==ref_d[s]) and isinstance(s,Variable): s2 = Variable("s"+str(id).replace("-","_"))
                                     if (p==ref_d[p]) and isinstance(p,Variable): p2 = Variable("p"+str(id).replace("-","_"))
                                     if (o==ref_d[o]) and isinstance(o,Variable): o2 = Variable("o"+str(id).replace("-","_"))
-                                    bgp.tp_set.append( ((s2,p2,o2),sm,pm,om) )
+                                    bgp.tp_set.append( (id,(s2,p2,o2),sm,pm,om) )
                                     if SWEEP_DEBUG_BGP_BUILD : print('\t\t Ajout de ',toStr(s2,p2,o2))
                                     bgp.input_set.add(h)
                                 else: 
-                                    if SWEEP_DEBUG_BGP_BUILD : print('\t Déjà présent avec ',toStr(b2s, b2p, b2o))
                                     pass
                                 if ctx.optimistic: bgp.time = time
                                 break
@@ -301,7 +339,7 @@ def processBGPDiscover(in_queue, out_queue, val_queue, ctx):
                         if isinstance(o,Variable):
                             o = Variable("o"+str(id).replace("-","_"))
                         if SWEEP_DEBUG_BGP_BUILD : print('\t Création de ',toStr(s,p,o),'-> BGP ',len(BGP_list))
-                        bgp.tp_set.append( ((s,p,o), sm,pm,om) )
+                        bgp.tp_set.append( (id,(s,p,o), sm,pm,om) )
                         bgp.input_set.add(h)
                         bgp.time = time
                         bgp.birthTime = time
@@ -335,7 +373,7 @@ def processBGPDiscover(in_queue, out_queue, val_queue, ctx):
 
 def testPrecisionRecallBGP(queryList, bgp, gap):
     best = 0
-    test = [ tp for (tp, sm,pm,om) in bgp.tp_set ]
+    test = [ tp for (itp,tp, sm,pm,om) in bgp.tp_set ]
     # print(test)
     best_precision = 0
     best_recall = 0
@@ -410,7 +448,7 @@ def processValidation(in_queue, ctx):
                         old_bgp.print()
                 if old_bgp is not None:
                     ctx.memory.append( (0,'', old_bgp.birthTime, old_bgp.client, None, old_bgp, 0, 0) )
-                    addBGP2Rank(canonicalize_sparql_bgp([x for (x,sm,pm,om) in old_bgp.tp_set]), '', id, 0,0, ctx.rankingBGPs)
+                    addBGP2Rank(canonicalize_sparql_bgp([x for (itp,x,sm,pm,om) in old_bgp.tp_set]), '', id, 0,0, ctx.rankingBGPs)
 
             elif mode == SWEEP_OUT_QUERY: # dans le cas où le client TPF n'a pas pu exécuter la requête...
                 # suppress query 'queryID'
@@ -431,7 +469,7 @@ def processValidation(in_queue, ctx):
                             old_bgp = testPrecisionRecallBGP(queryList,bgp,gap)
                             if old_bgp is not None:
                                 ctx.memory.append( (0, '',old_bgp.birthTime, old_bgp.client, None, old_bgp, 0, 0) )
-                                addBGP2Rank(canonicalize_sparql_bgp([x for (x,sm,pm,om) in old_bgp.tp_set]), '', id, 0,0, ctx.rankingBGPs)
+                                addBGP2Rank(canonicalize_sparql_bgp([x for (itp,x,sm,pm,om) in old_bgp.tp_set]), '', id, 0,0, ctx.rankingBGPs)
                         else:
                             if SWEEP_DEBUB_PR: 
                                 print('-') 
@@ -460,13 +498,13 @@ def processValidation(in_queue, ctx):
                 ctx.stat['sumQuality'] += (recall+precision)/2
                 if bgp is not None: 
                     if SWEEP_DEBUB_PR: 
-                        print(".\n".join([ toStr(s,p,o) for ((s,p,o), sm,pm,om ) in bgp.tp_set ]))
+                        print(".\n".join([ toStr(s,p,o) for (itp,(s,p,o), sm,pm,om ) in bgp.tp_set ]))
                     ctx.stat['sumSelectedBGP'] += 1
                     #---
                     assert ip == bgp.client, 'Client Query différent de client BGP'
                     #---
                     addBGP2Rank(canonicalize_sparql_bgp(qbgp), query, id, precision, recall, ctx.rankingQueries)
-                    addBGP2Rank(canonicalize_sparql_bgp([x for (x,sm,pm,om) in bgp.tp_set]), query, id, 0,0, ctx.rankingBGPs)
+                    addBGP2Rank(canonicalize_sparql_bgp([x for (itp,x,sm,pm,om) in bgp.tp_set]), query, id, 0,0, ctx.rankingBGPs)
                 else:
                     if SWEEP_DEBUB_PR: print('Query not assigned')
                     addBGP2Rank(qbgp, query, id, precision, recall, ctx.rankingQueries)
@@ -497,7 +535,7 @@ def processValidation(in_queue, ctx):
                 assert ip == bgp.client, 'Client Query différent de client BGP'
                 #---
                 addBGP2Rank(canonicalize_sparql_bgp(qbgp), query, id, precision, recall, ctx.rankingQueries)
-                addBGP2Rank(canonicalize_sparql_bgp([x for (x,sm,pm,om) in bgp.tp_set]), query, id, 0,0, ctx.rankingBGPs)
+                addBGP2Rank(canonicalize_sparql_bgp([x for (itp,x,sm,pm,om) in bgp.tp_set]), query, id, 0,0, ctx.rankingBGPs)
             else:
                 if SWEEP_DEBUB_PR: print('Query not assigned')
                 addBGP2Rank(qbgp, query, id, precision, recall, ctx.rankingQueries)
@@ -661,7 +699,7 @@ class SWEEP: # Abstract Class
             writer.writeheader()
             for (id, queryID, time, ip, query, bgp, precision, recall) in self.memory:
                 if bgp is not None :
-                    bgp_txt = ".\n".join([ toStr(s,p,o) for ((s,p,o), sm,pm,om ) in bgp.tp_set ])
+                    bgp_txt = ".\n".join([ toStr(s,p,o) for (itp, (s,p,o), sm,pm,om ) in bgp.tp_set ])
                 else:
                     bgp_txt = "..."
                 s = { 'id':id, 'qID':queryID, 'time':time, 'ip':ip, 'query':query, 'bgp':bgp_txt, 'precision':precision, 'recall':recall }
