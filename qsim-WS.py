@@ -100,9 +100,9 @@ def ex(datasource):
     d = []
     parser = etree.XMLParser(recover=True, strip_cdata=True)
     if datasource=='dbpedia3.8':
-        tree = etree.parse('test4.xml', parser)
+        tree = etree.parse('tests/test4.xml', parser)
     elif datasource=='lift':
-        tree = etree.parse('test1.xml', parser)
+        tree = etree.parse('tests/test1.xml', parser)
     else:
         return jsonify(result = d)
     #---
