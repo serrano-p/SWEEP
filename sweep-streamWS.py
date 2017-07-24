@@ -347,6 +347,42 @@ def processData():
         print('"data" not implemented for HTTP GET')
         return jsonify(result=False)
 
+@app.route('/mentions')
+def mentions():
+    s = """
+        <p>Cette petite application Web a été développée à des fins de démonstration. Elle ne peut donc
+            aucunement être utilisée pour d'autre desseins. Elle est mise à disposition dans la
+            mesure où son utilisation n'est pas détournée. L'auteur ne peut être considéré
+            responsable des dysfonctionnements ou pertes de données en cas d'utilisation détournée
+            et se réserve le droit de la supprimer à tout moment.</p>
+        <p>Application développée et testée avec Python 3.6.</p>
+        <p>Design adapté du modèle "<a href="http://www.freecsstemplates.org/preview/dusplic/"
+                >dusplic</a>" de <a href="http://www.freecsstemplates.org/"><strong>Free CSS
+                    Templates</strong></a>, sous licence <a href="./license.txt">Creative
+            Common</a>.</p>
+        <p>Icônes prises sur <a href="http://www.iconspedia.com/">http://www.iconspedia.com/</a>
+            dans le jeu "<a href="http://www.iconspedia.com/pack/basic-set-2061/">Basic set</a>" de
+            PixelMixer (<a href="http://pixel-mixer.com/">http://pixel-mixer.com/</a>) sous licence
+                CC-by-sa.<br/><!--img src="http://www.iconspedia.com/common/images/logo.jpg"
+                width="100" alt="CC-by-sa"/--></p>
+        <p>Effets et développement JavaScript grâce aux frameworks <a
+                href="http://www.prototypejs.org">prototypejs.org<!--img
+                    src="http://www.prototypejs.org/images/logo-home.gif" alt="prototypejs.org"
+                /--></a> et <a href="http://www.script.aculo.us">script.aculo.us<!--img
+                    src="http://www.script.aculo.us/scriptaculous_logo.png" width="300"
+                    alt="script.aculo.us"/--></a>.</p>
+        <p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.0/fr/"><img
+                    alt="Contrat Creative Commons" style="border-width:0"
+                    src="http://i.creativecommons.org/l/by-nc-sa/2.0/fr/88x31.png"/></a><br/>Cette
+            application est mise à disposition sous la licence <a rel="license"
+                href="http://creativecommons.org/licenses/by-nc-sa/2.0/fr/">Creative Commons
+                Paternité - Pas d'Utilisation Commerciale - Partage des Conditions Initiales à
+                l'Identique 2.0 France</a> (<a
+                href="http://creativecommons.org/licenses/by-nc-sa/2.0/fr/legalcode"
+                >http://creativecommons.org/licenses/by-nc-sa/2.0/fr/legalcode</a>).</p>
+
+    """
+    return s
 
 #==================================================
 

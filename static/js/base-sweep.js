@@ -100,26 +100,27 @@ function aides() {
 }
 
 function mentions() {
-    // if (messages_mentions == null) {
-    //     new Ajax.Request('/mentions', {
-    //         method: 'get',
-    //         onSuccess: function (trs) {
-    //             messages_mentions = trs.responseText
-    //             $('posts').hide();
-    //             $('posts').update(messages_mentions);
-    //             $('posts').appear();
-    //         },
-    //         onFailure: function () {
-    //             alert('mentions: Impossible d\'obtenir la rubrique !')
-    //         }
-    //     });
-    // } else {
-    //     messages_mentions = '<div class="post"><h2 class="title">Mentions</h2> <h3 class="posted">par E. Desmontils</h3><div class="story">' 
-    //                         + messages_mentions + "</div></div>\n";
-    //     $('posts').hide();
-    //     $('posts').update(messages_mentions);
-    //     $('posts').appear();
-    // }
+    monitor.stop();
+    if (messages_mentions == null) {
+        new Ajax.Request('/mentions', {
+            method: 'get',
+            onSuccess: function (trs) {
+                messages_mentions = trs.responseText
+                $('posts').hide();
+                $('posts').update(messages_mentions);
+                $('posts').appear();
+            },
+            onFailure: function () {
+                alert('mentions: Impossible d\'obtenir la rubrique !')
+            }
+        });
+    } else {
+        messages_mentions = '<div class="post"><h2 class="title">Mentions</h2> <h3 class="posted">par E. Desmontils</h3><div class="story">' 
+                            + messages_mentions + "</div></div>\n";
+        $('posts').hide();
+        $('posts').update(messages_mentions);
+        $('posts').appear();
+    }
 }
 
 function apropos() {

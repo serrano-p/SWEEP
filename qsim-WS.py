@@ -190,7 +190,7 @@ def envoyer():
 def liste(datasource):
     ip = request.remote_addr
     # print(datasource, )
-    s=treat("select * where{?s ?p ?o} limit 15",'',ip,datasource)
+    s=treat("select * where{?s ?p ?o} limit 50",'',ip,datasource)
     tab = doTab(s)
     d = dict({'ok':s != 'Error','val':tab})
     return jsonify(result=d)    

@@ -193,6 +193,11 @@ function query() {
     current_request = $('requete').getValue();
     current_base = $('base').getValue();
 
+    $('message').update(mss);
+    // $('results').hide();
+    $('results').update('<p>Computing request</p>');
+    // $('results').appear();
+
     new Ajax.Request('/envoyer', {
         method: 'post',
         parameters: {
