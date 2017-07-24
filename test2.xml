@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE log SYSTEM "http://documents.ls2n.fr/be4dbp/log.dtd">
+<log ip="lift2@193.52.19.26">
+  <entry datetime="2017-05-18 12:00:20.861000+00:00" logline="02" valid="TPF">
+    <request><![CDATA[
+select * where{ 
+?s <http://www.example.org/lift2#p3> "titi" .
+?s <http://www.example.org/lift2#p4> "tata" .
+?s <http://www.example.org/lift2#p1> ?o .
+}
+]]></request>
+    <bgp>
+      <tp>
+        <s type="var" val="s"/>
+        <p type="iri" val="http://www.example.org/lift2#p3"/>
+        <o type="lit">titi</o>
+      </tp>
+      <tp>
+        <s type="var" val="s"/>
+        <p type="iri" val="http://www.example.org/lift2#p4"/>
+        <o type="lit">tata</o>
+      </tp>
+      <tp>
+        <s type="var" val="s"/>
+        <p type="iri" val="http://www.example.org/lift2#p1"/>
+        <o type="var" val="o"/>
+      </tp>
+    </bgp>
+  </entry>
+  <entry datetime="2017-05-18 12:00:20.861000+00:00" logline="03" valid="TPF">
+    <request><![CDATA[
+select * where{ 
+?s <http://www.example.org/lift2#p2> "toto" .
+?s <http://www.example.org/lift2#p1> ?o .
+}
+]]></request>
+    <bgp>
+      <tp>
+        <s type="var" val="s"/>
+        <p type="iri" val="http://www.example.org/lift2#p2"/>
+        <o type="lit">toto</o>
+      </tp>
+      <tp>
+        <s type="var" val="s"/>
+        <p type="iri" val="http://www.example.org/lift2#p1"/>
+        <o type="var" val="o"/>
+      </tp>
+    </bgp>
+  </entry>
+  <entry datetime="2017-05-18 12:00:20.863000+00:00" logline="04" valid="TPF">
+    <request><![CDATA[
+select * where{ 
+?s <http://www.example.org/lift2#p1> ?o .
+}
+]]></request>
+    <bgp>
+      <tp>
+        <s type="var" val="s"/>
+        <p type="iri" val="http://www.example.org/lift2#p1"/>
+        <o type="var" val="o"/>
+      </tp>
+    </bgp>
+  </entry>
+  <entry datetime="2017-05-18 12:00:20.870000+00:00" logline="05" valid="TPF">
+    <request><![CDATA[
+select * where{ 
+?s <http://www.example.org/lift2#p1> ?o .
+}
+]]></request>
+    <bgp>
+      <tp>
+        <s type="var" val="s"/>
+        <p type="iri" val="http://www.example.org/lift2#p1"/>
+        <o type="var" val="o"/>
+      </tp>
+    </bgp>
+  </entry>
+  <entry datetime="2017-05-18 12:00:20.872000+00:00" logline="06" valid="TPF">
+    <request><![CDATA[
+select * where{ 
+?s <http://www.example.org/lift2#p4> "tata" .
+}
+]]></request>
+    <bgp>
+      <tp>
+        <s type="var" val="s"/>
+        <p type="iri" val="http://www.example.org/lift2#p4"/>
+        <o type="lit">tata</o>
+      </tp>
+    </bgp>
+  </entry>
+</log>

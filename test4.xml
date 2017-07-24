@@ -1,0 +1,402 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE log SYSTEM "http://documents.ls2n.fr/be4dbp/log.dtd">
+<log ip="lift2@193.52.19.26">
+  <entry datetime="2017-05-18 12:00:00" logline="01" valid="TPF">
+    <request> <![CDATA[
+      PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> 
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+      SELECT ?movie ?title ?name WHERE {
+      ?movie dbpedia-owl:starring ?actor . 
+      ?actor rdfs:label "Brad Pitt"@en . 
+      ?movie rdfs:label ?title .
+      ?movie dbpedia-owl:director ?director . 
+      ?director rdfs:label ?name 
+      FILTER LANGMATCHES (LANG(?title), "EN") 
+      FILTER LANGMATCHES (LANG(?name), "EN") 
+      } ]]></request>
+    <bgp>
+      <tp><s type="var" val="actor"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="lit" language="en"><![CDATA[Brad Pitt]]></o></tp>
+      <tp><s type="var" val="movie"/><p type="iri" val="http://dbpedia.org/ontology/starring"/><o type="var" val="actor"/></tp>
+      <tp><s type="var" val="movie"/><p type="iri" val="http://dbpedia.org/ontology/director"/><o type="var" val="director"/></tp>
+      <tp><s type="var" val="movie"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="title"/></tp>
+      <tp><s type="var" val="director"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="name"/></tp>
+    </bgp>
+  </entry>
+
+  <entry datetime="2017-05-18 12:00:10" logline="02" valid="TPF">
+    <request><![CDATA[
+      PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> 
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+      SELECT ?movie ?title ?name WHERE { 
+      ?movie dbpedia-owl:starring [ rdfs:label "Brad Pitt"@en ]; 
+             rdfs:label ?title; 
+             dbpedia-owl:director [ rdfs:label ?name ]
+      }]]></request>
+    <!-- BGP faux à cause des Blank Nodes, mélange les valeurs de BN -->
+    <!--bgp> 
+      <tp><s type="bnode" val="N00f563c891544e36b23d33a4940a433c"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="lit" language="en"><![CDATA[Brad Pitt]]></o></tp>
+      <tp><s type="bnode" val="N00f563c891544e36b23d33a4940a433c"/><p type="iri" val="http://dbpedia.org/ontology/director"/><o type="bnode" val="N08ad568ef70844cea11f47382a6b38fe"/></tp>
+      <tp><s type="bnode" val="N00f563c891544e36b23d33a4940a433c"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="title"/></tp>
+      <tp><s type="var" val="movie"/><p type="iri" val="http://dbpedia.org/ontology/starring"/><o type="bnode" val="N00f563c891544e36b23d33a4940a433c"/></tp>
+      <tp><s type="bnode" val="N08ad568ef70844cea11f47382a6b38fe"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="name"/></tp>
+    </bgp-->
+    <bgp>
+      <tp><s type="var" val="N00f563c891544e36b23d33a4940a433c"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="lit" language="en"><![CDATA[Brad Pitt]]></o></tp>
+      <tp><s type="var" val="movie"/><p type="iri" val="http://dbpedia.org/ontology/director"/><o type="var" val="N08ad568ef70844cea11f47382a6b38fe"/></tp>
+      <tp><s type="var" val="movie"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="title"/></tp>
+      <tp><s type="var" val="movie"/><p type="iri" val="http://dbpedia.org/ontology/starring"/><o type="var" val="N00f563c891544e36b23d33a4940a433c"/></tp>
+      <tp><s type="var" val="N08ad568ef70844cea11f47382a6b38fe"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="name"/></tp>
+    </bgp>
+  </entry>
+
+  <entry datetime="2017-05-18 12:00:20" logline="03" valid="TPF">
+    <request><![CDATA[
+      PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> 
+      PREFIX dbpprop: <http://dbpedia.org/property/> 
+      SELECT DISTINCT ?entity WHERE { 
+      ?entity a dbpedia-owl:Airport; 
+                dbpprop:cityServed dbpedia:Italy. 
+      }]]></request>
+    <bgp>
+      <tp><s type="var" val="entity"/><p type="iri" val="http://dbpedia.org/property/cityServed"/><o type="iri" val="http://dbpedia.org/resource/Italy"/></tp>
+      <tp><s type="var" val="entity"/><p type="iri" val="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"/><o type="iri" val="http://dbpedia.org/ontology/Airport"/></tp>
+    </bgp>
+  </entry>
+
+  <entry datetime="2017-05-18 12:00:30" logline="04" valid="TPF">
+    <request><![CDATA[
+      PREFIX dbpprop: <http://dbpedia.org/property/> 
+      PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> 
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+      SELECT ?name ?deathDate WHERE { 
+      ?person a dbpedia-owl:Artist; 
+              rdfs:label ?name; 
+              dbpedia-owl:birthPlace [ rdfs:label "York"@en ]. 
+      FILTER LANGMATCHES(LANG(?name), "EN") 
+      OPTIONAL { ?person dbpprop:dateOfDeath ?deathDate. }
+      }]]></request>
+    <bgp> <!-- BGP risque faux à cause des Blank Nodes, mais passe car un seul -->
+      <tp><s type="var" val="person"/><p type="iri" val="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"/><o type="iri" val="http://dbpedia.org/ontology/Artist"/></tp>
+      <tp><s type="var" val="person"/><p type="iri" val="http://dbpedia.org/ontology/birthPlace"/><o type="var" val="N1bd6327fc8044cb598b5ccfa68e8fe44"/></tp>
+      <tp><s type="var" val="N1bd6327fc8044cb598b5ccfa68e8fe44"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="lit" language="en"><![CDATA[York]]></o></tp>
+      <tp><s type="var" val="person"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="name"/></tp>
+      <tp><s type="var" val="person"/><p type="iri" val="http://dbpedia.org/property/dateOfDeath"/><o type="var" val="deathDate"/></tp>
+    </bgp>
+  </entry>
+
+  <entry datetime="2017-05-18 12:00:40" logline="05" valid="TPF">
+    <request><![CDATA[
+      PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> 
+      PREFIX dbpedia: <http://dbpedia.org/resource/> 
+      CONSTRUCT { 
+      ?artist a dbpedia-owl:Artist. 
+      ?artist dbpedia-owl:birthDate ?date. 
+      } WHERE { 
+      ?artist dbpedia-owl:influencedBy dbpedia:Pablo_Picasso.
+      ?artist a dbpedia-owl:Artist. 
+      ?artist dbpedia-owl:birthDate ?date. 
+      }]]></request>
+    <bgp>
+      <tp><s type="var" val="artist"/><p type="iri" val="http://dbpedia.org/ontology/influencedBy"/><o type="iri" val="http://dbpedia.org/resource/Pablo_Picasso"/></tp>
+      <tp><s type="var" val="artist"/><p type="iri" val="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"/><o type="iri" val="http://dbpedia.org/ontology/Artist"/></tp>
+      <tp><s type="var" val="artist"/><p type="iri" val="http://dbpedia.org/ontology/birthDate"/><o type="var" val="date"/></tp>
+    </bgp>
+  </entry>
+
+
+  <entry datetime="2017-05-18 12:00:50" logline="06" valid="TPF">
+    <request><![CDATA[
+      PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+      PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> 
+      SELECT DISTINCT ?book ?author WHERE { 
+      ?book rdf:type dbpedia-owl:Book; 
+            dbpedia-owl:author ?author. 
+      } LIMIT 100]]></request>
+    <bgp>
+      <tp><s type="var" val="book"/><p type="iri" val="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"/><o type="iri" val="http://dbpedia.org/ontology/Book"/></tp>
+      <tp><s type="var" val="book"/><p type="iri" val="http://dbpedia.org/ontology/author"/><o type="var" val="author"/></tp>
+    </bgp>
+  </entry>
+
+
+
+  <entry datetime="2017-05-18 12:01:00" logline="07" valid="TPF">
+    <request><![CDATA[
+      PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> 
+      PREFIX dbpprop: <http://dbpedia.org/property/> 
+      SELECT ?award WHERE { 
+      ?award a dbpedia-owl:Award;
+             dbpprop:country [ dbpedia-owl:language dbpedia:Dutch_language ]. 
+      }]]></request>
+    <bgp> <!-- BGP risque faut à cause des Blank Nodes, mais passe car un seul -->
+      <tp><s type="var" val="Na7e5ccbdb05f49d4963c44ed92b4dc9e"/><p type="iri" val="http://dbpedia.org/ontology/language"/><o type="iri" val="http://dbpedia.org/resource/Dutch_language"/></tp>
+      <tp><s type="var" val="award"/><p type="iri" val="http://dbpedia.org/property/country"/><o type="var" val="Na7e5ccbdb05f49d4963c44ed92b4dc9e"/></tp>
+      <tp><s type="var" val="award"/><p type="iri" val="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"/><o type="iri" val="http://dbpedia.org/ontology/Award"/></tp>
+    </bgp>
+  </entry>
+
+
+  <entry datetime="2017-05-18 12:01:10" logline="08" valid="TPF">
+    <request><![CDATA[
+      PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> 
+      PREFIX dbpedia: <http://dbpedia.org/resource/> 
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+      SELECT DISTINCT ?performer ?name WHERE { 
+      ?work dbpedia-owl:writer dbpedia:Michael_Jackson; 
+            dbpedia-owl:musicalArtist ?performer. 
+      OPTIONAL { 
+            ?performer rdfs:label ?name. 
+            FILTER LANGMATCHES(LANG(?name), "EN") 
+            } 
+      }]]></request>
+    <bgp>
+      <tp><s type="var" val="work"/><p type="iri" val="http://dbpedia.org/ontology/writer"/><o type="iri" val="http://dbpedia.org/resource/Michael_Jackson"/></tp>
+      <tp><s type="var" val="work"/><p type="iri" val="http://dbpedia.org/ontology/musicalArtist"/><o type="var" val="performer"/></tp>
+      <tp><s type="var" val="performer"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="name"/></tp>
+    </bgp>
+  </entry>
+
+
+  <entry datetime="2017-05-18 12:01:20" logline="09" valid="TPF">
+    <request><![CDATA[
+      PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> 
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+      SELECT ?software ?company WHERE { 
+      ?software dbpedia-owl:developer ?company. 
+      ?company dbpedia-owl:locationCountry [ rdfs:label "Belgium"@en ]. 
+      } ]]></request>
+    <bgp> <!-- BGP faut à cause des Blank Nodes, mais passe car un seul -->
+      <tp><s type="var" val="N6d96df280f3248da9857e82229ad49d6"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="lit" language="en"><![CDATA[Belgium]]></o></tp>
+      <tp><s type="var" val="company"/><p type="iri" val="http://dbpedia.org/ontology/locationCountry"/><o type="var" val="N6d96df280f3248da9857e82229ad49d6"/></tp>
+      <tp><s type="var" val="software"/><p type="iri" val="http://dbpedia.org/ontology/developer"/><o type="var" val="company"/></tp>
+    </bgp>
+  </entry>
+
+  <entry datetime="2017-05-18 12:01:30" logline="10" valid="EmptyTPF" >
+    <request><![CDATA[
+      PREFIX yago: <http://dbpedia.org/class/yago/> 
+      SELECT ?person WHERE { 
+      ?person a yago:Carpenters, yago:PeopleExecutedByCrucifixion. 
+      } ]]></request>
+    <bgp>
+      <tp><s type="var" val="person"/><p type="iri" val="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"/><o type="iri" val="http://dbpedia.org/class/yago/Carpenters"/></tp>
+      <tp><s type="var" val="person"/><p type="iri" val="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"/><o type="iri" val="http://dbpedia.org/class/yago/PeopleExecutedByCrucifixion"/></tp>
+    </bgp>
+  </entry>
+
+
+  <entry datetime="2017-05-18 12:01:40" logline="11" valid="EmptyTPF">
+    <request><![CDATA[
+      PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> 
+      PREFIX dc: <http://purl.org/dc/terms/> 
+      SELECT ?actor ?cause WHERE { 
+      ?actor dbpedia-owl:deathCause ?cause. 
+      ?actor dc:subject <http://dbpedia.org/resource/Category:American_male_film_actors> 
+      } ]]></request>
+    <bgp>
+      <tp><s type="var" val="actor"/><p type="iri" val="http://purl.org/dc/terms/subject"/><o type="iri" val="http://dbpedia.org/resource/Category:American_male_film_actors"/></tp>
+      <tp><s type="var" val="actor"/><p type="iri" val="http://dbpedia.org/ontology/deathCause"/><o type="var" val="cause"/></tp>
+    </bgp>
+  </entry>
+
+
+  <entry datetime="2017-05-18 12:01:50" logline="12" valid="TPF">
+    <request><![CDATA[
+      PREFIX dbpedia: <http://dbpedia.org/resource/> 
+      PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> 
+      SELECT ?dessert ?fruit WHERE { 
+      ?dessert dbpedia-owl:type <http://dbpedia.org/resource/Dessert>; 
+                dbpedia-owl:ingredient ?fruit. 
+      ?fruit dbpedia-owl:kingdom <http://dbpedia.org/resource/Plant>. 
+      } ]]></request>
+    <bgp>
+      <tp><s type="var" val="dessert"/><p type="iri" val="http://dbpedia.org/ontology/type"/><o type="iri" val="http://dbpedia.org/resource/Dessert"/></tp>
+      <tp><s type="var" val="dessert"/><p type="iri" val="http://dbpedia.org/ontology/ingredient"/><o type="var" val="fruit"/></tp>
+      <tp><s type="var" val="fruit"/><p type="iri" val="http://dbpedia.org/ontology/kingdom"/><o type="iri" val="http://dbpedia.org/resource/Plant"/></tp>
+    </bgp>
+  </entry>
+  
+
+  <entry datetime="2017-05-18 12:02:00" logline="13" valid="TPF">
+    <request><![CDATA[
+      PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> 
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+      PREFIX dbpedia: <http://dbpedia.org/resource/> 
+      SELECT DISTINCT ?entity ?event WHERE {
+      ?entity a dbpedia-owl:Event;
+        rdfs:label ?event; 
+        ?predicate <http://dbpedia.org/resource/Trentino> . 
+       FILTER(langMatches(lang(?event), "EN")) } ]]></request>
+    <bgp>
+      <tp><s type="var" val="entity"/><p type="iri" val="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"/><o type="iri" val="http://dbpedia.org/ontology/Event"/></tp>
+      <tp><s type="var" val="entity"/><p type="var" val="predicate"/><o type="iri" val="http://dbpedia.org/resource/Trentino"/></tp>
+      <tp><s type="var" val="entity"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="event"/></tp>
+    </bgp>
+  </entry>
+
+
+  <entry datetime="2017-05-18 12:02:10" logline="14" valid="TPF">
+    <request><![CDATA[
+      PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> 
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+      PREFIX dbpedia: <http://dbpedia.org/resource/>
+      SELECT DISTINCT ?artist ?band ?bandName WHERE {
+      { <http://dbpedia.org/resource/Queen_(band)> dbpedia-owl:bandMember ?artist. } 
+      UNION 
+      { <http://dbpedia.org/resource/Queen_(band)> dbpedia-owl:formerBandMember ?artist. }
+      ?band dbpedia-owl:formerBandMember ?artist; 
+            rdfs:label ?bandName. 
+      FILTER (?band != <http://dbpedia.org/resource/Queen_(band)>) 
+      } ]]></request>
+    <!--bgp>
+      <tp><s type="iri" val="http://dbpedia.org/resource/Queen_(band)"/><p type="iri" val="http://dbpedia.org/ontology/bandMember"/><o type="var" val="artist"/></tp>
+      <tp><s type="iri" val="http://dbpedia.org/resource/Queen_(band)"/><p type="iri" val="http://dbpedia.org/ontology/formerBandMember"/><o type="var" val="artist"/></tp>
+      <tp><s type="var" val="band"/><p type="iri" val="http://dbpedia.org/ontology/formerBandMember"/><o type="var" val="artist"/></tp>
+      <tp><s type="var" val="band"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="bandName"/></tp>
+    </bgp-->
+    <bgp>
+      <tp><s type="iri" val="http://dbpedia.org/resource/Queen_(band)"/><p type="iri" val="http://dbpedia.org/ontology/formerBandMember"/><o type="var" val="artist"/></tp>
+      <tp><s type="var" val="band"/><p type="iri" val="http://dbpedia.org/ontology/formerBandMember"/><o type="var" val="artist"/></tp>
+      <tp><s type="var" val="band"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="bandName"/></tp>
+    </bgp>
+    <bgp>
+      <tp><s type="iri" val="http://dbpedia.org/resource/Queen_(band)"/><p type="iri" val="http://dbpedia.org/ontology/bandMember"/><o type="var" val="artist"/></tp>
+      <tp><s type="var" val="band"/><p type="iri" val="http://dbpedia.org/ontology/formerBandMember"/><o type="var" val="artist"/></tp>
+      <tp><s type="var" val="band"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="bandName"/></tp>
+    </bgp>
+  </entry>
+
+
+  <entry datetime="2017-05-18 12:02:20" logline="15" valid="TPF">
+    <request><![CDATA[
+      PREFIX dbpedia: <http://dbpedia.org/resource/> 
+      PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
+      PREFIX dc: <http://purl.org/dc/terms/> 
+      SELECT DISTINCT ?person WHERE { 
+      dbpedia:Jesus dc:subject ?common. 
+      ?person a foaf:Person; 
+              dc:subject ?common. 
+      } LIMIT 1000 ]]></request>
+    <bgp>
+      <tp><s type="var" val="person"/><p type="iri" val="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"/><o type="iri" val="http://xmlns.com/foaf/0.1/Person"/></tp>
+      <tp><s type="var" val="person"/><p type="iri" val="http://purl.org/dc/terms/subject"/><o type="var" val="common"/></tp>
+      <tp><s type="iri" val="http://dbpedia.org/resource/Jesus"/><p type="iri" val="http://purl.org/dc/terms/subject"/><o type="var" val="common"/></tp>
+    </bgp>
+  </entry>
+
+
+  <entry datetime="2017-05-18 12:02:30" logline="16" valid="TPF">
+    <request><![CDATA[
+      PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+      PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> 
+      PREFIX dbpedia: <http://dbpedia.org/resource/>
+      SELECT ?place ?relation WHERE { 
+      ?place rdf:type dbpedia-owl:Settlement; 
+             ?relation dbpedia:Barack_Obama; 
+      } ]]></request>
+    <bgp>
+      <tp><s type="var" val="place"/><p type="iri" val="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"/><o type="iri" val="http://dbpedia.org/ontology/Settlement"/></tp>
+      <tp><s type="var" val="place"/><p type="var" val="relation"/><o type="iri" val="http://dbpedia.org/resource/Barack_Obama"/></tp>
+    </bgp>
+  </entry>
+
+
+  <entry datetime="2017-05-18 12:02:40" logline="17" valid="TPF">
+    <request><![CDATA[
+      PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> 
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+      PREFIX dbpedia: <http://dbpedia.org/resource/> 
+      SELECT ?clubName ?playerName WHERE { 
+      ?club a dbpedia-owl:SoccerClub; 
+            dbpedia-owl:ground ?city; 
+            rdfs:label ?clubName. 
+      ?player dbpedia-owl:team ?club; 
+              dbpedia-owl:birthPlace ?city; 
+              rdfs:label ?playerName. 
+      ?city dbpedia-owl:country dbpedia:Spain. 
+      FILTER LANGMATCHES(LANG(?clubName), "EN") 
+      FILTER LANGMATCHES(LANG(?playerName), "EN") 
+      } ]]></request>
+    <bgp>
+      <tp><s type="var" val="club"/><p type="iri" val="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"/><o type="iri" val="http://dbpedia.org/ontology/SoccerClub"/></tp>
+      <tp><s type="var" val="club"/><p type="iri" val="http://dbpedia.org/ontology/ground"/><o type="var" val="city"/></tp>
+      <tp><s type="var" val="city"/><p type="iri" val="http://dbpedia.org/ontology/country"/><o type="iri" val="http://dbpedia.org/resource/Spain"/></tp>
+      <tp><s type="var" val="player"/><p type="iri" val="http://dbpedia.org/ontology/team"/><o type="var" val="club"/></tp>
+      <tp><s type="var" val="player"/><p type="iri" val="http://dbpedia.org/ontology/birthPlace"/><o type="var" val="city"/></tp>
+      <tp><s type="var" val="club"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="clubName"/></tp>
+      <tp><s type="var" val="player"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="playerName"/></tp>
+    </bgp>
+  </entry>
+
+
+  <entry datetime="2017-05-18 12:02:50" logline="18" valid="EmptyTPF">
+    <request><![CDATA[
+      PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> 
+      PREFIX dc: <http://purl.org/dc/terms/> 
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+      SELECT ?entity ?label ?comment WHERE { 
+      ?entity a dbpedia-owl:MythologicalFigure; 
+              rdfs:label ?label; 
+              dc:subject <http://dbpedia.org/resource/Category:Women_in_Greek_mythology>;
+              rdfs:comment ?comment 
+      FILTER(langMatches(lang(?label), "EN"))
+      FILTER(langMatches(lang(?comment), "EN")) 
+      } ]]></request>
+    <bgp>
+      <tp><s type="var" val="entity"/><p type="iri" val="http://purl.org/dc/terms/subject"/><o type="iri" val="http://dbpedia.org/resource/Category:Women_in_Greek_mythology"/></tp>
+      <tp><s type="var" val="entity"/><p type="iri" val="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"/><o type="iri" val="http://dbpedia.org/ontology/MythologicalFigure"/></tp>
+      <tp><s type="var" val="entity"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#comment"/><o type="var" val="comment"/></tp>
+      <tp><s type="var" val="entity"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="label"/></tp>
+    </bgp>
+  </entry>
+
+
+  <entry datetime="2017-05-18 12:03:00" logline="19" valid="TPF">
+    <request><![CDATA[
+      CONSTRUCT WHERE { 
+      ?s ?p ?o. 
+      } LIMIT 100 ]]></request>
+    <bgp>
+      <tp><s type="var" val="s"/><p type="var" val="p"/><o type="var" val="o"/></tp>
+    </bgp>
+  </entry>
+
+
+  <entry datetime="2017-05-18 12:03:10" logline="20" valid="TPF">
+    <request><![CDATA[
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+      PREFIX dc: <http://purl.org/dc/terms/> 
+      SELECT DISTINCT ?subject ?label WHERE { 
+      { ?subject dc:title ?label } 
+      UNION 
+      { ?subject rdfs:label ?label } 
+      } LIMIT 100 ]]></request>
+    <!--bgp>
+      <tp><s type="var" val="subject"/><p type="iri" val="http://purl.org/dc/terms/title"/><o type="var" val="label"/></tp>
+      <tp><s type="var" val="subject"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="label"/></tp>
+    </bgp-->
+    <bgp>
+      <tp><s type="var" val="subject"/><p type="iri" val="http://purl.org/dc/terms/title"/><o type="var" val="label"/></tp>
+    </bgp>
+    <bgp>
+      <tp><s type="var" val="subject"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="label"/></tp>
+    </bgp>
+  </entry>
+
+
+  <entry datetime="2017-05-18 12:03:20" logline="21" valid="TPF">
+    <request><![CDATA[
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+      SELECT DISTINCT ?type ?label WHERE { 
+      ?s a ?type. 
+      OPTIONAL { ?type rdfs:label ?label. } 
+      FILTER LANGMATCHES(LANG(?label), "EN") 
+      } LIMIT 100 ]]></request>
+    <bgp>
+      <tp><s type="var" val="s"/><p type="iri" val="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"/><o type="var" val="type"/></tp>
+      <tp><s type="var" val="type"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="label"/></tp>
+    </bgp>
+  </entry>
+
+
+</log>

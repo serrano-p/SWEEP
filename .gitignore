@@ -1,8 +1,3 @@
-
-*.xml
-
-*.dtd
-
 __pycache__/ldqp.cpython-36.pyc
 
 lib/__init__.py
