@@ -5,3 +5,5 @@ lib/__init__.py
 lib/__pycache__/*
 
 tools/__pycache__/*
+
+*.csv
