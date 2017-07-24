@@ -1,0 +1,21 @@
+id	qID	time	ip	query	bgp	precision	recall
+0		2017-07-24 18:46:05.615810	127.0.0.1		?se1794_10326 <http://www.w3.org/2000/01/rdf-schema#label> ?oe1794_10326	0	0
+0		2017-07-24 18:46:05.628183	127.0.0.1		?se1798_11144 <http://dbpedia.org/ontology/starring> ?oe1798_11144	0	0
+0		2017-07-24 18:46:05.645156	127.0.0.1		?se1799_11944 <http://www.w3.org/2000/01/rdf-schema#label> ?oe1799_11944	0	0
+0		2017-07-24 18:46:05.608599	127.0.0.1		?se1792_12479 <http://dbpedia.org/ontology/director> ?oe1792_12479	0	0
+1	qsim-WS-127.0.0.1-1_1	2017-07-24 18:46:05.175511	127.0.0.1	" 
+      PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> 
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+      SELECT ?movie ?title ?name WHERE {
+      ?movie dbpedia-owl:starring ?actor . 
+      ?actor rdfs:label ""Brad Pitt""@en . 
+      ?movie rdfs:label ?title .
+      ?movie dbpedia-owl:director ?director . 
+      ?director rdfs:label ?name 
+      FILTER LANGMATCHES (LANG(?title), ""EN"") 
+      FILTER LANGMATCHES (LANG(?name), ""EN"") 
+      }  "	"?jo0 <http://www.w3.org/2000/01/rdf-schema#label> ""Brad Pitt""@en.
+?js1 <http://dbpedia.org/ontology/starring> ?jo0.
+?js1 <http://www.w3.org/2000/01/rdf-schema#label> ?oe1799_11945.
+?js1 <http://dbpedia.org/ontology/director> ?js3.
+?js3 <http://www.w3.org/2000/01/rdf-schema#label> ?oe1798_11147"	1.0	1.0

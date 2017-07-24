@@ -235,23 +235,29 @@ class TPFEP(Endpoint):
             # print('Execute:',self.appli,self.service+'/'+self.dataset,qstr)
             if self.clientParams == '':
                 ret = subprocess.run([self.appli,self.service+'/'+self.dataset, qstr], 
-                                 stdout=subprocess.PIPE, encoding='utf-8', stderr=subprocess.PIPE, check=True, timeout=self.timeOut)
+                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True, timeout=self.timeOut)#, encoding='utf-8')
             else :
                 ret = subprocess.run([self.appli,self.service+'/'+self.dataset, self.clientParams, qstr], 
-                                 stdout=subprocess.PIPE, encoding='utf-8', stderr=subprocess.PIPE, check=True, timeout=self.timeOut)
+                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True, timeout=self.timeOut)#, encoding='utf-8')
         except subprocess.CalledProcessError as e :
             raise TPFClientError( "TPF endpoint error (subprocess CalledProcessError) : "+e.__str__() )
         except subprocess.TimeoutExpired as e : # uniquement python 3.3 !!!
             raise TimeOut("TPF timeout (subprocess TimeoutExpired) : "+e.__str__())
 
-        #pprint(ret)
+        # pprint(ret)
         #sys.exit()
         out = ret.stdout
         if out != '':
+            if type(out) != str : 
+                out = out.decode('UTF-8')
             try:
-                return json.loads(out)
+                js = json.loads(out)
+                # print(js)
+                return js
             except json.JSONDecodeError as e: #Fonctionne pas en python 3.2... que depuis 3.5 !!!!
-                raise TPFClientError( "TPF endpoint error (JSONDecodeError) : %s"%str(e) )                
+                # raise TPFClientError( "TPF endpoint error (JSONDecodeError) : %s"%str(e) )  
+                # print("Pb conversion JSON")  
+                return out            
         else:
             err = ret.stderr
             #print('##'+err+'##')

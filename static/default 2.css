@@ -8,7 +8,7 @@ Released for free under a Creative Commons Attribution 2.5 License
 body {
 	margin: 0 20px 0 0;
 	padding: 0;
-	background: #FFFFFF /*url(images/img1.jpg) repeat-y*/;
+	background: #FFFFFF url(images/img1.jpg) repeat-y;
 	font: normal small "Trebuchet MS", Arial, Helvetica, sans-serif;
 	color: #8A8E99;
 }
@@ -52,7 +52,7 @@ a:hover {
 
 .boxed .content {
 	padding-bottom: 20px;
-	background: #FFFFFF /*url(images/img3.jpg) no-repeat left bottom*/;
+	background: url(images/img3.jpg) no-repeat left bottom;
 }
 
 .boxed ul {
@@ -63,7 +63,7 @@ a:hover {
 
 .boxed li {
 	padding: 2px 30px 2px 40px;
-	background: #FFFF /*url(images/img4.jpg) no-repeat*/;
+	background: url(images/img4.jpg) no-repeat;
 }
 
 .boxed a {
@@ -76,7 +76,7 @@ a:hover {
 	width: 230px;
 	height: 90px;
 	padding: 70px 0 0 30px;
-	background: #FFFFFF /*url(images/img2.jpg) no-repeat*/;
+	background: url(images/img2.jpg) no-repeat;
 }
 
 #header h1 {
@@ -135,7 +135,7 @@ a:hover {
 #textfield1 {
 	width: 160px;
 	padding: 2px 5px;
-	background: #FFFFFF /*url(images/img5.jpg)*/;
+	background: url(images/img5.jpg);
 	border: none;
 	border-top: 1px solid #638DBD;
 	border-left: 1px solid #638DBD;

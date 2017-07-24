@@ -149,6 +149,8 @@ def treat(i):
             return i
         else:
             raise ValueError(i)
+    elif isinstance(i,BNode) : 
+        return Variable(i)
     else:
         return i
 
@@ -322,7 +324,8 @@ def unSerializeBGP(bgp):
     """
     nbgp = []
     for tp in bgp:
-        nbgp += [unSerializeTP(tp)] #[(unSerialize(tp[0]), unSerialize(tp[1]), unSerialize(tp[2]))]
+        if tp.tag == 'tp':
+            nbgp += [unSerializeTP(tp)] #[(unSerialize(tp[0]), unSerialize(tp[1]), unSerialize(tp[2]))]
     return nbgp
 
 

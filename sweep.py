@@ -24,9 +24,6 @@ from lib.QueryManager import *
 from lxml import etree  # http://lxml.de/index.html#documentation
 from lib.bgp import *
 
-#==================================================
-
-transform = etree.XSLT(etree.parse('toTrace.xsl'))
 
 #==================================================
 
@@ -45,7 +42,7 @@ class BGP:
     def toString(self):
         rep = ''
         for (itp,(s,p,o),sm,pm,om) in self.tp_set:
-                rep += toStr(s,p,o) + " . "
+                rep += toStr(s,p,o) + " .\n "
         return rep
 
     def print(self, tab=''):
@@ -236,8 +233,9 @@ def processBGPDiscover(in_queue, out_queue, val_queue, ctx):
                             bgp.print('\t\t\t')
                         if (client == bgp.client) and (time - bgp.time <= gap) and (h not in bgp.input_set): 
                             ref_couv = 0
+                            ref_rang = 0
                             # on regarde si une constante du sujet et ou de l'objet est une injection
-                            for tp in  bgp.tp_set:
+                            for (rang,tp) in  enumerate(bgp.tp_set):
                                 (bid, (bs, bp, bo), bsm, bpm, bom) = tp
                                 if SWEEP_DEBUG_BGP_BUILD : 
                                     print('_____')
@@ -274,6 +272,8 @@ def processBGPDiscover(in_queue, out_queue, val_queue, ctx):
                                     trouve = True
                                     ref_couv = couv
                                     ref_d = d
+                                    ref_rang = rang
+                                    ref_id = bid
                                     break
 
                             if trouve:
@@ -282,7 +282,7 @@ def processBGPDiscover(in_queue, out_queue, val_queue, ctx):
                                 if SWEEP_DEBUG_BGP_BUILD : print('\t\t |-> ',toStr(s2,p2,o2) )
                                 inTP = False
                                 # peut-être que un TP similaire a déjà été utilisé pour une autre valeur... alors pas la peine de le doubler
-                                for  (bid, (b2s, b2p, b2o), b2sm, b2pm, b2om) in  bgp.tp_set:
+                                for  (b2id, (b2s, b2p, b2o), b2sm, b2pm, b2om) in  bgp.tp_set:
 
                                     (inTP,m) = egal((s2, p2, o2) ,(b2s, b2p, b2o)) 
                                     # inTP = s2==b2s and p2==b2p and o2==b2o
@@ -290,12 +290,12 @@ def processBGPDiscover(in_queue, out_queue, val_queue, ctx):
                                         # Il sont vraiment identiques si les variables de jointure sont les mêmes !
                                         # print('comp:')
                                         # print(id, s2, p2, o2)
-                                        # print(bid,b2s,b2p, b2o)
+                                        # print(b2id,b2s,b2p, b2o)
                                         ok = True
                                         for j in [s,p,o]:
                                             if isinstance(ref_d[j],Variable):
                                                 # print(j, '/',ref_d[j],' vs. ', m[ref_d[j]])
-                                                ok = ok and ( ( (j==ref_d[j]) and (str(bid).replace("-","_") in str(m[ref_d[j]]) )  ) 
+                                                ok = ok and ( ( (j==ref_d[j]) and ((str(b2id).replace("-","_") in str(m[ref_d[j]]) ) or (str(m[ref_d[j]]).startswith('j')) )) 
                                                               or (ref_d[j]==m[ref_d[j]]) 
                                                             )
                                                 # print(ok)
@@ -314,11 +314,40 @@ def processBGPDiscover(in_queue, out_queue, val_queue, ctx):
                                         b2om.update(om)
                                         break
                                 if not(inTP):
-                                    if (s==ref_d[s]) and isinstance(s,Variable): s2 = Variable("s"+str(id).replace("-","_"))
-                                    if (p==ref_d[p]) and isinstance(p,Variable): p2 = Variable("p"+str(id).replace("-","_"))
-                                    if (o==ref_d[o]) and isinstance(o,Variable): o2 = Variable("o"+str(id).replace("-","_"))
+                                    # print('=====',s,s2)
+                                    # print('=====',p,p2)
+                                    # print('=====',o,o2)
+                                    ren = dict()
+                                    if (s==ref_d[s]) and isinstance(s,Variable): 
+                                        s2 = Variable("s"+str(id).replace("-","_"))
+                                    elif not(isinstance(s,Variable)) and isinstance(s2,Variable) and (str(ref_id).replace("-","_") in str(s2)) :
+                                        name = Variable("js"+str(ref_rang))
+                                        ren[s2] = name
+                                        s2 = name
+
+                                    if (p==ref_d[p]) and isinstance(p,Variable): 
+                                        p2 = Variable("p"+str(id).replace("-","_"))
+                                    elif not(isinstance(p,Variable)) and isinstance(p2,Variable) and (str(ref_id).replace("-","_") in str(p2)) :
+                                        name = Variable("jp"+str(ref_rang))
+                                        ren[p2]=name
+                                        p2 = name
+
+                                    if (o==ref_d[o]) and isinstance(o,Variable): 
+                                        o2 = Variable("o"+str(id).replace("-","_"))
+                                    elif not(isinstance(o,Variable)) and isinstance(o2,Variable) and (str(ref_id).replace("-","_") in str(o2)) :
+                                        name = Variable("jo"+str(ref_rang))
+                                        ren[o2]=name
+                                        o2 = name
+
+                                    if bs in ren: bs = ren[bs]
+                                    if bp in ren: bp = ren[bp]
+                                    if bo in ren: bo = ren[bo]
+
                                     bgp.tp_set.append( (id,(s2,p2,o2),sm,pm,om) )
-                                    if SWEEP_DEBUG_BGP_BUILD : print('\t\t Ajout de ',toStr(s2,p2,o2))
+                                    bgp.tp_set[ref_rang] = (bid, (bs, bp, bo), bsm, bpm, bom)
+                                    if SWEEP_DEBUG_BGP_BUILD : 
+                                        print('\t\t Ajout de ',toStr(s2,p2,o2))
+                                        print('\t\t avec de ',toStr(bs,bp,bo))
                                     bgp.input_set.add(h)
                                 else: 
                                     pass
@@ -379,6 +408,13 @@ def testPrecisionRecallBGP(queryList, bgp, gap):
     best_recall = 0
     for i in queryList:
         ( (time,ip,query,qbgp,queryID),old_bgp,precision,recall) = queryList[i]
+
+        if SWEEP_DEBUB_PR:
+            rep = ''
+            for (s,p,o) in qbgp:
+                rep += toStr(s,p,o)+' . \n'
+            print ('comparing with query (%s) : '%queryID,rep)
+
         if (ip == bgp.client) and (bgp.birthTime >= time) and ( bgp.birthTime - time <= gap ) :
             (precision2, recall2, inter, mapping) = calcPrecisionRecall(qbgp,test)
             if  (precision2 > precision) or ( (precision2 == precision) and (recall2 > recall)): #(preprecision2*recall2 > precision*recall:
@@ -390,7 +426,7 @@ def testPrecisionRecallBGP(queryList, bgp, gap):
         ( (time,ip,query,qbgp,queryID),old_bgp,precision,recall) = queryList[best]
         queryList[best] = ( (time,ip,query,qbgp,queryID),bgp,best_precision,best_recall)
         if SWEEP_DEBUB_PR: 
-            print('association:',queryID)
+            print('association:',queryID,best_precision ,best_recall)
             bgp.print()
         # essayer de replacer le vieux...
         if old_bgp is not None: 
@@ -655,9 +691,12 @@ class SWEEP: # Abstract Class
         self.dataQueue.put(v)
         #To implement
 
-    def putQuery(self,q):
-        self.validationQueue.put(q)
-        #To implement
+    def putQuery(self,time,ip,query,bgp,queryID):
+        with self.qId.get_lock():
+            self.qId.value += 1
+            qId = self.qId.value
+            if queryID is None: queryID = 'id'+str(qId)
+        self.validationQueue.put( (SWEEP_IN_QUERY, qId, (time,ip,query,bgp,queryID)) )
 
     def putEnd(self,i):
         self.dataQueue.put( (i, SWEEP_IN_END, () ) )
@@ -704,66 +743,6 @@ class SWEEP: # Abstract Class
                     bgp_txt = "..."
                 s = { 'id':id, 'qID':queryID, 'time':time, 'ip':ip, 'query':query, 'bgp':bgp_txt, 'precision':precision, 'recall':recall }
                 writer.writerow(s)
-
-class SWEEP_XML(SWEEP):
-    """docstring for SWEEP_XML"""
-    def __init__(self, gap,to,opt):
-        super(SWEEP_XML, self).__init__(gap,to,opt)
-        self.qm = QueryManager(modeStat = False)
-
-    def stop(self):
-        super(SWEEP_XML, self).stop()
-        self.qm.stop()
-
-    def processXMLEntry(self,x):
-        id = x.attrib['id']
-        if x[0].attrib['type']=='var' : x[0].set('val','s')
-        if x[1].attrib['type']=='var' : x[1].set('val','p')
-        if x[2].attrib['type']=='var' : x[2].set('val','o')
-        s = unSerialize(x[0])
-        p = unSerialize(x[1])
-        o = unSerialize(x[2])
-        return (id, SWEEP_IN_ENTRY, (s,p,o,x.attrib['time'],x.attrib['client']) )
-
-    def processXMLEndEntry(self,x):
-        id = x.attrib['id']
-        return (id, SWEEP_IN_END, () )
-
-    def processXMLData(self, x):
-        id = x.attrib['id']
-        xs = unSerialize(x[0])
-        xp = unSerialize(x[1])
-        xo = unSerialize(x[2])
-        return (id, SWEEP_IN_DATA, (xs, xp, xo))  
-
-    def processXMLQuery(self,x):
-        # print(etree.tostring(x))
-        query = x.text
-        time = now()# fromISO(x.attrib['time']) 
-        (bgp,nquery) = self.qm.extractBGP(query)
-        ip = x.attrib['client']
-        queryID = x.get('no')
-        with self.qId.get_lock():
-            self.qId.value += 1
-            qId = self.qId.value
-            if queryID is None: queryID = 'id'+str(qId)
-        return (SWEEP_IN_QUERY, qId, (time,ip,nquery,bgp,queryID) )
-
-
-    def put(self,x):
-        if x.tag == 'entry': self.dataQueue.put( self.processXMLEntry(x) )
-        elif x.tag == 'data-triple-N3' : self.dataQueue.put( self.processXMLData(x) )
-        elif x.tag == 'end' : self.dataQueue.put( self.processXMLEndEntry(x) )
-        else:
-            pass
- 
-    def putQuery(self,x):
-        if x.tag == 'query': self.validationQueue.put( self.processXMLQuery(x) )
-        else:
-            pass
-
-    # def delQuery(self,x):
-    #     pass
 
 #==================================================
 #==================================================

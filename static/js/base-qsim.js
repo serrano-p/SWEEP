@@ -2,9 +2,10 @@
 // nécessite Prototypejs.org et Script.aculo.us
 
 var Request = Class.create({
-    initialize: function (req, base, res) {
+    initialize: function (req, base, bgp, res) {
         this.request = req;
         this.base = base;
+        this.bgp = bgp
         this.error = res;
         this.result = null;
     }
@@ -31,7 +32,9 @@ var RequestSet = Class.create({
     show: function () {
         t = '<div class="post"><h2 class="title">Historique</h2>' 
           + '<div class="story"><table cellspacing="5" border="1" cellpadding="2">' 
-          + '<thead><th>n°</th><th>Base</th><th>Réussite</th><th>Requête</th><th>Actions</th><th></th></thead>';
+          + '<thead><th>n°</th><th>Base</th><th>Réussite</th><th>Requête</th><th>Actions</th>'
+          + '<th>BGP(s)</th>'
+          + '</thead>';
         
         for (var i = 0; i < this.nb; i++) {
             r = this.set[i];
@@ -39,11 +42,14 @@ var RequestSet = Class.create({
             if (r.error) t = t + "<img src='./static/images/tick_64.png' width='32' alt='ok' title='ok' />"; 
             else t = t + "<img src='./static/images/block_64.png' width='32' alt='ko' title='ko'/>";
             t = t + "</td><td><pre>" + r.request.replace(/</g,"&lt;").replace(/>/g,"&gt;") + "</pre></td><td>";
-            t = t + "<img src='./static/images/gear_64.png' alt='Envoyer la requête' title='Envoyer la requête' width='32' onClick='histo(" + i + "); return false;'  style='cursor:pointer'/>";
+            // t = t + "<img src='./static/images/gear_64.png' alt='Envoyer la requête' title='Envoyer la requête' width='32' onClick='histo(" + i + "); return false;'  style='cursor:pointer'/>";
             t = t + "<img src='./static/images/pencil_64.png' alt='Éditer la requête' title='Éditer la requête' width='32' onClick='histo_mod(" + i + "); return false;'  style='cursor:pointer'/>";
             t = t + "&nbsp;&nbsp;&nbsp;<img src='./static/images/delete_64.png' alt='Supprimer la requête' title='Supprimer la requête' width='32' onClick='histo_del(" + i + "); return false;'  style='cursor:pointer'/>";
             
-            t = t + "</td><td><div id='results-" + i + "'></div></td></tr>";
+            t = t + "</td>";
+            // t = t + "<td><div id='results-" + i + "'></div></td>";
+            t = t + "<td><pre>"+  r.bgp.replace(/</g,"&lt;").replace(/>/g,"&gt;") +"</pre></td>";
+            t = t + "</tr>";
         }
         
         t = t + '</table></div></div>';
@@ -80,7 +86,40 @@ function clear() {
 	current_request = "";
 	current_base = "";
 	current_result = null;
-	
+	current_bgp = '';
+
+    new Ajax.Request('/ex/dbpedia3.8', {
+        method: 'get',
+        onSuccess: function (trs) {
+            result = JSON.parse(trs.responseText).result;
+            for(var i = 0; i < result.length;i++) {
+                r = result[i];
+                req = new Request(r[0], r[1], r[2], true);
+                rs.add(req);            
+            };            
+            get_histo();
+        },
+        onFailure: function () {
+            alert('db: Impossible d\'obtenir la rubrique (dbpedia3.8) !')
+        }
+    });
+
+    new Ajax.Request('/ex/lift', {
+        method: 'get',
+        onSuccess: function (trs) {
+            result = JSON.parse(trs.responseText).result;
+            for(var i = 0; i < result.length;i++) {
+                r = result[i];
+                req = new Request(r[0], r[1], r[2], true);
+                rs.add(req);            
+            };            
+            get_histo();
+        },
+        onFailure: function () {
+            alert('db: Impossible d\'obtenir la rubrique (lift) !')
+        }
+    });
+
 	// mémorisation des messages et aides pour éviter de charger le serveur.
 	messages_aides = null;
 	messages = null;
@@ -111,11 +150,12 @@ function init() {
         }
     });
     clear();
-    news();
+    // news();
+    
 }
 
 function attention() {
-    alert('Attention, nous avez perdu l\'historique !!!');
+    alert('Attention, vous avez perdu l\'historique !!!');
 }
 
 function end() {
@@ -133,34 +173,32 @@ function end() {
 }
 
 function remember() {
-    req = new Request($('requete').getValue(), $('base').getValue(), result_type);
-    req.result = current_result['val'];
+    req = new Request($('requete').getValue(), $('base').getValue(), '', result_type);
+    req.result = ''; //current_result['val'];
     rs.add(req);
     $('memoriser').hide();
     $('results').insert("<p>Requête mémorisée</p>");
 }
 
 function query() {
+    if ( (current_request != $('requete').getValue()) || (current_base != $('base').getValue()) ) {
+        current_bgp = '';
+        mss = 'Requête utilisateur ou requête de référence modifiée. BGP généré automatiquement : risques de problèmes avec les Blank-Nodes et les UNION.';
+        canMem = true;
+    } else {
+        mss='Requete de référence. BGP généré et validé manuellement.';
+        canMem = false;
+    }
+    mss = '<p>'+mss+'</p>'
     current_request = $('requete').getValue();
     current_base = $('base').getValue();
-
-    // new Ajax.Request('http://127.0.0.1:5002/in', {
-    //     method: 'post',
-    //     parameters: {
-    //         data: current_request
-    //     },
-    //     onSuccess: function (trs) {
-            
-    //     },
-    //     onFailure: function () {
-    //         alert('query: Impossible d\'obtenir la rubrique !')
-    //     }
-    // });
 
     new Ajax.Request('/envoyer', {
         method: 'post',
         parameters: {
-            requete: current_request, base: current_base
+            requete: current_request, 
+            base: current_base,
+            bgp_list: current_bgp
         },
         onSuccess: function (trs) {
             current_result = JSON.parse(trs.responseText).result;
@@ -169,10 +207,11 @@ function query() {
             if (result_type) s = s + "<img src='./static/images/tick_64.png'  width='32' alt='ok' title='ok'/>"
             else s = s + "<img src='./static/images/block_64.png'  width='32' alt='ko' title='ko'/>"
             s = s + '<img src="./static/images/add_64.png" id="memoriser" name="Mémoriser" alt="Mémoriser" title="Mémoriser" width="32" onClick="remember(); return false;" style="cursor:pointer"/>';
-
+            $('message').update(mss);
             $('results').hide();
             $('results').update(s);
             $('results').appear();
+            if (!canMem) $('memoriser').hide();
         },
         onFailure: function () {
             alert('query: Impossible d\'obtenir la rubrique !')
@@ -198,6 +237,7 @@ function histo_mod(i) {
     r = rs.set[i];
     current_request = r.request;
     current_base = r.base;
+    current_bgp = r.bgp;
     new_query();
 }
 
@@ -230,6 +270,7 @@ function new_query() {
     t = t + '	<img src="./static/images/gear_64.png" name="Soumettre" alt="Soumettre" title="Soumettre" width="32" ';
     t = t + '		onClick="query(); return false;" style="cursor:pointer" id="send_new"/>';
     t = t + '	</form></p>';
+    t = t + '   <div id="message"></div>';
     t = t + '	<div id="results"></div>';
     t = t + '</div>';
     t = t + '</div>';

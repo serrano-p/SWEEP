@@ -13,6 +13,7 @@ import datetime as dt
 import argparse
 from tools.Endpoint import *
 from tools.tools import  *
+from lib.QueryManager import *
 
 from flask import Flask, render_template, request, jsonify, session,url_for
 # http://flask.pocoo.org/docs/0.12/
@@ -27,8 +28,7 @@ class Context(object):
     """docstring for Context"""
     def __init__(self):
         super(Context, self).__init__()
-        self.host = '127.0.0.1'
-        self.port = 5002
+        self.sweep = 'http://127.0.0.1:5002'
         self.tpfc = TPFEP(service = 'http://localhost:5000/lift') 
         self.tpfc.setEngine('/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client')
         self.tree = None
@@ -40,10 +40,13 @@ class Context(object):
         self.name = 'Name'
         self.ok = True        
         self.nbQuery = 0
+        self.qm = QueryManager(modeStat = False)
+        self.doPR = False
+        self.lastProcessing = -1
+        self.gap = 60
 
-    def setLDQPServer(self, host, port):
-        self.host = host
-        self.port = port
+    def setLDQPServer(self, host):
+        self.sweep = host
 
     def setTPFClient(self,tpfc):
         self.tpfc = tpfc
@@ -92,6 +95,42 @@ def liste_bases():
 def end():
     return "<p>Bases purgées...</p>"
 
+@app.route('/ex/<datasource>')
+def ex(datasource):
+    d = []
+    parser = etree.XMLParser(recover=True, strip_cdata=True)
+    if datasource=='dbpedia3.8':
+        tree = etree.parse('test4.xml', parser)
+    elif datasource=='lift':
+        tree = etree.parse('test1.xml', parser)
+    else:
+        return jsonify(result = d)
+    #---
+    dtd = etree.DTD('http://documents.ls2n.fr/be4dbp/log.dtd')
+    assert dtd.validate(tree), '%s non valide au chargement : %s' % (
+        file, dtd.error_log.filter_from_errors()[0])
+    #---
+    # print('DTD valide !')
+
+    nbe = 0 # nombre d'entries traitées
+    for entry in tree.getroot():
+        if entry.tag == 'entry':
+            nbe += 1
+            valid = entry.get("valid")
+            if valid is not None :
+                if valid in ['TPF','EmptyTPF'] :
+                    # print('(%d) new entry to add ' %nbe)
+                    rep = ''
+                    for x in entry :
+                        if x.tag == 'bgp':
+                            if len(x)>0:
+                                rep += etree.tostring(x).decode('utf-8')
+                    # print(rep)
+                    d.append( (entry.find('request').text , datasource, rep) )
+                # else: print('(%d) entry not loaded : %s' % (n,valid))
+            # else: print('(%d) entry not loaded (not validated)' % n)   
+    return jsonify(result = d)
+
 @app.route('/news')
 def news():
     listeMessages = ctx.tree.getroot().findall('listeMessages/message')
@@ -137,10 +176,12 @@ def help():
 def envoyer():
     query = request.form['requete']
     datasource = request.form['base']
-    # print(query)
-    # print(datasource)
+    bgp_list = request.form['bgp_list']
+    print('Recieved BGP:',bgp_list)
+    if bgp_list is '' :
+        bgp_list = ''
     ip = request.remote_addr
-    s=treat(query,ip,datasource)
+    s=treat(query,bgp_list,ip,datasource)
     tab = doTab(s)
     d = dict({'ok':s != 'Error','val':tab})
     return jsonify(result=d)
@@ -149,7 +190,7 @@ def envoyer():
 def liste(datasource):
     ip = request.remote_addr
     # print(datasource, )
-    s=treat("select * where{?s ?p ?o} limit 15",ip,datasource)
+    s=treat("select * where{?s ?p ?o} limit 15",'',ip,datasource)
     tab = doTab(s)
     d = dict({'ok':s != 'Error','val':tab})
     return jsonify(result=d)    
@@ -159,77 +200,98 @@ def doTab(s):
     if len(s)>0:
         tab = '<table cellspacing="5" border="1" cellpadding="2">\n<thead>'
         m = s[0]
-        for (var,val) in m.items():
-            tab += '<th>'+var+'</th>'
-        tab += '</thead>\n'
-        for m in s:
-            tab += '<tr>'
+        if type(m) == str :
+            tab = '<p>%s</p>'%s
+        else:
             for (var,val) in m.items():
-                tab += '<td>'+val+'</td>'
-            tab += '</tr>\n'
-        tab += '</table>'
+                tab += '<th>'+str(var)+'</th>'
+            tab += '</thead>\n'
+            for m in s:
+                tab += '<tr>'
+                for (var,val) in m.items():
+                    tab += '<td>'+str(val)+'</td>'
+                tab += '</tr>\n'
+            tab += '</table>'
     else:
         tab = '<p> Empty </p>\n'
     return tab
 
-def treat(query,ip,datasource):
+def treat(query,bgp_list,ip,datasource):
     try:
         ctx.nbQuery += 1
-        no = str(ip)+str(ctx.nbQuery)
-        mess = '<query time="'+date2str(now())+'" client="'+str(ip)+'" no="'+no+'"><![CDATA['+query+']]></query>'
-        url = 'http://'+ctx.host+':'+str(ctx.port)+'/query'
-        # print('Send to ',url)
-        # print('query',mess)
-        s = http.post(url,data={'data':mess, 'no':no})
+        nbe = ctx.nbQuery
+        doPR = ctx.doPR
+        no = 'qsim-WS-'+str(ip)+'-'+str(ctx.nbQuery)
+
+        if bgp_list == '':
+            (bgp,nquery) = ctx.qm.extractBGP(query)
+            query = nquery
+            bgp_list = serializeBGP2str(bgp) 
+
+        mess = '<query time="'+date2str(now())+'" client="'+str(ip)+'" no="'+no+'"><![CDATA['+query+' ]]></query>'
+
+        url = ctx.sweep+'/query'
+        print('(%d)'%nbe,'query:',mess)
+        print(bgp_list)
+
+        s = http.post(url,data={'data':mess, 'no':no, 'bgp_list': '<l>'+bgp_list+'</l>'})
         # print('res:',s.json()['result'])
         # res=  ctx.listeSP[datasource].query(query) # ctx.tpfc.query(query)
         # pprint(res)
         # print(type(res))
         try:
+            before = now()
             res=  ctx.listeSP[datasource].query(query)
+            after = now()
+            ctx.lastProcessing = after - before
             # print('(%d)'%nbe,':',rep)
-            if rep == []:
-               print("Empty query !!!")
-               url = host+':'+str(port)+'/inform'
+            if res == []:
+               print('(%d, %s sec.)'%(nbe,ctx.lastProcessing.total_seconds()),"Empty query !!!")
+               url = ctx.sweep+'/inform'
                s = http.post(url,data={'data':mess,'errtype':'Empty', 'no':no})
+            else: 
+                print('(%d, %s sec.)'%(nbe,ctx.lastProcessing.total_seconds()),': [...]')#,rep)
+            if ctx.lastProcessing > ctx.gap :
+                print('(%d, %s sec.)'%(nbe,ctx.lastProcessing.total_seconds()),'!!!!!!!!! hors Gap (%s) !!!!!!!!!'%ctx.gap.total_seconds())
+
         except TPFClientError as e :
             print('(%d)'%nbe,'Exception TPFClientError : %s'%e.__str__())
             if doPR:
-                url = host+':'+str(port)+'/inform'
+                url = ctx.sweep+'/inform'
                 s = http.post(url,data={'data':mess,'errtype':'CltErr', 'no':no})
                 print('(%d)'%nbe,'Request cancelled : ',s.json()['result']) 
             res='Error'
         except TimeOut as e :
             print('(%d)'%nbe,'Timeout :',e)
             if doPR:
-                url = host+':'+str(port)+'/inform'
+                url = ctx.sweep+'/inform'
                 s = http.post(url,data={'data':mess,'errtype':'TO', 'no':no})
                 print('(%d)'%nbe,'Request cancelled : ',s.json()['result'])   
             res='Error'     
         except QueryBadFormed as e:
             print('(%d)'%nbe,'Query Bad Formed :',e)
             if doPR:
-                url = host+':'+str(port)+'/inform'
+                url = ctx.sweep+'/inform'
                 s = http.post(url,data={'data':mess,'errtype':'QBF', 'no':no})
                 print('(%d)'%nbe,'Request cancelled : ',s.json()['result']) 
-            res='Error'
+            res='Error:'+e.__str__()
         except EndpointException as e:
             print('(%d)'%nbe,'Endpoint Exception :',e)
             if doPR:
-                url = host+':'+str(port)+'/inform'
+                url = ctx.sweep+'/inform'
                 s = http.post(url,data={'data':mess,'errtype':'EQ', 'no':no})
                 print('(%d)'%nbe,'Request cancelled : ',s.json()['result']) 
             res='Error'
         except Exception as e:
             print('(%d)'%nbe,'Exception execution query... :',e)
             if doPR:
-                url = host+':'+str(port)+'/inform'
+                url = ctx.sweep+'/inform'
                 s = http.post(url,data={'data':mess,'errtype':'Other', 'no':no})
                 print('(%d)'%nbe,'Request cancelled : ',s.json()['result'])
             res='Error'
     except Exception as e:
         print('Exception',e)
-        res='Error'
+        res='Error:'+e.__str__()
     finally:
         return res
 
@@ -240,28 +302,28 @@ def treat(query,ip,datasource):
 # launch : python3.6 ldqp-WS.py 
 # example to request : curl -d 'query="select * where {?s :p1 ?o}"' http://127.0.0.1:8090/_add_query
 
-TPF_SERVEUR_HOST = 'http://127.0.0.1'
-TPF_SERVEUR_PORT = 5000
+TPF_SERVEUR = 'http://127.0.0.1:5000'
 TPF_CLIENT = '/Users/desmontils-e/Programmation/TPF/Client.js-master/bin/ldf-client'
-SWEEP_SERVEUR_HOST = 'http://127.0.0.1'
-SWEEP_SERVEUR_PORT = 5002
+SWEEP_SERVEUR = 'http://127.0.0.1:5002'
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Linked Data Query Profiler (for a modified TPF server)')
     # parser.add_argument('files', metavar='file', nargs='+',help='files to analyse')
 
-    parser.add_argument("--port", type=int, default=SWEEP_SERVEUR_PORT, dest="port", help="SWEEP Port ('"+str(SWEEP_SERVEUR_PORT)+"' by default)")
-    parser.add_argument("--host", default=SWEEP_SERVEUR_HOST, dest="host", help="SWEEP Host ('"+SWEEP_SERVEUR_HOST+"' by default)")
-    parser.add_argument("-s","--server", default=TPF_SERVEUR_HOST+':'+str(TPF_SERVEUR_PORT), dest="tpfServer", help="TPF Server ('"+TPF_SERVEUR_HOST+':'+str(TPF_SERVEUR_PORT)+"' by default)")
+    parser.add_argument("--sweep", default=SWEEP_SERVEUR, dest="sweep", help="SWEEP ('"+str(SWEEP_SERVEUR)+"' by default)")
+    parser.add_argument("-s","--server", default=TPF_SERVEUR, dest="tpfServer", help="TPF Server ('"+TPF_SERVEUR+"' by default)")
     parser.add_argument("-c", "--client", default=TPF_CLIENT, dest="tpfClient", help="TPF Client ('...' by default)")
-    parser.add_argument("-t", "--time", default='', dest="now", help="Time reference (now by default)")
+    # parser.add_argument("-t", "--time", default='', dest="now", help="Time reference (now by default)")
     parser.add_argument("-v", "--valid", default='', dest="valid", action="store_true", help="Do precision/recall")
+    parser.add_argument("-g", "--gap", type=float, default=60, dest="gap", help="Gap in minutes (60 by default)")
+    parser.add_argument("-to", "--timeout", type=float, default=None, dest="timeout",help="TPF Client Time Out in minutes (no timeout by default).")
+    parser.add_argument("--port", type=int, default=5002, dest="port", help="Port (5002 by default)")
 
     args = parser.parse_args()
-    ctx.setLDQPServer(args.host,args.port)
+    ctx.setLDQPServer(args.sweep)
     # http://localhost:5000/lift : serveur TPF LIFT (exemple du papier)
     # http://localhost:5001/dbpedia_3_9 server dppedia si : ssh -L 5001:172.16.9.3:5001 desmontils@172.16.9.15
-
+    ctx.gap = dt.timedelta(minutes= args.gap)
     XMLparser = etree.XMLParser(recover=True, strip_cdata=True)
     ctx.tree = etree.parse('config.xml', XMLparser)
     #---
@@ -286,16 +348,18 @@ if __name__ == '__main__':
     ctx.name = ctx.tree.getroot().get('name')
     if ctx.tree.getroot().get('debug') == 'false': ctx.debug = False
     else: ctx.debug = True
-
+    if args.valid:
+        ctx.doPR = True
     try:
         app.run(
             host="0.0.0.0",
-            port=int("8090"),
+            port=int(args.port),
             debug=True
         )
     except KeyboardInterrupt: 
         pass
     finally:   
+        # ctx.qm.stop()
         pass
     print('Fin')
 

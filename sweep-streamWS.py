@@ -28,6 +28,7 @@ from operator import itemgetter
 
 from lxml import etree  # http://lxml.de/index.html#documentation
 from lib.bgp import *
+from lib.QueryManager import *
 
 from io import StringIO
 
@@ -57,6 +58,8 @@ class Context(object):
         self.nbOther = 0
         self.nbClientError = 0
         self.nbEmpty = 0
+        self.chglientMode = False
+        self.qm = QueryManager(modeStat = False)
         
 ctx = Context()
 
@@ -145,16 +148,21 @@ def sweep():
 
     rep += '<h1>BGPs</h1><p>('+str(ctx.nlast)+' more recents)</p><table cellspacing="5" border="1" cellpadding="2">\n'
     rep += '<thead><td>ip</td><td>time</td><td>bgp</td><td>Original query</td><td>Precision</td><td>Recall</td><td>Quality</td></thead>\n'
-    for (i,idQ, t,ip,query,bgp,precision,recall) in ctx.sweep.memory[-1*ctx.nlast:] :
+    # for (i,idQ, t,ip,query,bgp,precision,recall) in ctx.sweep.memory[-1*ctx.nlast:] :
+    nb = len(ctx.sweep.memory)
+    for i in range(min(nb-1,ctx.nlast)):
+        (i,idQ, t,ip,query,bgp,precision,recall) = ctx.sweep.memory[nb-i-1]
         if i==0:
             rep +='<tr><td>'+bgp.client+'</td><td>'+str(bgp.time)+'</td><td>'
-            for (s,p,o) in simplifyVars([tp for (itp,tp,sm,pm,om) in bgp.tp_set]):
+            # for (s,p,o) in simplifyVars([tp for (itp,tp,sm,pm,om) in bgp.tp_set]):
+            for (s,p,o) in [tp for (itp,tp,sm,pm,om) in bgp.tp_set]:
                 rep += html.escape(toStr(s,p,o))+' . <br/>'
             rep += '</td><td>No query assigned</td><td></td><td></td><td></td></tr>'
         else:
             rep +='<tr><td>'+ip+'</td><td>'+str(t)+'</td><td>'
             if bgp is not None:
-                for (s,p,o) in simplifyVars([tp for (itp,tp,sm,pm,om) in bgp.tp_set]):
+                # for (s,p,o) in simplifyVars([tp for (itp,tp,sm,pm,om) in bgp.tp_set]):
+                for (s,p,o) in [tp for (itp,tp,sm,pm,om) in bgp.tp_set]:
                     rep += html.escape(toStr(s,p,o))+' . <br/>'
             else:
                 rep += 'No BGP assigned !'
@@ -223,20 +231,54 @@ def processInform():
 def processQuery():
     if request.method == 'POST':
         ip = request.remote_addr
+        # print(ip)
         data = request.form['data']
+
         # print('Receiving request:',data)
         try:
             tree = etree.parse(StringIO(data), ctx.parser)
-            query = tree.getroot()
-            client = query.get('client')
+            q = tree.getroot()
+
+            if ctx.chglientMode :
+                client = q.get('client') # !!!!!!!!!!!!!!!!!!!!!!!!!
+            else:
+                client = None
+
             if client is None:
-                query.set('client',str(ip) )
+                q.set('client',str(ip) )
             elif client in ["undefined","", "undefine"]:
-                query.set('client',str(ip) )
+                q.set('client',str(ip) )
             elif "::ffff:" in client:
-                query.set('client', client[7:])
-            ctx.nbQueries += 1
-            ctx.sweep.putQuery(query)
+                q.set('client', client[7:])
+            print('QUERY - ip-remote:',ip,' client:',client, ' choix:',q.get('client'))
+            ip = q.get('client')
+
+            query = q.text
+            time = now()# fromISO(q.attrib['time']) 
+
+            bgp_list = request.form['bgp_list']
+            l = []
+            lbgp = etree.parse(StringIO(bgp_list), ctx.parser)
+            for x in lbgp.getroot():
+                bgp = unSerializeBGP(x)
+                l.append(bgp)
+
+            if len(l) == 0:
+                (bgp,nquery) = ctx.qm.extractBGP(query)
+                query = nquery
+                l.append(bgp)
+
+            queryID = request.form['no']
+
+            ctx.nbQueries += len(l)
+            if queryID =='ldf-client':
+                pass #queryID = queryID + str(ctx.nbQueries)
+            print('ID',queryID)
+            rang = 0
+            for bgp in l :
+                rang += 1
+                ctx.sweep.putQuery(time,ip,query,bgp,str(queryID)+'_'+str(rang))
+
             return jsonify(result=True)            
         except Exception as e:
             print('Exception',e)
@@ -246,90 +288,56 @@ def processQuery():
         print('"query" not implemented for HTTP GET')
         return jsonify(result=False)
 
-# @app.route('/entry', methods=['post','get'])
-# def processEntry():
-#     if request.method == 'POST':
-#         ip = request.remote_addr
-#         data = request.form['data']
-#         # print('Receiving entry:',data)
-#         try:
-#             tree = etree.parse(StringIO(data), ctx.parser)
-#             entry = tree.getroot()
-#             client = entry.get('client')
-#             if client is None:
-#                 entry.set('client',str(ip) )
-#             elif client in ["undefined","", "undefine"]:
-#                 entry.set('client',str(ip) )
-#             elif "::ffff:" in client:
-#                 entry.set('client', client[7:])
-#             ctx.nbEntries += 1
-#             ctx.sweep.put(entry)  
-#             return jsonify(result=True)             
-#         except Exception as e:
-#             print('Exception',e)
-#             print('About:',data)
-#             return jsonify(result=False)       
-#     else:
-#         print('"entry" not implemented for HTTP GET')
-#         return jsonify(result=False)
-
-# @app.route('/data', methods=['post','get'])
-# def processData():
-#     if request.method == 'POST':
-#         data = request.form['data']
-#         # print('Receiving data:',data)
-#         try:
-#             tree = etree.parse(StringIO(data), ctx.parser)
-#             ctx.sweep.put(tree.getroot()) 
-#             return jsonify(result=True)              
-#         except Exception as e:
-#             print('Exception',e)
-#             print('About:',data)
-#             return jsonify(result=False)       
-#     else:
-#         print('"data" not implemented for HTTP GET')
-#         return jsonify(result=False)
-
-# @app.route('/end', methods=['post','get'])
-# def processEnd():
-#     if request.method == 'POST':
-#         i = request.form['data']
-#         try:
-#             ctx.sweep.putEnd(i) 
-#             return jsonify(result=True)              
-#         except Exception as e:
-#             print('Exception',e)
-#             print('About:',data)
-#             return jsonify(result=False)       
-#     else:
-#         print('"end" not implemented for HTTP GET')
-#         return jsonify(result=False)
-
 @app.route('/data', methods=['post','get'])
 def processData():
     if request.method == 'POST':
         data = request.form['data']
+        i = request.form['no']
+        time = request.form['time']
+
+        print(i,time)
         # print('Receiving data:',data)
+
+        ip = request.remote_addr
+        ip2 = request.form['ip']
+
+        client = None # request.form['ip']
+        if client is None:
+            client = ip
+        elif client in ["undefined","", "undefine"]:
+            client = ip
+        elif "::ffff:" in client:
+            client = client[7:]   
+
+        print('DATA - ip-remote:',ip,' ip-post:',ip2, ' choix:',client)
+
         try:
             tree = etree.parse(StringIO(data), ctx.parser)
+            ctx.nbEntries += 1
             for e in tree.getroot():
-                if e.tag == 'entry':
-                    entry = e
-                    client = entry.get('client')
-                    if client is None:
-                        entry.set('client',str(ip) )
-                    elif client in ["undefined","", "undefine"]:
-                        entry.set('client',str(ip) )
-                    elif "::ffff:" in client:
-                        entry.set('client', client[7:])
-                    ctx.nbEntries += 1
-                    ctx.sweep.put(entry)  
-                elif e.tag == 'data-triple-N3':
-                    ctx.sweep.put(e)
-                elif e.tag == 'meta-triple-N3':
+                if e.tag == 'e':
+                    if e[0].get('type')=='var' : e[0].set('val','s')
+                    if e[1].get('type')=='var' : e[1].set('val','p')
+                    if e[2].get('type')=='var' : e[2].set('val','o')
+                    s = unSerialize(e[0])
+                    p = unSerialize(e[1])
+                    o = unSerialize(e[2])
+                    print('new entry ',s,p,o)
+                    ctx.sweep.putEntry(i,s,p,o,time,client)  
+
+                elif e.tag == 'd':
+                    xs = unSerialize(e[0])
+                    xp = unSerialize(e[1])
+                    xo = unSerialize(e[2])
+                    ctx.sweep.putData(i, xs, xp, xo)  
+
+                elif e.tag == 'm':
                     pass
                 else:
                     pass
+
+            ctx.sweep.putEnd(i)
+
             return jsonify(result=True)              
         except Exception as e:
             print('Exception',e)
@@ -366,6 +374,9 @@ if __name__ == '__main__':
     parser.add_argument("-o","--optimistic", help="BGP time is the last TP added (False by default)",
                     action="store_true",dest="doOptimistic")
     parser.add_argument("-l", "--last", type=int, default=10, dest="nlast", help="Number of last BGPs to view (10 by default)")
+    parser.add_argument("--port", type=int, default=5002, dest="port", help="Port (5002 by default)")
+    parser.add_argument("--chglientMode", dest="chglientMode", action="store_true", help="Do TPF Client mode")
+
     args = parser.parse_args()
  
     ctx.gap = args.gap
@@ -376,8 +387,9 @@ if __name__ == '__main__':
 
     if args.doOptimistic: ctx.sweep.swapOptimistic()
     ctx.opt = args.doOptimistic 
+    ctx.chglientMode =  args.chglientMode
 
-    ctx.sweep = SWEEP_XML(dt.timedelta(minutes= ctx.gap),dt.timedelta(minutes= ctx.to),ctx.opt)
+    ctx.sweep = SWEEP(dt.timedelta(minutes= ctx.gap),dt.timedelta(minutes= ctx.to),ctx.opt)
     resProcess = mp.Process(target=processResults, args=(ctx.sweep,ctx.list))
     ctx.nlast = args.nlast
 
@@ -387,7 +399,7 @@ if __name__ == '__main__':
         resProcess.start()
         app.run(
             host="0.0.0.0",
-            port=int("5002"),
+            port=int(args.port),
             debug=False
         )
         # while 1:
@@ -395,5 +407,6 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         ctx.sweep.endSession() 
         ctx.sweep.stop()
+        ctx.qm.stop()
         resProcess.join()
     print('Fin')

@@ -167,7 +167,9 @@ class QueryManager:
       raise ParseQueryException(e.args)
     else:      
       try:
+        # pprint(tree)
         q = translateQuery(tree).algebra
+        # pprint(q)
         #---
         assert q is not None
         #---
