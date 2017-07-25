@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE log SYSTEM "http://documents.ls2n.fr/be4dbp/log.dtd">
+<log ip="8c390a2329b64fdea9b9c782107f064c" date="2017-05-24 23:31:49.692211">
+  <entry datetime="2017-06-06T17:55:00" logline="1" valid="TPF">
+    <request><![CDATA[
+      prefix : <http://www.example.org/lift2#> 
+      select ?s ?o where { 
+      ?s :p3 "titi" . ?s :p1 ?o . ?s :p4 "tata" 
+      } ]]></request>
+    <bgp>
+      <tp><s type="var" val="s"/><p type="iri" val="http://www.example.org/lift2#p3"/><o type="lit">titi</o></tp>
+      <tp><s type="var" val="s"/><p type="iri" val="http://www.example.org/lift2#p1"/><o type="var" val="o"/></tp>
+      <tp><s type="var" val="s"/><p type="iri" val="http://www.example.org/lift2#p4"/><o type="lit">tata</o></tp>
+    </bgp>
+  </entry>
+
+  <entry datetime="2017-06-06T17:55:01" logline="2" valid="TPF">
+    <request><![CDATA[
+      prefix : <http://www.example.org/lift2#> 
+      select ?s ?o where { 
+      ?s :p2 "toto" . ?s :p1 ?o 
+      } ]]></request>
+    <bgp>
+      <tp><s type="var" val="s"/><p type="iri" val="http://www.example.org/lift2#p2"/><o type="lit">toto</o></tp>
+      <tp><s type="var" val="s"/><p type="iri" val="http://www.example.org/lift2#p1"/><o type="var" val="o"/></tp>
+    </bgp>
+  </entry>
+
+  <entry datetime="2017-06-06T17:55:01" logline="3" valid="TPF">
+    <request><![CDATA[
+      prefix : <http://www.example.org/lift2#> 
+      select ?s where { 
+      ?s :p2 "tutu" 
+      } ]]></request>
+    <bgp>
+      <tp><s type="var" val="s"/><p type="iri" val="http://www.example.org/lift2#p2"/><o type="lit">tutu</o></tp>
+    </bgp>
+  </entry>
+
+</log>
