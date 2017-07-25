@@ -34,7 +34,7 @@ var RequestSet = Class.create({
         t = '<div class="post"><h2 class="title">Query Bag</h2>' 
           + '<div class="story"><table cellspacing="5" border="1" cellpadding="2">' 
           + '<thead><th>n°</th><th>Base</th><th>Réussite</th><th>Requête</th><th>Actions</th>'
-          + '<th>BGP(s)</th>'
+          // + '<th>BGP(s)</th>'
           + '</thead>';
         
         for (var i = 0; i < this.nb; i++) {
@@ -49,7 +49,8 @@ var RequestSet = Class.create({
             
             t = t + "</td>";
             // t = t + "<td><div id='results-" + i + "'></div></td>";
-            t = t + "<td><pre>"+  r.bgp.replace(/</g,"&lt;").replace(/>/g,"&gt;") +"</pre></td>";
+            //t = t + "<td><pre>"+  r.bgp.replace(/</g,"&lt;").replace(/>/g,"&gt;") +"</pre></td>";
+            
             t = t + "</tr>";
         }
         
