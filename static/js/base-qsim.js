@@ -2,12 +2,13 @@
 // nécessite Prototypejs.org et Script.aculo.us
 
 var Request = Class.create({
-    initialize: function (req, base, bgp, res) {
+    initialize: function (req, base, bgp, res,lab) {
         this.request = req;
         this.base = base;
         this.bgp = bgp
         this.error = res;
         this.result = null;
+        this.labelled = lab
     }
 });
 
@@ -30,7 +31,7 @@ var RequestSet = Class.create({
         this.nb = this.nb - 1;
     },
     show: function () {
-        t = '<div class="post"><h2 class="title">Historique</h2>' 
+        t = '<div class="post"><h2 class="title">Query Bag</h2>' 
           + '<div class="story"><table cellspacing="5" border="1" cellpadding="2">' 
           + '<thead><th>n°</th><th>Base</th><th>Réussite</th><th>Requête</th><th>Actions</th>'
           + '<th>BGP(s)</th>'
@@ -44,7 +45,7 @@ var RequestSet = Class.create({
             t = t + "</td><td><pre>" + r.request.replace(/</g,"&lt;").replace(/>/g,"&gt;") + "</pre></td><td>";
             // t = t + "<img src='./static/images/gear_64.png' alt='Envoyer la requête' title='Envoyer la requête' width='32' onClick='histo(" + i + "); return false;'  style='cursor:pointer'/>";
             t = t + "<img src='./static/images/pencil_64.png' alt='Éditer la requête' title='Éditer la requête' width='32' onClick='histo_mod(" + i + "); return false;'  style='cursor:pointer'/>";
-            t = t + "&nbsp;&nbsp;&nbsp;<img src='./static/images/delete_64.png' alt='Supprimer la requête' title='Supprimer la requête' width='32' onClick='histo_del(" + i + "); return false;'  style='cursor:pointer'/>";
+            if (!(r.labelled)) {t = t + "&nbsp;&nbsp;&nbsp;<img src='./static/images/delete_64.png' alt='Supprimer la requête' title='Supprimer la requête' width='32' onClick='histo_del(" + i + "); return false;'  style='cursor:pointer'/>";}
             
             t = t + "</td>";
             // t = t + "<td><div id='results-" + i + "'></div></td>";
@@ -94,7 +95,7 @@ function clear() {
             result = JSON.parse(trs.responseText).result;
             for(var i = 0; i < result.length;i++) {
                 r = result[i];
-                req = new Request(r[0], r[1], r[2], true);
+                req = new Request(r[0], r[1], r[2], true, true);
                 rs.add(req);            
             };            
             get_histo();
@@ -110,7 +111,7 @@ function clear() {
             result = JSON.parse(trs.responseText).result;
             for(var i = 0; i < result.length;i++) {
                 r = result[i];
-                req = new Request(r[0], r[1], r[2], true);
+                req = new Request(r[0], r[1], r[2], true, true);
                 rs.add(req);            
             };            
             get_histo();
@@ -173,7 +174,7 @@ function end() {
 }
 
 function remember() {
-    req = new Request($('requete').getValue(), $('base').getValue(), '', result_type);
+    req = new Request($('requete').getValue(), $('base').getValue(), '', result_type,false);
     req.result = ''; //current_result['val'];
     rs.add(req);
     $('memoriser').hide();

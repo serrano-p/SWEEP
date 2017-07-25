@@ -41,11 +41,11 @@
       <tp><s type="bnode" val="N08ad568ef70844cea11f47382a6b38fe"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="name"/></tp>
     </bgp-->
     <bgp>
-      <tp><s type="var" val="N00f563c891544e36b23d33a4940a433c"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="lit" language="en"><![CDATA[Brad Pitt]]></o></tp>
-      <tp><s type="var" val="movie"/><p type="iri" val="http://dbpedia.org/ontology/director"/><o type="var" val="N08ad568ef70844cea11f47382a6b38fe"/></tp>
+      <tp><s type="var" val="BN1"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="lit" language="en"><![CDATA[Brad Pitt]]></o></tp>
+      <tp><s type="var" val="movie"/><p type="iri" val="http://dbpedia.org/ontology/director"/><o type="var" val="BN2"/></tp>
       <tp><s type="var" val="movie"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="title"/></tp>
-      <tp><s type="var" val="movie"/><p type="iri" val="http://dbpedia.org/ontology/starring"/><o type="var" val="N00f563c891544e36b23d33a4940a433c"/></tp>
-      <tp><s type="var" val="N08ad568ef70844cea11f47382a6b38fe"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="name"/></tp>
+      <tp><s type="var" val="movie"/><p type="iri" val="http://dbpedia.org/ontology/starring"/><o type="var" val="BN1"/></tp>
+      <tp><s type="var" val="BN2"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="name"/></tp>
     </bgp>
   </entry>
 
@@ -77,8 +77,8 @@
       }]]></request>
     <bgp> <!-- BGP risque faux à cause des Blank Nodes, mais passe car un seul -->
       <tp><s type="var" val="person"/><p type="iri" val="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"/><o type="iri" val="http://dbpedia.org/ontology/Artist"/></tp>
-      <tp><s type="var" val="person"/><p type="iri" val="http://dbpedia.org/ontology/birthPlace"/><o type="var" val="N1bd6327fc8044cb598b5ccfa68e8fe44"/></tp>
-      <tp><s type="var" val="N1bd6327fc8044cb598b5ccfa68e8fe44"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="lit" language="en"><![CDATA[York]]></o></tp>
+      <tp><s type="var" val="person"/><p type="iri" val="http://dbpedia.org/ontology/birthPlace"/><o type="var" val="BN1"/></tp>
+      <tp><s type="var" val="BN1"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="lit" language="en"><![CDATA[York]]></o></tp>
       <tp><s type="var" val="person"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="name"/></tp>
       <tp><s type="var" val="person"/><p type="iri" val="http://dbpedia.org/property/dateOfDeath"/><o type="var" val="deathDate"/></tp>
     </bgp>
@@ -129,8 +129,8 @@
              dbpprop:country [ dbpedia-owl:language dbpedia:Dutch_language ]. 
       }]]></request>
     <bgp> <!-- BGP risque faut à cause des Blank Nodes, mais passe car un seul -->
-      <tp><s type="var" val="Na7e5ccbdb05f49d4963c44ed92b4dc9e"/><p type="iri" val="http://dbpedia.org/ontology/language"/><o type="iri" val="http://dbpedia.org/resource/Dutch_language"/></tp>
-      <tp><s type="var" val="award"/><p type="iri" val="http://dbpedia.org/property/country"/><o type="var" val="Na7e5ccbdb05f49d4963c44ed92b4dc9e"/></tp>
+      <tp><s type="var" val="BN1"/><p type="iri" val="http://dbpedia.org/ontology/language"/><o type="iri" val="http://dbpedia.org/resource/Dutch_language"/></tp>
+      <tp><s type="var" val="award"/><p type="iri" val="http://dbpedia.org/property/country"/><o type="var" val="BN1"/></tp>
       <tp><s type="var" val="award"/><p type="iri" val="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"/><o type="iri" val="http://dbpedia.org/ontology/Award"/></tp>
     </bgp>
   </entry>
@@ -397,6 +397,28 @@
       <tp><s type="var" val="type"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="label"/></tp>
     </bgp>
   </entry>
+  
 
-
+  <entry datetime="2017-05-18 12:03:30" logline="22" valid="TPF">
+    <request><![CDATA[
+    SELECT ?titleEng ?title WHERE {
+    ?movie dbpprop:starring [ rdfs:label "Natalie Portman"@en ];
+           rdfs:label ?titleEng, ?title.
+    FILTER LANGMATCHES(LANG(?titleEng), "EN")
+    FILTER (!LANGMATCHES(LANG(?title), "EN"))
+    } ]]></request>
+    <!--bgp>
+      <tp><s type="var" val="N5336dc44a0094325a074a53bb0f5de60"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="lit" language="en"><![CDATA[Natalie Portman]]></o></tp>
+      <tp><s type="var" val="N5336dc44a0094325a074a53bb0f5de60"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="title"/></tp>
+      <tp><s type="var" val="N5336dc44a0094325a074a53bb0f5de60"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="titleEng"/></tp>
+      <tp><s type="var" val="movie"/><p type="iri" val="http://dbpedia.org/property/starring"/><o type="var" val="N5336dc44a0094325a074a53bb0f5de60"/></tp>
+    </bgp-->
+    <bgp>
+      <tp><s type="var" val="BN1"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="lit" language="en"><![CDATA[Natalie Portman]]></o></tp>
+      <tp><s type="var" val="movie"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="title"/></tp>
+      <tp><s type="var" val="movie"/><p type="iri" val="http://www.w3.org/2000/01/rdf-schema#label"/><o type="var" val="titleEng"/></tp>
+      <tp><s type="var" val="movie"/><p type="iri" val="http://dbpedia.org/property/starring"/><o type="var" val="BN1"/></tp>
+    </bgp>
+  </entry>
+  
 </log>

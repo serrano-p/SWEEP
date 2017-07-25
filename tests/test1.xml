@@ -6,8 +6,7 @@
       prefix : <http://www.example.org/lift2#> 
       select ?s ?o where { 
       ?s :p3 "titi" . ?s :p1 ?o . ?s :p4 "tata" 
-      }
-      ]]></request>
+      } ]]></request>
     <bgp>
       <tp><s type="var" val="s"/><p type="iri" val="http://www.example.org/lift2#p3"/><o type="lit">titi</o></tp>
       <tp><s type="var" val="s"/><p type="iri" val="http://www.example.org/lift2#p1"/><o type="var" val="o"/></tp>
@@ -20,8 +19,7 @@
       prefix : <http://www.example.org/lift2#> 
       select ?s ?o where { 
       ?s :p2 "toto" . ?s :p1 ?o 
-      }
-      ]]></request>
+      } ]]></request>
     <bgp>
       <tp><s type="var" val="s"/><p type="iri" val="http://www.example.org/lift2#p2"/><o type="lit">toto</o></tp>
       <tp><s type="var" val="s"/><p type="iri" val="http://www.example.org/lift2#p1"/><o type="var" val="o"/></tp>
@@ -33,8 +31,7 @@
       prefix : <http://www.example.org/lift2#> 
       select ?s where { 
       ?s :p2 "tutu" 
-      } 
-      ]]></request>
+      } ]]></request>
     <bgp>
       <tp><s type="var" val="s"/><p type="iri" val="http://www.example.org/lift2#p2"/><o type="lit">tutu</o></tp>
     </bgp>
