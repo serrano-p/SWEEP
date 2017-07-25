@@ -10,7 +10,7 @@ body {
 	padding: 0;
 	background: #FFFFFF /*url(images/img1.jpg) repeat-y*/;
 	font: normal small "Trebuchet MS", Arial, Helvetica, sans-serif;
-	color: #8A8E99;
+	color: black /*#8A8E99*/;
 }
 
 form {
