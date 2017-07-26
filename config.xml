@@ -69,9 +69,9 @@
 				<p><img src="./static/images/buy_64.png" width="32" alt="mémoire"/> : to show the query bag with refence queries and queries saved during the session. Fro each saved query, it swhow the execution date, the query, actions that ca be done (edit it or, olny for non refences queries, suppress it), the query status ( success <img src="./static/images/tick_64.png" width="16" alt="ok"/> or error <img src="./static/images/block_64.png" width="16" alt="ko"/>)) and if this is a reference query. Be carefull, reloading the web page will lost saved queries.</p>
 				<p><img src="./static/images/help_64.png" width="32" alt="aide"/> : to show this help.</p>
 				<p><img src="./static/images/gear_64.png" width="32" alt="exécuter"/> : to run the query.</p>
-				<p><img src="./static/images/delete_64.png" width="32" alt="supprimer"/> : to delete a saved query (reference queries can not be deleted.</p>
+				<p><img src="./static/images/delete_64.png" width="32" alt="supprimer"/> : to delete a saved query (reference queries can not be deleted).</p>
 				<p><img src="./static/images/Database.png" width="32" alt="base de données"/>ADataset : to show a description and a sample if the dataset (ADataset) .</p>
-				<p><img src="./static/images/shield_64.png" width="32" alt="base de données"/> : to show mentions</p>
+				<p><img src="./static/images/shield_64.png" width="32" alt="base de données"/> : to show legal mentions</p>
 			</div>;
 		</div>
 	</aides>

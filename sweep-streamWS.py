@@ -80,7 +80,7 @@ def bo():
     t = '<table cellspacing="50"><tr>'
 
     rep = '<td><h1>Frequent deduced BGPs</h1><p>('+str(ctx.nlast)+' more frequents)</p>'
-    rep += '<table cellspacing="5" border="1" cellpadding="2">'
+    rep += '<table cellspacing="1" border="1" cellpadding="2">'
     rep += '<thead><td>BGP</td><td>Nb Occ.</td><td>Query Exemple</td>'
     ctx.sweep.rankingBGPs.sort(key=itemgetter(1), reverse=True)
     for (bgp, freq, query, lines, precision, recall) in ctx.sweep.rankingBGPs[:ctx.nlast]:
@@ -94,7 +94,7 @@ def bo():
     rep += '</table></td>'
 
     rep += '<td><h1>Frequent Ground Truth Queries</h1><p>('+str(ctx.nlast)+' more frequents)</p>'
-    rep += '<table cellspacing="5" border="1" cellpadding="2">'
+    rep += '<table cellspacing="1" border="1" cellpadding="2">'
     rep += '<thead><td>BGP</td><td>Nb Occ.</td><td>Query Exemple</td><td>Avg. Precision</td><td>Avg. Recall</td>'
     ctx.sweep.rankingQueries.sort(key=itemgetter(1), reverse=True)
     for (bgp, freq, query, lines, precision, recall) in ctx.sweep.rankingQueries[:ctx.nlast]:
@@ -130,12 +130,12 @@ def sweep():
     else:
         Acuteness = 0
 
-    rep = '<table cellspacing="50"><tr><td><h1>SWEEP parameters</h1><table border="1"><thead>'
+    rep = '<table><tr><td><h1>SWEEP parameters</h1><table  cellspacing="1" border="1" cellpadding="2"><thead>'
     rep += '<td>Gap</td><td>Time out</td><td>Opt</td></thead><tr>'
     rep += '<td>%s</td><td>%s</td><td>%s</td>'%(dt.timedelta(minutes= ctx.gap),dt.timedelta(minutes= ctx.to),str(ctx.opt))
     rep += '</tr></table></td>'
 
-    rep += '<td><h1>Global measures</h1><table border="1"><thead>'
+    rep += '<td><h1>Global measures</h1><table cellspacing="1" border="1" cellpadding="2"><thead>'
     rep += '<td>Nb Evaluated Queries</td><td>Nb Cancelled Queries</td><td>Nb Empty Queries</td><td>Nb Timeout Queries</td><td>Nb Bad formed Queries</td><td>Nb TPF Client Error</td><td>Nb TPF Client Query Error</td><td>Nb Other query Error</td>'   
     rep += '<td>Nb BGP</td><td>Nb Entries</td>'
     rep += '<td>Avg Precision</td><td>Avg Recall</td><td>Avg Quality</td><td>Acuteness</td></thead><tr>'
@@ -146,7 +146,7 @@ def sweep():
     rep += '<td>%2.3f</td><td>%2.3f</td><td>%2.3f</td><td>%2.3f</td>'%(avgPrecision,avgRecall,avgQual,Acuteness)
     rep += '</tr></table></td></tr></table>\n<hr size="2" width="100" align="CENTER" />'
 
-    rep += '<h1>BGPs</h1><p>('+str(ctx.nlast)+' more recents)</p><table cellspacing="5" border="1" cellpadding="2">\n'
+    rep += '<h1>BGPs</h1><p>('+str(ctx.nlast)+' more recents)</p><table cellspacing="1" border="1" cellpadding="5">\n'
     rep += '<thead><td>ip</td><td>time</td><td>bgp</td><td>Original query</td><td>Precision</td><td>Recall</td><td>Quality</td></thead>\n'
     # for (i,idQ, t,ip,query,bgp,precision,recall) in ctx.sweep.memory[-1*ctx.nlast:] :
     nb = len(ctx.sweep.memory)

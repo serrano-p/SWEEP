@@ -32,7 +32,7 @@ var RequestSet = Class.create({
     },
     show: function () {
         t = '<div class="post"><h2 class="title">Query Bag</h2>' 
-          + '<div class="story"><table cellspacing="5" border="1" cellpadding="2">' 
+          + '<div class="story"><table cellspacing="1" border="1" cellpadding="2">' 
           + '<thead><th>n°</th><th>Dataset</th>'
           + '<th>Query</th>'
           + '<th>Actions</th>'
@@ -44,11 +44,11 @@ var RequestSet = Class.create({
             r = this.set[i];
             t = t + '<tr><td> ' + i + ' </td>'; 
             t = t + '<td>' + r.base + '</td>';
-            t = t + '<td><pre>"' + r.request.replace(/</g,"&lt;").replace(/>/g,"&gt;") + '"</pre></td>';
+            t = t + '<td><pre>' + r.request.replace(/</g,"&lt;").replace(/>/g,"&gt;") + '</pre></td>';
             t = t + '<td>';
             // t = t + "<img src='./static/images/gear_64.png' alt='Envoyer la requête' title='Envoyer la requête' width='32' onClick='histo(" + i + "); return false;'  style='cursor:pointer'/>";
-            t = t + "<img src='./static/images/pencil_64.png' alt='Éditer la requête' title='Éditer la requête' width='32' onClick='histo_mod(" + i + "); return false;'  style='cursor:pointer'/>";
-            if (!(r.labelled)) {t = t + "&nbsp;&nbsp;&nbsp;<img src='./static/images/delete_64.png' alt='Supprimer la requête' title='Supprimer la requête' width='32' onClick='histo_del(" + i + "); return false;'  style='cursor:pointer'/>";}
+            t = t + "<img src='./static/images/pencil_64.png' alt='Edit query' title='Edit query' width='32' onClick='histo_mod(" + i + "); return false;'  style='cursor:pointer'/>";
+            if (!(r.labelled)) {t = t + "&nbsp;&nbsp;&nbsp;<img src='./static/images/delete_64.png' alt='Delete query' title='Delete query' width='32' onClick='histo_del(" + i + "); return false;'  style='cursor:pointer'/>";}
             t = t + '</td>';
             if (r.error) t = t + "<td><img src='./static/images/tick_64.png' width='32' alt='ok' title='ok' /></td>"; 
             else t = t + "<td><img src='./static/images/block_64.png' width='32' alt='ko' title='ko'/></td>";
@@ -75,7 +75,7 @@ var RequestSet = Class.create({
 //=================================================================
 
 window.onbeforeunload = function (evt) {
-    var message = 'Vous allez perdre les requêtes mémorisées !';
+    var message = 'Queries will be deleted!';
     if (typeof evt == 'undefined') {
         evt = window.event;
     }
@@ -111,7 +111,7 @@ function clear() {
             get_histo();
         },
         onFailure: function () {
-            alert('db: Impossible d\'obtenir la rubrique (dbpedia3.8) !')
+            alert('db: Unable to load queries of the dataset (dbpedia3.8) !')
         }
     });
 
@@ -127,7 +127,7 @@ function clear() {
             get_histo();
         },
         onFailure: function () {
-            alert('db: Impossible d\'obtenir la rubrique (lift) !')
+            alert('db: Unable to load queries of the dataset (lift) !')
         }
     });
 
@@ -188,16 +188,16 @@ function remember() {
     req.result = ''; //current_result['val'];
     rs.add(req);
     $('memoriser').hide();
-    $('results').insert("<p>Requête mémorisée</p>");
+    $('results').insert("<p>Query inserted in the Query bag</p>");
 }
 
 function query() {
     if ( (current_request != $('requete').getValue()) || (current_base != $('base').getValue()) ) {
         current_bgp = '';
-        mss = 'Requête utilisateur ou requête de référence modifiée. BGP généré automatiquement : risques de problèmes avec les Blank-Nodes et les UNION.';
+        mss = 'Query not verified and BGP généré automatiquement : risques de problèmes avec les Blank-Nodes et les UNION.';
         canMem = true;
     } else {
-        mss='Requete de référence. BGP généré et validé manuellement.';
+        mss='Reference query. The BGP is handmade and validated.';
         canMem = false;
     }
     mss = '<p>'+mss+'</p>'

@@ -198,7 +198,7 @@ def liste(datasource):
 
 def doTab(s):
     if len(s)>0:
-        tab = '<table cellspacing="5" border="1" cellpadding="2">\n<thead>'
+        tab = '<table cellspacing="1" border="1" cellpadding="3">\n<thead>'
         m = s[0]
         if type(m) == str :
             tab = '<p>%s</p>'%s
