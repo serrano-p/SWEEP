@@ -33,28 +33,37 @@ var RequestSet = Class.create({
     show: function () {
         t = '<div class="post"><h2 class="title">Query Bag</h2>' 
           + '<div class="story"><table cellspacing="5" border="1" cellpadding="2">' 
-          + '<thead><th>n°</th><th>Base</th><th>Réussite</th><th>Requête</th><th>Actions</th>'
-          // + '<th>BGP(s)</th>'
+          + '<thead><th>n°</th><th>Dataset</th>'
+          + '<th>Query</th>'
+          + '<th>Actions</th>'
+          + '<th>Well formed ?</th>'
+          + '<th>Reference query</th>'
           + '</thead>';
         
         for (var i = 0; i < this.nb; i++) {
             r = this.set[i];
-            t = t + '<tr><td> ' + i + ' </td><td>' + r.base + '</td><td>';
-            if (r.error) t = t + "<img src='./static/images/tick_64.png' width='32' alt='ok' title='ok' />"; 
-            else t = t + "<img src='./static/images/block_64.png' width='32' alt='ko' title='ko'/>";
-            t = t + "</td><td><pre>" + r.request.replace(/</g,"&lt;").replace(/>/g,"&gt;") + "</pre></td><td>";
+            t = t + '<tr><td> ' + i + ' </td>'; 
+            t = t + '<td>' + r.base + '</td>';
+            t = t + '<td><pre>"' + r.request.replace(/</g,"&lt;").replace(/>/g,"&gt;") + '"</pre></td>';
+            t = t + '<td>';
             // t = t + "<img src='./static/images/gear_64.png' alt='Envoyer la requête' title='Envoyer la requête' width='32' onClick='histo(" + i + "); return false;'  style='cursor:pointer'/>";
             t = t + "<img src='./static/images/pencil_64.png' alt='Éditer la requête' title='Éditer la requête' width='32' onClick='histo_mod(" + i + "); return false;'  style='cursor:pointer'/>";
             if (!(r.labelled)) {t = t + "&nbsp;&nbsp;&nbsp;<img src='./static/images/delete_64.png' alt='Supprimer la requête' title='Supprimer la requête' width='32' onClick='histo_del(" + i + "); return false;'  style='cursor:pointer'/>";}
+            t = t + '</td>';
+            if (r.error) t = t + "<td><img src='./static/images/tick_64.png' width='32' alt='ok' title='ok' /></td>"; 
+            else t = t + "<td><img src='./static/images/block_64.png' width='32' alt='ko' title='ko'/></td>";
             
-            t = t + "</td>";
             // t = t + "<td><div id='results-" + i + "'></div></td>";
             //t = t + "<td><pre>"+  r.bgp.replace(/</g,"&lt;").replace(/>/g,"&gt;") +"</pre></td>";
-            
+            if (r.labelled) {t = t + "<td><img src='./static/images/tick_64.png' width='32' alt='ok' title='ok' /></td>"; }
+            else {t = t + "<td></td>"; }
             t = t + "</tr>";
         }
         
         t = t + '</table></div></div>';
+
+        t = t + '<div class="post"><h3 class="title">Note</h3>' 
+          + '<div class="story">Reference queries are queries with a handmade BGP. Others have BGP made by RDFLib (Python library). This latter does not correctly manage blank nodes and the union operator.</div></div>';
         return t;
     }
 });

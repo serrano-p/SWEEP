@@ -14,28 +14,34 @@
 	</aPropos>
 
 	<mentions>
-		<p>Cette petite application Web a été développée à des fins de démonstration. Elle ne peut donc
+		<!--p>Cette petite application Web a été développée à des fins de démonstration. Elle ne peut donc
 			aucunement être utilisée pour d'autre desseins. Elle est mise à disposition dans la
 			mesure où son utilisation n'est pas détournée. L'auteur ne peut être considéré
 			responsable des dysfonctionnements ou pertes de données en cas d'utilisation détournée
-			et se réserve le droit de la supprimer à tout moment.</p>
-		<p>Application développée et testée avec Python 3.6.</p>
-		<p>Design adapté du modèle "<a href="http://www.freecsstemplates.org/preview/dusplic/"
+			et se réserve le droit de la supprimer à tout moment.</p-->
+		<p>This small web application has been developed for demonstration purposes. It can not therefore be used for any other purpose. It shall be made available in so far as its use is not diverted. The author can not be held responsible for malfunctions or loss of data in case of misuse and reserves the right to delete it at any time.</p>
+
+		<!--p>Application développée et testée avec Python 3.6.</p-->
+		<p>Application développed et tested with Python 3.6.</p>
+
+		<p>Design adapted from "<a href="http://www.freecsstemplates.org/preview/dusplic/"
 				>dusplic</a>" de <a href="http://www.freecsstemplates.org/"><strong>Free CSS
-					Templates</strong></a>, sous licence <a href="./license.txt">Creative
+					Templates</strong></a>, under license <a href="./license.txt">Creative
 			Common</a>.</p>
-		<p>Icônes prises sur <a href="http://www.iconspedia.com/">http://www.iconspedia.com/</a>
-			dans le jeu "<a href="http://www.iconspedia.com/pack/basic-set-2061/">Basic set</a>" de
-			PixelMixer (<a href="http://pixel-mixer.com/">http://pixel-mixer.com/</a>) sous licence
+		<p>Icônes from <a href="http://www.iconspedia.com/">http://www.iconspedia.com/</a>
+			in the set "<a href="http://www.iconspedia.com/pack/basic-set-2061/">Basic set</a>" of
+			PixelMixer (<a href="http://pixel-mixer.com/">http://pixel-mixer.com/</a>) under license
 				CC-by-sa.<br/><!--img src="http://www.iconspedia.com/common/images/logo.jpg"
 				width="100" alt="CC-by-sa"/--></p>
-		<p>Effets et développement JavaScript grâce aux frameworks <a
+
+		<p>Effects and JavaScript frameworks <a
 				href="http://www.prototypejs.org">prototypejs.org<!--img
 					src="http://www.prototypejs.org/images/logo-home.gif" alt="prototypejs.org"
 				/--></a> et <a href="http://www.script.aculo.us">script.aculo.us<!--img
 					src="http://www.script.aculo.us/scriptaculous_logo.png" width="300"
 					alt="script.aculo.us"/--></a>.</p>
-		<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.0/fr/"><img
+
+		<!--p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.0/fr/"><img
 					alt="Contrat Creative Commons" style="border-width:0"
 					src="http://i.creativecommons.org/l/by-nc-sa/2.0/fr/88x31.png"/></a><br/>Cette
 			application est mise à disposition sous la licence <a rel="license"
@@ -43,48 +49,30 @@
 				Paternité - Pas d'Utilisation Commerciale - Partage des Conditions Initiales à
 				l'Identique 2.0 France</a> (<a
 				href="http://creativecommons.org/licenses/by-nc-sa/2.0/fr/legalcode"
-				>http://creativecommons.org/licenses/by-nc-sa/2.0/fr/legalcode</a>).</p>
+				>http://creativecommons.org/licenses/by-nc-sa/2.0/fr/legalcode</a>).</p-->
+		<p>(c) E. Desmontils &amp; P. Serrano-Alvarado, University of Nantes, France, 2017</p>
+
+
 	</mentions>
 
 	<aides>
 		<div class="post">
-			<h2 class="title">Icônes utilisés</h2>
+			<h2 class="title">Help</h2>
 			<div class="story">
 				<!--p><img src="./static/images/home_64.png" width="32" alt="aide"/> : permet de consulter les
 					informations sur l'application.</p-->
-				<p><img src="./static/images/pencil_64.png" width="32" alt="éditer"/> : permet d'éditer une
-					requête :</p><ul>
-					<li>depuis la barre de menu, pour une nouvelle requête, celle présentée est la
-						dernière faite ;</li>
-					<li>depuis l'historique, pour retravailler une requête déjà proposée.</li>
+				<p><img src="./static/images/pencil_64.png" width="32" alt="éditer"/> : allow to edit a query :</p><ul>
+					<li>from left menu bar, to build a new query (the last edited query is shown by default) ;</li>
+					<li>from query bag, to modify a query.</li>
 				</ul>
-				<p><img src="./static/images/add_64.png" width="32" alt="aide"/> : permet de mémoriser une
-					requête.</p>
-				<p><img src="./static/images/buy_64.png" width="32" alt="mémoire"/> : permet d'accéder au
-					requêtes mémorisées durant la session courante. Il propose un tableau où, pour
-					chaque requête, est indiqué son état (réussite <img src="./static/images/tick_64.png"
-						width="16" alt="ok"/> ou échec <img src="./static/images/block_64.png" width="16"
-						alt="ko"/>) et où il est possible de l'exécuter à nouveau, de l'éditer ou de
-					la supprimer. Attention, un rechargement de la page perdra ces requêtes
-					mémorisées.</p>
-				<p><img src="./static/images/help_64.png" width="32" alt="aide"/> : permet de consulter cette
-					aide.</p>
-				<p><img src="./static/images/gear_64.png" width="32" alt="exécuter"/> :</p><ul>
-					<li>depuis l'édition d'une requête pour lancer son exécution, l'affichage du
-						résultat est alors fait juste en dessous ;</li>
-					<!--li>depuis l'historique, pour exécuter à nouveau une requête déjà proposée (un
-						nouveau clic efface le résultat).</li-->
-				</ul>
-				<p><img src="./static/images/delete_64.png" width="32" alt="supprimer"/> : permet, dans
-					l'historique, de supprimer une requête.</p>
-				<p><img src="./static/images/Database.png" width="32" alt="base de données"/>UneBase : permet
-					de consulter la description et le contenu d'une base de données.</p>
-				<p><img src="./static/images/info_64.png" width="32" alt="base de données"/> : Propose
-					quelques informations concernant SQLite, ses particularités et ses
-					limitations.</p>
-				<p><img src="./static/images/shield_64.png" width="32" alt="base de données"/> : Énonce les
-					différentes mentions légales liées à cette application.</p>
-			</div>
+				<p><img src="./static/images/add_64.png" width="32" alt="aide"/> : to add a query to the query bag.</p>
+				<p><img src="./static/images/buy_64.png" width="32" alt="mémoire"/> : to show the query bag with refence queries and queries saved during the session. Fro each saved query, it swhow the execution date, the query, actions that ca be done (edit it or, olny for non refences queries, suppress it), the query status ( success <img src="./static/images/tick_64.png" width="16" alt="ok"/> or error <img src="./static/images/block_64.png" width="16" alt="ko"/>)) and if this is a reference query. Be carefull, reloading the web page will lost saved queries.</p>
+				<p><img src="./static/images/help_64.png" width="32" alt="aide"/> : to show this help.</p>
+				<p><img src="./static/images/gear_64.png" width="32" alt="exécuter"/> : to run the query.</p>
+				<p><img src="./static/images/delete_64.png" width="32" alt="supprimer"/> : to delete a saved query (reference queries can not be deleted.</p>
+				<p><img src="./static/images/Database.png" width="32" alt="base de données"/>ADataset : to show a description and a sample if the dataset (ADataset) .</p>
+				<p><img src="./static/images/shield_64.png" width="32" alt="base de données"/> : to show mentions</p>
+			</div>;
 		</div>
 	</aides>
 
