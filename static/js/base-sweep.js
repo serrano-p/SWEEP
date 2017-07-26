@@ -63,7 +63,7 @@ function bestof() {
             $('posts').appear();
         },
         onFailure: function () {
-            alert('apropos: Impossible d\'obtenir la rubrique !')
+            alert('apropos: Unable to produce freuent BGPs and queries !')
         }
     });
 }
@@ -71,25 +71,12 @@ function bestof() {
 function aides() {
     monitor.stop()
     if (messages_aides == null) {
-        // new Ajax.Request('/mentions', {
-        //     method: 'get',
-        //     onSuccess: function (trs) {
-        //         messages_mentions = trs.responseText
-        //         $('posts').hide();
-        //         $('posts').update(messages_mentions);
-        //         $('posts').appear();
-        //     },
-        //     onFailure: function () {
-        //         alert('mentions: Impossible d\'obtenir la rubrique !')
-        //     }
-        // });
-        messages_aides = '<div class="post"><h2 class="title">Icônes utilisés</h2><div class="story">';
+        messages_aides = '<div class="post"><h2 class="title">Help</h2><div class="story">';
         messages_aides = messages_aides
-                +'<p><img src="./static/images/home_64.png" width="32" alt="aide"/> : permet de consulter le monitoring.</p>'
-                +'<p><img src="./static/images/help_64.png" width="32" alt="aide"/> : permet de consulter cette aide.</p>'
-                +'<p><img src="./static/images/briefcase_64.png" width="32" alt="Best Of !"/> : permet de consulter les requêtes les plus fréquentes.</p>'
-                +'<p><img src="./static/images/info_64.png" width="32" alt="base de données"/> : propose quelques informations.</p>'
-                +'<p><img src="./static/images/shield_64.png" width="32" alt="base de données"/> : Énonce les différentes mentions légales liées à cette application.</p>'
+                +'<p><img src="./static/images/home_64.png" width="32" alt="aide"/> : SWEEP monitoring.</p>'
+                +'<p><img src="./static/images/help_64.png" width="32" alt="aide"/> : this help.</p>'
+                +'<p><img src="./static/images/briefcase_64.png" width="32" alt="Best Of !"/> : frequent BGPs and frequent queries.</p>'
+                +'<p><img src="./static/images/shield_64.png" width="32" alt="base de données"/> : legal mentions.</p>'
                 ;
         messages_aides = messages_aides+ '</div></div>';
     } else {
@@ -111,11 +98,11 @@ function mentions() {
                 $('posts').appear();
             },
             onFailure: function () {
-                alert('mentions: Impossible d\'obtenir la rubrique !')
+                alert('mentions: unable to show mentions !')
             }
         });
     } else {
-        messages_mentions = '<div class="post"><h2 class="title">Mentions</h2> <h3 class="posted">par E. Desmontils</h3><div class="story">' 
+        messages_mentions = '<div class="post"><h2 class="title">Mentions</h2> <h3 class="posted">by E. Desmontils</h3><div class="story">' 
                             + messages_mentions + "</div></div>\n";
         $('posts').hide();
         $('posts').update(messages_mentions);
