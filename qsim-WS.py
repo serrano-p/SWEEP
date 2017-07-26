@@ -198,22 +198,29 @@ def liste(datasource):
 
 def doTab(s):
     if len(s)>0:
-        tab = '<table cellspacing="1" border="1" cellpadding="3">\n<thead>'
         m = s[0]
         if type(m) == str :
             tab = '<p>%s</p>'%s
         else:
+            tab = '<table cellspacing="1" border="1" cellpadding="3">\n<thead><th></th>'
             for (var,val) in m.items():
                 tab += '<th>'+str(var)+'</th>'
             tab += '</thead>\n'
+            i = 0
             for m in s:
-                tab += '<tr>'
+                i +=1
+                tab += '<tr><td>%d</td>'%i
                 for (var,val) in m.items():
                     tab += '<td>'+str(val)+'</td>'
                 tab += '</tr>\n'
-            tab += '</table>'
+            tab += '</table><br/>'
     else:
         tab = '<p> Empty </p>\n'
+    if ctx.lastProcessing > ctx.gap :
+        tab += '(%s sec.)'%(ctx.lastProcessing.total_seconds()),' The gap (%s) is exceeded.'%ctx.gap.total_seconds()
+    else:
+        tab += '(%s sec.)'%(ctx.lastProcessing.total_seconds())
+    tab += '<br/>'
     return tab
 
 def treat(query,bgp_list,ip,datasource):
