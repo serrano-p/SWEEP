@@ -89,14 +89,14 @@
 			<fichier nom="dbpedia"/>
 			<référence/> <!-- <référence>http://www.dbis.informatik.uni-goettingen.de/Mondial/</référence> -->
 			<description>
-				<p>Datasource pour DBPedia 3.8.</p>
+				<p>Datasource for DBPedia 3.8.</p>
 			</description>
 		</base_de_donnee>
 		<base_de_donnee nom="lift">
 			<fichier nom="lift"/>
 			<référence/> <!-- <référence>http://www.dbis.informatik.uni-goettingen.de/Mondial/</référence> -->
 			<description>
-				<p>Base Turtle utilée pour le papier LIFT de ISWC.</p>
+				<p>Little datasource used to illustrate our papers.</p>
 			</description>
 		</base_de_donnee>
 	</listeBases>
