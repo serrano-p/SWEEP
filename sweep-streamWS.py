@@ -322,24 +322,21 @@ def processData():
                     s = unSerialize(e[0])
                     p = unSerialize(e[1])
                     o = unSerialize(e[2])
-                    print('new entry : ',toStr(s,p,o))
                     ctx.sweep.putEntry(i,s,p,o,time,client)  
+                    print('new entry : ',toStr(s,p,o))
 
                 elif e.tag == 'd':
                     xs = unSerialize(e[0])
                     xp = unSerialize(e[1])
                     xo = unSerialize(e[2])
                     ctx.sweep.putData(i, xs, xp, xo)  
+                    # print('new data : ',toStr(xs,xp,xo))
 
                 elif e.tag == 'm':
-                    # if e[0].get('type')=='var' : e[0].set('val','s')
-                    # if e[1].get('type')=='var' : e[1].set('val','p')
-                    # if e[2].get('type')=='var' : e[2].set('val','o')
                     s = unSerialize(e[0])
                     p = unSerialize(e[1])
                     o = unSerialize(e[2])
                     print('new meta : ',toStr(s,p,o))                   
-                    # pass
                 else:
                     pass
 
