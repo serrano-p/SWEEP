@@ -66,9 +66,10 @@ if (cluster.isMaster) {
 ```
 Il allows to give the SWEEP URL to the TPF Sever.
 
-Next, do next changes in ./lib/views/RdfView.js
+Next, install the Request' module and do next changes in ./lib/views/RdfView.js
 
 ```nodejs
+...
 
 var contentTypes = 'application/trig;q=0.9,application/n-quads;q=0.7,' +
                    'application/ld+json;q=0.8,application/json;q=0.8,' +
