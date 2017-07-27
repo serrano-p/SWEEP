@@ -42,7 +42,7 @@ var RequestSet = Class.create({
         
         for (var i = 0; i < this.nb; i++) {
             r = this.set[i];
-            t = t + '<tr><td> ' + i + ' </td>'; 
+            t = t + '<tr><td> ' + (i+1) + ' </td>'; 
             t = t + '<td>' + r.base + '</td>';
             t = t + '<td><pre>' + r.request.replace(/</g,"&lt;").replace(/>/g,"&gt;") + '</pre></td>';
             t = t + '<td>';
@@ -109,25 +109,26 @@ function clear() {
                 rs.add(req);            
             };            
             get_histo();
+
+            new Ajax.Request('/ex/lift', {
+                method: 'get',
+                onSuccess: function (trs) {
+                    result = JSON.parse(trs.responseText).result;
+                    for(var i = 0; i < result.length;i++) {
+                        r = result[i];
+                        req = new Request(r[0], r[1], r[2], true, true);
+                        rs.add(req);            
+                    };            
+                    $('posts').update(rs.show());
+                },
+                onFailure: function () {
+                    alert('db: Unable to load queries of the dataset (lift) !')
+                }
+            });
+
         },
         onFailure: function () {
             alert('db: Unable to load queries of the dataset (dbpedia3.8) !')
-        }
-    });
-
-    new Ajax.Request('/ex/lift', {
-        method: 'get',
-        onSuccess: function (trs) {
-            result = JSON.parse(trs.responseText).result;
-            for(var i = 0; i < result.length;i++) {
-                r = result[i];
-                req = new Request(r[0], r[1], r[2], true, true);
-                rs.add(req);            
-            };            
-            get_histo();
-        },
-        onFailure: function () {
-            alert('db: Unable to load queries of the dataset (lift) !')
         }
     });
 
