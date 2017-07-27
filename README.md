@@ -15,7 +15,7 @@ SWEEP TPF Server:
 http://tpf-server-sweep.priloo.univ-nantes.fr
 
 
-# Instructions
+# Installing SWEEP
 ## Prelude
 
 #### macOS
