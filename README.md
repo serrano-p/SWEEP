@@ -244,13 +244,32 @@ This code sends the query to SWEEP. This permits to SWEEP to process precision a
 
 ## Running SWEEP
 
-From `~/SWEEP` run the comand:
+From `~/SWEEP` run the comand to run SWEEP:
 ```bash
 nohup python3.5 sweep-streamWS.py -g 0.250 -to 0.2 -l 20 --port 5000 &> resSWEEP &
 ```
 
+For the (modified) TPF Server, change the config file to specify the SWEEP server and datasources :
+
 ```bash
-nohup python3.5 qsim-WS.py --sweep http://sweep.priloo.univ-nantes.fr -s http://tpf-server-sweep.priloo.univ-nantes.fr -c /home/sweep/clientLDF/Client.js-master/bin/ldf-client -v -g 0.25 &> resQsim-WS &
+...
+  "sweep" : "http://127.0.0.1:5002",
+...
+  "datasources": {
+   "dbpedia": {
+      "title": "DBpedia",
+      "type": "HdtDatasource",
+      "description": "DBpedia 3.8 backend",
+      "settings": { "file": "dbpedia-3.8.hdt" }    
+   },
+   ...
+  },
+...
+```
+
+
+```bash
+nohup python3.5 qsim-WS.py --sweep http://127.0.0.1:5000 -s http://tpf-server-sweep.priloo.univ-nantes.fr -c /home/sweep/clientLDF/Client.js-master/bin/ldf-client -v -g 0.25 &> resQsim-WS &
 ```
 
 
