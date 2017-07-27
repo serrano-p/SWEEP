@@ -64,7 +64,7 @@ config.sweep = sweep ;
 if (cluster.isMaster) {
 ...
 ```
-Il allows to give the SWEEP URL to the TPF Sever.
+It allows to give the SWEEP URL to the TPF Sever.
 
 Next, install the Request' module and do next changes in ./lib/views/RdfView.js
 
@@ -185,6 +185,12 @@ function toIRI(s,p) {return s[0]   !== '_' ? (!N3.Util.isLiteral(s) ? '<'+p+' ty
 module.exports = RdfView;
 
 ```
+These changes allows the TPF Server to send to SWEEP the execution log. These changes are enough to run SWEEP. But, to evaluate SWEEP process, we have to change the TPF Cleint.
+
+### TPF Client
+
+
+
 
 
 ## Running SWEEP
