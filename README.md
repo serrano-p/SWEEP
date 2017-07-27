@@ -27,11 +27,11 @@ sudo apt-get install python-dev python-setuptools
 
 ## Dependencies
 You need to install dependencies with pip:
-- lxml
-- RDFLib
-- networkx
-- SPARQLWrapper
-- iso8601
+- lxml : http://lxml.de/
+- RDFLib : https://github.com/RDFLib/rdflib
+- networkx : https://github.com/networkx/networkx
+- SPARQLWrapper :https://github.com/RDFLib/sparqlwrapper
+- iso8601 : https://bitbucket.org/micktwomey/pyiso8601
 
 SWEEP was tested withn python3.5 and Python3.6.
 
