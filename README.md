@@ -189,9 +189,58 @@ These changes allows the TPF Server to send to SWEEP the execution log. These ch
 
 ### TPF Client
 
+Let's take the ./bin/ldf-client file. Do next changes :
+```nodejs
+// Parse and initialize configuration
+var configFile = args.c ? args.c : path.join(__dirname, '../config-default.json'),
+    config = JSON.parse(fs.readFileSync(configFile, { encoding: 'utf8' })),
+    queryFile = args.f || args.q || args._.pop(),
+    startFragments = args._,
+    query = args.q || (args.f || fs.existsSync(queryFile) ? fs.readFileSync(queryFile, 'utf8') : queryFile),
+    mimeType = args.t || 'application/json',
+    datetime = args.d || config.datetime;
 
+//------------------> Begin SWEEP <------------------------
+var sweep = args.s || '' ;
+config.sweep = sweep ;
+//------------------> End SWEEP <------------------------
 
+// parse memento datetime
+if (datetime)
+  config.datetime = datetime === true ? new Date() : new Date(datetime);
 
+```
+
+Then, lfd-client command line allows ti specify the SWEEP server (with '-s').
+Next, do changes on ./lib/sparql/SparqlIterator.js :
+```nodejs
+...
+  // Transform the query into a cascade of iterators
+  try {
+    // Parse the query if needed
+    if (typeof query === 'string') {
+
+      //------------------> Begin SWEEP <------------------------
+      if (options.sweep != ''){      
+        now = new Date();
+        trace = '<query time="'+now.toJSON()+'"><![CDATA['+query+']]></query>'
+        http({    
+          uri: options.sweep+"/query",
+          method: "POST",
+          form: {
+            data: trace, no:'ldf-client', 'bgp_list': '<l/>'
+          }
+        }, function(error, response, body) {
+        }); 
+      }
+      //------------------> End SWEEP <------------------------
+
+      query = new SparqlParser(options.prefixes).parse(query);
+    }
+...
+```
+
+This code sends the query to SWEEP. This permits to SWEEP to process precision and recall.
 
 ## Running SWEEP
 
