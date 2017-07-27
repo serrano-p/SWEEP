@@ -46,7 +46,7 @@ TPF server and client on http://linkeddatafragments.org/software/ can be used to
 
 ### TPF Server
 
-SWEEP need the TPF Server log to process. So, changes have to be done on TPF Server code. First change concerns thne file ./bin/ldf-server. Just add the code () :
+SWEEP need the TPF Server log to process. So, changes have to be done on TPF Server code. First change concerns thne file ./bin/ldf-server. Just add the code (from 'Begin SWEEP' to 'End SWEEP') :
 ```nodejs
 ...
 var configDefaults = JSON.parse(fs.readFileSync(path.join(__dirname, '../config/config-defaults.json'))),
