@@ -130,7 +130,7 @@ def sweep():
     else:
         Acuteness = 0
 
-    rep = '<h1>Informations</h1><table><tr><td>'
+    rep = '<h1>Information</h1><table><tr><td>'
 
     # rep += '<h1>SWEEP parameters</h1>'
     rep += '<table  cellspacing="1" border="1" cellpadding="2"><thead>'
