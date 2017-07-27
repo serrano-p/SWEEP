@@ -190,7 +190,9 @@ def sweep():
     rep += '<hr size="2" width="100" align="CENTER" />'
 
     rep += '<h1>Deduced BGPs</h1><p>('+str(ctx.nlast)+' more recents)</p><table cellspacing="1" border="1" cellpadding="5">\n'
-    rep += '<thead><td></td><td>ip</td><td>time</td><td>bgp</td><td>Original query</td><td>Precision</td><td>Recall</td><td>Quality</td></thead>\n'
+    rep += '<thead><td></td><td>ip</td><td>time</td><td>bgp</td><td>Original query</td><td>Precision</td><td>Recall</td>'
+    # rep += '<td>Quality</td>'
+    rep += '</thead>\n'
     # for (i,idQ, t,ip,query,bgp,precision,recall) in ctx.sweep.memory[-1*ctx.nlast:] :
     nb = len(ctx.sweep.memory)
     for j in range(min(nb,ctx.nlast)):
@@ -200,7 +202,9 @@ def sweep():
             # for (s,p,o) in simplifyVars([tp for (itp,tp,sm,pm,om) in bgp.tp_set]):
             for (s,p,o) in [tp for (itp,tp,sm,pm,om) in bgp.tp_set]:
                 rep += html.escape(toStr(s,p,o))+' . <br/>'
-            rep += '</td><td>No query assigned</td><td></td><td></td><td></td></tr>'
+            rep += '</td><td>No query assigned</td><td></td><td></td>'
+            # rep += '<td></td>'
+            rep += '</tr>'
         else:
             rep +='<tr><td>'+str(nb-j)+'</td><td>'+ip+'</td><td>'+str(t)+'</td><td>'
             if bgp is not None:
@@ -209,7 +213,9 @@ def sweep():
                     rep += html.escape(toStr(s,p,o))+' . <br/>'
             else:
                 rep += 'No BGP assigned !'
-            rep += '</td><td>'+idQ+'<br/>'+html.escape(query)+'</td><td>%2.3f</td><td>%2.3f</td><td>%2.3f</td></tr>'%(precision,recall,(precision+recall)/2)
+            rep += '</td><td>'+idQ+'<br/>'+html.escape(query)+'</td><td>%2.3f</td><td>%2.3f</td>'%(precision,recall)
+            # rep += '<td>%2.3f</td>'%((precision+recall)/2)
+            rep += '</tr>'
     rep += '</table>'
     return rep
 
@@ -366,7 +372,7 @@ def processData():
                     p = unSerialize(e[1])
                     o = unSerialize(e[2])
                     ctx.sweep.putEntry(i,s,p,o,time,client)  
-                    print('new entry : ',toStr(s,p,o))
+                    print('new TPQ : ',toStr(s,p,o))
 
                 elif e.tag == 'd':
                     xs = unSerialize(e[0])
@@ -376,10 +382,11 @@ def processData():
                     # print('new data : ',toStr(xs,xp,xo))
 
                 elif e.tag == 'm':
-                    s = unSerialize(e[0])
-                    p = unSerialize(e[1])
-                    o = unSerialize(e[2])
-                    print('new meta : ',toStr(s,p,o))                   
+                    # s = unSerialize(e[0])
+                    # p = unSerialize(e[1])
+                    # o = unSerialize(e[2])
+                    # print('new meta : ',toStr(s,p,o))
+                    pass                  
                 else:
                     pass
 
