@@ -2,7 +2,6 @@
 
 SWEEP (Semantic WEb quEry Profiler) is a tool that allows data providers using a TPF server (see LDF @ linkeddatafragments.org/) to manage data usage.
 
-
 # Testing SWEEP
 
 SWEEP Monitor:
@@ -10,10 +9,6 @@ http://sweep.priloo.univ-nantes.fr
 
 SWEEP TPF Client:
 http://tpf-client-sweep.priloo.univ-nantes.fr
-
-SWEEP TPF Server:
-http://tpf-server-sweep.priloo.univ-nantes.fr
-
 
 # Installing SWEEP
 ## Prelude
