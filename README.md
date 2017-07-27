@@ -252,7 +252,10 @@ nohup python3.5 sweep-streamWS.py -g 0.250 -to 0.2 -l 20 --port 5000 &> resSWEEP
 For the (modified) TPF Server, change the config file to specify the SWEEP server and datasources :
 
 ```bash
-...
+{
+  "title": "My Linked Data Fragments server",
+  "port": 5001,
+  "workers": 8,
   "sweep" : "http://127.0.0.1:5002",
 ...
   "datasources": {
@@ -266,13 +269,59 @@ For the (modified) TPF Server, change the config file to specify the SWEEP serve
   },
 ...
 ```
-
-
+Then run the server :
 ```bash
-nohup python3.5 qsim-WS.py --sweep http://127.0.0.1:5000 -s http://tpf-server-sweep.priloo.univ-nantes.fr -c /home/sweep/clientLDF/Client.js-master/bin/ldf-client -v -g 0.25 &> resQsim-WS &
+./bin/ldf-server config/config-dbp.json
+```
+
+Finally, the SWEEP client to test SWEEP can be run :
+```bash
+nohup python3.5 qsim-WS.py --sweep http://127.0.0.1:5000 -s http://127.0.0.1:5001 -c /.../bin/ldf-client --port 5002 -v -g 0.25 &> resQsim-WS &
 ```
 
 
-#### Exemple
-You can use any Triple Pattern Fragment client: 
-to run SPARQL queries
+#### Command lines
+
+```bash
+$ python3.6 sweep-streamWS.py -h
+usage: sweep-streamWS.py [-h] [-g GAP] [-to TIMEOUT] [-o] [-l NLAST]
+                         [--port PORT] [--chglientMode]
+
+Linked Data Query Profiler (for a modified TPF server)
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -g GAP, --gap GAP     Gap in minutes (60 by default)
+  -to TIMEOUT, --timeout TIMEOUT
+                        TPF server Time Out in minutes (0 by default). If '-to
+                        0', the timeout is the gap.
+  -o, --optimistic      BGP time is the last TP added (False by default)
+  -l NLAST, --last NLAST
+                        Number of last BGPs to view (10 by default)
+  --port PORT           Port (5002 by default)
+  --chglientMode        Do TPF Client mode
+```
+
+
+```bash
+$ python3.6 qsim-WS.py -h
+usage: qsim-WS.py [-h] [--sweep SWEEP] [-s TPFSERVER] [-c TPFCLIENT] [-v]
+                  [-g GAP] [-to TIMEOUT] [--port PORT]
+
+Linked Data Query Profiler (for a modified TPF server)
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --sweep SWEEP         SWEEP ('http://127.0.0.1:5002' by default)
+  -s TPFSERVER, --server TPFSERVER
+                        TPF Server ('http://127.0.0.1:5000' by default)
+  -c TPFCLIENT, --client TPFCLIENT
+                        TPF Client ('...' by default)
+  -v, --valid           Do precision/recall
+  -g GAP, --gap GAP     Gap in minutes (60 by default)
+  -to TIMEOUT, --timeout TIMEOUT
+                        TPF Client Time Out in minutes (no timeout by
+                        default).
+  --port PORT           Port (5002 by default)
+```
+
