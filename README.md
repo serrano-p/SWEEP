@@ -43,13 +43,13 @@ SWEEP was tested withn python3.5 and Python3.6.
 ## Running SWEEP
 
 From `~/SWEEP` run the comand:
-'''bash
+```bash
 nohup python3.5 sweep-streamWS.py -g 0.250 -to 0.2 -l 20 --port 5000 &> resSWEEP &
-'''
+```
 
-'''bash
+```bash
 nohup python3.5 qsim-WS.py --sweep http://sweep.priloo.univ-nantes.fr -s http://tpf-server-sweep.priloo.univ-nantes.fr -c /home/sweep/clientLDF/Client.js-master/bin/ldf-client -v -g 0.25 &> resQsim-WS &
-'''
+```
 
 
 #### Exemple
