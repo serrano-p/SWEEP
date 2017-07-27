@@ -73,7 +73,7 @@ function aides() {
     if (messages_aides == null) {
         messages_aides = '<div class="post"><h2 class="title">Help</h2><div class="story">';
         messages_aides = messages_aides
-                +'<p><img src="./static/images/home_64.png" width="32" alt="aide"/> : SWEEP monitoring.</p>'
+                +'<p><img src="./static/images/home_64.png" width="32" alt="aide"/> : SWEEP Dashboard.</p>'
                 +'<p><img src="./static/images/help_64.png" width="32" alt="aide"/> : this help.</p>'
                 +'<p><img src="./static/images/briefcase_64.png" width="32" alt="Best Of !"/> : frequent BGPs and frequent queries.</p>'
                 +'<p><img src="./static/images/shield_64.png" width="32" alt="base de données"/> : legal mentions.</p>'

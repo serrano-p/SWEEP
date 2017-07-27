@@ -73,7 +73,7 @@ app.secret_key = '\x0ctD\xe3g\xe1XNJ\x86\x02\x03`O\x98\x84\xfd,e/5\x8b\xd1\x11'
 @app.route('/')
 # @login_required
 def index():
-    return render_template('index-sweep.html',nom_appli="SWEEP Monitor", version="0.1")
+    return render_template('index-sweep.html',nom_appli="SWEEP Dashboard", version="0.1")
 
 @app.route('/bestof')
 def bo():
@@ -130,23 +130,66 @@ def sweep():
     else:
         Acuteness = 0
 
-    rep = '<table><tr><td><h1>SWEEP parameters</h1><table  cellspacing="1" border="1" cellpadding="2"><thead>'
-    rep += '<td>Gap</td><td>Time out</td><td>Opt</td></thead><tr>'
-    rep += '<td>%s</td><td>%s</td><td>%s</td>'%(dt.timedelta(minutes= ctx.gap),dt.timedelta(minutes= ctx.to),str(ctx.opt))
-    rep += '</tr></table></td>'
+    rep = '<h1>Informations</h1><table><tr><td>'
 
-    rep += '<td><h1>Global measures</h1><table cellspacing="1" border="1" cellpadding="2"><thead>'
-    rep += '<td>Nb Evaluated Queries</td><td>Nb Cancelled Queries</td><td>Nb Empty Queries</td><td>Nb Timeout Queries</td><td>Nb Bad formed Queries</td><td>Nb TPF Client Error</td><td>Nb TPF Client Query Error</td><td>Nb Other query Error</td>'   
-    rep += '<td>Nb BGP</td><td>Nb Entries</td>'
-    rep += '<td>Avg Precision</td><td>Avg Recall</td><td>Avg Quality</td><td>Acuteness</td></thead><tr>'
+    # rep += '<h1>SWEEP parameters</h1>'
+    rep += '<table  cellspacing="1" border="1" cellpadding="2"><thead>'
+    rep += '<td>Gap (hh:mm:ss)</td>'
+    # rep += '<td>Time out</td>'
+    # rep += '<td>Opt</td>'
+    rep += '</thead><tr>'
+    rep += '<td>%s</td>'%(dt.timedelta(minutes= ctx.gap))
+    # rep += '<td>%s</td>'%(dt.timedelta(minutes= ctx.to))
+    # rep += '<td>%s</td>'%(str(ctx.opt))
+    rep += '</tr></table>'
 
-    rep += '<td>%d / %d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>'%(nb,ctx.nbQueries,ctx.nbCancelledQueries,ctx.nbEmpty,ctx.nbTO,ctx.nbQBF,ctx.nbClientError,ctx.nbEQ,ctx.nbOther)
+    rep += '</td><td>'
+
+    # rep += '<h1>Global measures</h1>'
+    rep += '<table cellspacing="1" border="1" cellpadding="2"><thead>'
+    rep += '<td>Nb Evaluated Queries</td>'
+    # rep += '<td>Nb Cancelled Queries</td>'
+    # rep += '<td>Nb Empty Queries</td>'
+    # rep += '<td>Nb Timeout Queries</td>'
+    # rep += '<td>Nb Bad formed Queries</td>'
+    # rep += '<td>Nb TPF Client Error</td>'
+    # rep += '<td>Nb TPF Client Query Error</td>'
+    # rep += '<td>Nb Other query Error</td>'   
+
+    rep += '<td>Nb BGP</td><td>Nb TPQ</td>'
+    rep += '</thead><tr>'
+    rep += '<td>%d / %d</td>'%(nb,ctx.nbQueries)
+    # rep += '<td>%d</td>'%(ctx.nbCancelledQueries)
+    # rep += '<td>%d</td>'%(ctx.nbEmpty)
+    # rep += '<td>%d</td>'%(ctx.nbTO)
+    # rep += '<td>%d</td>'%(ctx.nbQBF)
+    # rep += '<td>%d</td>'%(ctx.nbClientError)
+    # rep += '<td>%d</td>'%(ctx.nbEQ)
+    # rep += '<td>%d</td>'%(ctx.nbOther)
 
     rep += '<td>%d</td><td>%d</td>'%(nbbgp,ctx.nbEntries)
-    rep += '<td>%2.3f</td><td>%2.3f</td><td>%2.3f</td><td>%2.3f</td>'%(avgPrecision,avgRecall,avgQual,Acuteness)
-    rep += '</tr></table></td></tr></table>\n<hr size="2" width="100" align="CENTER" />'
+    rep += '</tr></table>'
+    rep += '</td><td>'
 
-    rep += '<h1>BGPs</h1><p>('+str(ctx.nlast)+' more recents)</p><table cellspacing="1" border="1" cellpadding="5">\n'
+    rep += '<table cellspacing="1" border="1" cellpadding="2"><thead>'
+    rep += '<td>Avg Precision</td>'
+    rep += '<td>Avg Recall</td>'
+    # rep += '<td>Avg Quality</td>'
+    # rep += '<td>Acuteness</td>'
+    rep += '</thead><tr>'
+
+    rep += '<td>%2.3f</td><td>%2.3f</td>'%(avgPrecision,avgRecall)
+    # rep += '<td>%2.3f</td><td>%2.3f</td>'%(avgQual,Acuteness)
+    rep += '</tr></table>'
+
+    rep += '</td></tr></table>\n'
+
+
+
+
+    rep += '<hr size="2" width="100" align="CENTER" />'
+
+    rep += '<h1>Deduced BGPs</h1><p>('+str(ctx.nlast)+' more recents)</p><table cellspacing="1" border="1" cellpadding="5">\n'
     rep += '<thead><td></td><td>ip</td><td>time</td><td>bgp</td><td>Original query</td><td>Precision</td><td>Recall</td><td>Quality</td></thead>\n'
     # for (i,idQ, t,ip,query,bgp,precision,recall) in ctx.sweep.memory[-1*ctx.nlast:] :
     nb = len(ctx.sweep.memory)
