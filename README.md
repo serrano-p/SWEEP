@@ -1,4 +1,4 @@
-# Semantic WEb quEry Profiler (SWEEP) Project
+# SWEEP: a Streaming Web Service to Deduce Basic Graph Patterns from Triple Pattern Fragments
 
 SWEEP (Semantic WEb quEry Profiler) is a tool that allows data providers using a TPF server (see LDF @ linkeddatafragments.org/) to manage data usage.
 
