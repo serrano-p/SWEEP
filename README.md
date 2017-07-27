@@ -1,14 +1,18 @@
-# Semantic WEb quEry Profiler (SWEEP) Project
+# SWEEP: a Streaming Web Service to Deduce Basic Graph Patterns from Triple Pattern Fragments
 
-SWEEP (Semantic WEb quEry Profiler) is a tool that allows data providers using a TPF server (see LDF @ linkeddatafragments.org/) to manage data usage.
+SWEEP is a prototype that allows data providers using a TPF server (see LDF @ linkeddatafragments.org/) to verify how their data are used, i.e., which SPARQL queries they evaluate.
 
 ## Testing SWEEP
+You can test SWEEP over a DBpedia's TPF server accessed by our TPF client o any other TPF client. Then, in the SWEEP dashboard you can see the deduced BGPs of queries evaluated by the TPF server.
 
-SWEEP Dashboard:
-http://sweep.priloo.univ-nantes.fr 
+We setup a DBpedia's TPF server available at:
+http://tpf-server-sweep.priloo.univ-nantes.fr 
 
-SWEEP TPF Client:
+SWEEP TPF Client is available at:
 http://tpf-client-sweep.priloo.univ-nantes.fr
+
+SWEEP Dashboard is available at:
+http://sweep.priloo.univ-nantes.fr 
 
 ## Installing SWEEP
 ### Prelude
@@ -37,11 +41,11 @@ SWEEP was tested withn python3.5 and Python3.6.
 
 ## Adapting TPF to SWEEP
 
-TPF server and client on http://linkeddatafragments.org/software/ can be used to test SWEEP. But, some changes have to be done.
+TPF server and client availabe at http://linkeddatafragments.org/software/ can be used to test SWEEP, but the following changes have to be done.
 
 ### TPF Server
 
-SWEEP need the TPF Server log to process. So, changes have to be done on TPF Server code. First, after clonning the project (https://github.com/LinkedDataFragments/Server.js.git) change concerns thne file ./bin/ldf-server. Just add the code (from 'Begin SWEEP' to 'End SWEEP') :
+SWEEP needs the TPF Server log to process BGPs of SPARQL queries. So, changes have to be done on TPF Server code. First, after clonning the project (https://github.com/LinkedDataFragments/Server.js.git) change concerns the file ./bin/ldf-server. Just add the code (from 'Begin SWEEP' to 'End SWEEP') :
 ```nodejs
 ...
 var configDefaults = JSON.parse(fs.readFileSync(path.join(__dirname, '../config/config-defaults.json'))),
@@ -180,7 +184,8 @@ function toIRI(s,p) {return s[0]   !== '_' ? (!N3.Util.isLiteral(s) ? '<'+p+' ty
 module.exports = RdfView;
 
 ```
-These changes allows the TPF Server to send to SWEEP the execution log. These changes are enough to run SWEEP. But, to evaluate SWEEP process, we have to change the TPF Cleint.
+These changes allow the TPF Server to send to SWEEP the execution log. These changes are enough to run SWEEP. 
+If during testing, you need to be able to calculate precision and recall of deduced BGPs, you we have to change the TPF Client.
 
 ### TPF Client
 
@@ -206,7 +211,7 @@ if (datetime)
 
 ```
 
-Then, lfd-client command line allows ti specify the SWEEP server (with '-s').
+Then, lfd-client command line allows to specify the SWEEP server (with '-s').
 Next, do changes on ./lib/sparql/SparqlIterator.js :
 ```nodejs
 ...
