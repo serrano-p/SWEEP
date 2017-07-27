@@ -147,7 +147,7 @@ def sweep():
 
     # rep += '<h1>Global measures</h1>'
     rep += '<table cellspacing="1" border="1" cellpadding="2"><thead>'
-    rep += '<td>Nb Evaluated Queries</td>'
+    rep += '<td>Evaluated Queries</td>'
     # rep += '<td>Nb Cancelled Queries</td>'
     # rep += '<td>Nb Empty Queries</td>'
     # rep += '<td>Nb Timeout Queries</td>'
@@ -156,7 +156,7 @@ def sweep():
     # rep += '<td>Nb TPF Client Query Error</td>'
     # rep += '<td>Nb Other query Error</td>'   
 
-    rep += '<td>Nb BGP</td><td>Nb TPQ</td>'
+    rep += '<td>BGP</td><td>TPQ</td>'
     rep += '</thead><tr>'
     rep += '<td>%d / %d</td>'%(nb,ctx.nbQueries)
     # rep += '<td>%d</td>'%(ctx.nbCancelledQueries)
@@ -187,7 +187,7 @@ def sweep():
 
 
 
-    rep += '<hr size="2" width="100" align="CENTER" />'
+    # rep += '<hr size="2" width="100" align="CENTER" />'
 
     rep += '<h1>Deduced BGPs</h1><p>('+str(ctx.nlast)+' more recents)</p><table cellspacing="1" border="1" cellpadding="5">\n'
     rep += '<thead><td></td><td>ip</td><td>time</td><td>bgp</td><td>Original query</td><td>Precision</td><td>Recall</td>'
