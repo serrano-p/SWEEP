@@ -282,7 +282,7 @@ nohup python3.5 qsim-WS.py --sweep http://127.0.0.1:5000 -s http://127.0.0.1:500
 
 #### Command lines
 
-```bash
+```
 $ python3.6 sweep-streamWS.py -h
 usage: sweep-streamWS.py [-h] [-g GAP] [-to TIMEOUT] [-o] [-l NLAST]
                          [--port PORT] [--chglientMode]
@@ -303,7 +303,7 @@ optional arguments:
 ```
 
 
-```bash
+```
 $ python3.6 qsim-WS.py -h
 usage: qsim-WS.py [-h] [--sweep SWEEP] [-s TPFSERVER] [-c TPFCLIENT] [-v]
                   [-g GAP] [-to TIMEOUT] [--port PORT]
