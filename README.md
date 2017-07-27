@@ -1,6 +1,6 @@
 # SWEEP: a Streaming Web Service to Deduce Basic Graph Patterns from Triple Pattern Fragments
 
-SWEEP (Semantic WEb quEry Profiler) is a tool that allows data providers using a TPF server (see LDF @ linkeddatafragments.org/) to manage data usage.
+SWEEP is a prototype that allows data providers using a TPF server (see LDF @ linkeddatafragments.org/) to know the queries executed by their TPF clients, i.e., data usage.
 
 ## Testing SWEEP
 
